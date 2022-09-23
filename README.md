@@ -1,8 +1,8 @@
 # eSlay
 This is the final project for CSE 312 by 
-> Ahana Bhattacharya
-> Kelly Lam
-> Leotrim Mehmetaj
-> Rebecca Ramhap
-> Sebastian Calo
-> Timothy Kong 
+> Ahana Bhattacharya <br>
+> Kelly Lam <br>
+> Leotrim Mehmetaj <br>
+> Rebecca Ramhap <br>
+> Sebastian Calo <br>
+> Timothy Kong <br>
