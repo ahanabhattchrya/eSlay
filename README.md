@@ -1,2 +1,2 @@
 # eSlay
-CSE 312 Final Project 
+This is the final project for CSE 312 by Ahana Bhattacharya, Kelly Lam, Leotrim Mehmetaj, Rebecca Ramhap, Sebastian Calo and Timothy Kong 
