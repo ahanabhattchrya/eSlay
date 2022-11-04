@@ -16,6 +16,14 @@ userAccts = db["userAccts"] #collection #1: user accounts
 itemListings = db["itemListings"] # collection #2: item listings
 
 
+'''
+    In order to successfully put elements into the database. It's
+    imperative that everyone knows how the data is formatted. Therefore,
+    there will be two formats that will be followed. The first one will
+    pertain to the collection userAccts and the second one will pertain to
+    the collection itemListings.
+'''
+
 def insert_data():
     '''insert data to collections userAccts and itemListings'''
 
