@@ -72,8 +72,19 @@ def insert_data(data, collection):
     else:
         pass
     
-def delete_data():
+def delete_data(username, collection):
     '''remove data from collections userAccts and itemListings'''
+    
+    if collection == 1:
+        all_data = userAccts.find({})        
+        if username in all_data:
+            userAccts.delete_one({"username": username})
+        else:
+            return "u forgot smth"
+            #give custom error
+    else:
+        pass
+    
 
 def update_data():
     '''update data in userAccts and itemListings'''
