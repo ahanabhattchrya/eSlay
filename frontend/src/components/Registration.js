@@ -2,18 +2,28 @@ function Registration() {
     return(
         <section className="Registration">
             <div className="form-section">
-                <form>
-                    <label for='email'>Email: </label>
-                    <input type='text' id='email' name='email'/>
-                    <label for='username'>Username: </label>
-                    <input type='text' id='username' name='username'/>
-                    <label for='password'>Password: </label>
-                    <input type='text' id='password' name='password'/>
-                    <label for='password2'>Confirm Password: </label>
-                    <input type='text' id='password2' name='email'/>
+                <h2>Register</h2>
+                <form className="register-form">
+                    <fieldset>
+                        <legend for='email'>Email: </legend>
+                        <input type='text' id='email' name='email'/>
+                    </fieldset>
+                    <fieldset>
+                        <legend for='username'>Username: </legend>
+                        <input type='text' id='username' name='username'/>
+                    </fieldset>
+                    <fieldset>
+                        <legend for='password'>Password: </legend>
+                        <input type='text' id='password' name='password'/>
+                    </fieldset>
+                    <fieldset>
+                        <legend for='password2'>Confirm Password: </legend>
+                        <input type='text' id='password2' name='email'/>
+                    </fieldset>
                     <div className="button-section">
                         <button className="button" type='submit'>Register</button>
-                        <p>Already have an account? <a href='/login'>Log in here</a></p>
+                        <p>Already have an account? </p>
+                        <p><a href='/login'>Log in here</a></p>
                     </div>
                 </form>
             </div>
