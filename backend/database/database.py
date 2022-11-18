@@ -17,30 +17,6 @@ userAccts = db["userAccts"] #collection #1: user accounts
 itemListings = db["itemListings"] # collection #2: item listings
 
 
-'''
-    In order to successfully put elements into the database. It's
-    imperative that everyone knows how the data is formatted. Therefore,
-    there will be two formats that will be followed. The first one will
-    pertain to the collection userAccts and the second one will pertain to
-    the collection itemListings.
-
-    userAccts Format:
-
-    {
-        "username" : username, 
-        "value" : User object
-    }
-
-    
-    itemListings Format:
-
-    WORK-IN-PROGRESS (COULD BE USING AN ITEM CLASS)
-
-'''
-
-# Parameters : 
-#   collection - collection to input to
-#   data - data that needs to be inserted
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
 
@@ -55,7 +31,7 @@ def insert_data(data, collection):
 
         # Salt and hash password here
         password = "PLACEHOLDER"
-        
+
         new_user_object = User(
             data["username"],
             password, 
