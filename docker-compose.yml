@@ -3,10 +3,8 @@ services:
   mongo:
     image: mongo:4.2.5
   backend:
-    build: /backend/app
-  frontend:
-    build: /frontend
+    build: .
     environment:
       WAIT_HOSTS: mongo:27017
-  ports:
-    - '8080:8080'
+    ports:
+      - '3000:3000'

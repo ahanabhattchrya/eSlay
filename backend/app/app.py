@@ -16,5 +16,5 @@ def frontendjs():
 
 #for the get and post request
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run("0.0.0.0", 3000)
