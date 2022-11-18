@@ -4,8 +4,6 @@ services:
     image: mongo:4.2.5
   backend:
     build: /backend/app
-    environemnt:
-      WAIT_HOSTS: mongo:27017
   frontend:
     build: /frontend
     environment:
