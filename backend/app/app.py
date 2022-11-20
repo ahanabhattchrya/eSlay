@@ -14,6 +14,11 @@ def frontendjs():
     pass
     # return app.send_static_file("frontend.js")
 
+@app.route('/login')
+def login(): 
+    pass
+    # return app.send_static_file()
+
 #for the get and post request
 
 if __name__ == '__main__':
