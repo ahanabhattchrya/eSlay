@@ -5,6 +5,7 @@
 # Imports
 from pymongo import MongoClient
 from user import User
+from exceptions import exceptions
 import os
 import sys
 
@@ -24,12 +25,14 @@ def insert_data(data, collection):
 
         all_users = userAccts.find({})
         if data["username"] in all_users:
-            return "error"
+            raise exceptions.AlreadyInDatabase(data["username"])
 
         new_user = {}
         new_user["username"] = data["username"]
 
         # Salt and hash password here
+        if len(data["password"] < 10):
+            raise exceptions.PasswordTooShort(data["password"])
         password = "PLACEHOLDER"
 
         new_user_object = User(
