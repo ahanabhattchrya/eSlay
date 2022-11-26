@@ -1,6 +1,6 @@
 /* This page is the login page for users to login to their respective accounts*/
 import React from 'react';
-import InputMask from 'react-input-mask';
+//import InputMask from 'react-input-mask';
 import { TextField, Button, Select, MenuItem, InputLabel, Checkbox } from '@material-ui/core';
 import Box from '@mui/material/Box';
 import './css/App.scss';
