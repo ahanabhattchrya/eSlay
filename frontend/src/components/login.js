@@ -11,7 +11,7 @@ const Login = () => {
             <Box className= "login-box" sx={{ width: 500, height: 500, border: '3px solid black', borderRadius: 2, display: 'flex', alignItems: 'center'}}>
                 <TextField required id="outlined-required" label="Username" variant="outlined" />
                 <TextField required id="outlined-required" label="Password" variant="outlined" />
-                <Button variant="contained">Login Here</Button>
+                <Button variant="contained" path="\login">Login Here</Button>
                 <h6>New to E-Slay? Sign Up Here</h6>
                 <h6>Forgot Password?</h6>
             </Box>
