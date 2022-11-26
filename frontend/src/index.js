@@ -1,16 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
 import './components/css/index.scss';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
-import Registration from './components/Registration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-    <Registration />
   </React.StrictMode>
 );
 
