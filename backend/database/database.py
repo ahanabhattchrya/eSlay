@@ -24,12 +24,11 @@ def update_password(username, newPassword):
     
     #salt & hash password
     salt = bcrypt.genSalt()
-    
     newPassword = newPassword.append(salt)
-    
     hashedPassword = hashlib.sha256(newPassword).digest()
     
-    
+    #update passsword in db
+    userAccts.update_one({"password": hashedPassword})
 
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
