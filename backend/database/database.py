@@ -7,6 +7,8 @@ from pymongo import MongoClient
 from user import User
 import os
 import sys
+import bcrypt
+import hashlib
 
 # Initialize the Mongo connection here
 mongoClient = MongoClient('mongo')
@@ -16,6 +18,18 @@ db = mongoClient["eSlay"]
 userAccts = db["userAccts"] #collection #1: user accounts
 itemListings = db["itemListings"] # collection #2: item listings
 
+
+def update_password(username, newPassword):
+    '''change password when given username and new password'''
+    
+    #salt & hash password
+    salt = bcrypt.genSalt()
+    
+    newPassword = newPassword.append(salt)
+    
+    hashedPassword = hashlib.sha256(newPassword).digest()
+    
+    
 
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''

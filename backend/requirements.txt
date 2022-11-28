@@ -1,3 +1,4 @@
 pymongo==4.1.1
 Flask==2.0.1
 Werkzeug==2.0.1
+bcrypt==1.4.1
