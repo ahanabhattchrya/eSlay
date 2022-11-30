@@ -47,6 +47,7 @@ def insert_data(data, collection):
             data["pointsObtained"]
         )
 
+        new_user["user"] = new_user_object
         userAccts.insert_one(new_user)
     else:
         pass
@@ -67,3 +68,17 @@ def delete_data(username, collection):
 
 def update_data():
     '''update data in userAccts and itemListings'''
+
+
+def get_user_shopping_cart(username):
+    ''' Grabs the user's shopping cart. '''
+
+    the_user = userAccts.find_one({"username": username}, {"_id" : 0})
+
+    if not the_user:
+        pass
+        # call error that username does not exist
+    
+    user_object = the_user["user"]
+
+    return user_object.cartList
