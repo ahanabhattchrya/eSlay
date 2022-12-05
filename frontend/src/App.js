@@ -1,7 +1,7 @@
 import logo from "./assets/images/logo.svg";
 import "./assets/css/App.scss";
 import React from "react";
-import Register from "./components/register";
+import Register from "./components/Register.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { globalTheme } from "./assets/globalTheme.js";
