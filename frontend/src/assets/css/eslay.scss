@@ -1,8 +1,38 @@
-.register-box {
-    width: 500;
-    height: 500;
-    border: '3px solid black';
-    border-radius: 2;
-    display: 'flex';
-    align-items: 'center';
+body {
+	max-width: 1400px;
+	margin: auto;
+	line-height: 1.5;
+}
+
+.form-container {
+	margin: auto;
+	max-width: 600px;
+
+	.form-box {
+		padding: 30px;
+		border: 1px solid black;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+
+		box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+		-webkit-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+		-moz-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+
+		h2 {
+			margin-bottom: 30px;
+		}
+
+		.MuiFormControl-root {
+			// Text input
+			margin: 0 auto 20px auto;
+			width: 75%;
+		}
+
+		.MuiButtonBase-root {
+			// Button
+			// max-width: 30%;
+			margin: 25px auto 10px auto;
+		}
+	}
 }
