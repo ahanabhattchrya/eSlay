@@ -8,9 +8,6 @@ export const globalTheme = createTheme({
 		secondary: {
 			main: "#6e2594",
 		},
-		accent: {
-			main: "#b7d3f2",
-		},
 	},
 	typography: {
 		fontFamily: ["Abel", "Roboto"],

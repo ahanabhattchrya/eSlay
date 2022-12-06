@@ -11,7 +11,7 @@ body {
 	height: 10%;
 	min-height: 100px;
 	background-color: $primary;
-	border-bottom: 3px solid black;
+	border-bottom: 3px solid $accent;
 	border-radius: 2px;
 
 	.title-container {

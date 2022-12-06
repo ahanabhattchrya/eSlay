@@ -4,13 +4,13 @@ import { Button, Grid } from "@material-ui/core";
 
 const Navbar = () => {
 	return (
-		<div class="navBar" sx={{ border: "3px solid black", borderRadius: 2 }}>
+		<div class="navBar">
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">
 				<Grid item className="title-container">
 					<h1 className="title">eSlay</h1>
 				</Grid>
 				<Grid item className="menu-bar">
-					<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/" style={{ opacity: "90%", letterSpacing: "0.15em", height: "40px" }}>
+					<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/">
 						<p>
 							<b>Home</b>
 						</p>
