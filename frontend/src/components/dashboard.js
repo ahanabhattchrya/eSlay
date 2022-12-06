@@ -4,12 +4,12 @@ import { Box, Button, Grid } from "@material-ui/core";
 const Dashboard = () => {
 	return (
 		<div className="dashboard">
-			<Grid>
+			<Grid container>
 				<Grid item>
 					<UserInfo />
 				</Grid>
 				<Grid item>
-					<Grid className="user-lists" direction="column">
+					<Grid container className="user-lists" direction="column">
 						<Grid item>
 							<Listings />
 						</Grid>
@@ -34,4 +34,5 @@ const Listings = () => {
 const History = () => {
 	return <div className="purchase-history"></div>;
 };
+
 export default Dashboard;
