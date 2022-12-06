@@ -6,7 +6,10 @@ export const globalTheme = createTheme({
 			main: "#f694c1",
 		},
 		secondary: {
-			main: "#6E2594",
+			main: "#6e2594",
+		},
+		accent: {
+			main: "#b7d3f2",
 		},
 	},
 	typography: {
