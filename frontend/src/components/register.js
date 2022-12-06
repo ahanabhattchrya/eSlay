@@ -2,7 +2,6 @@
 import React from "react";
 import { TextField, Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
-import "../assets/css/register.scss";
 
 const Register = () => {
 	return (
