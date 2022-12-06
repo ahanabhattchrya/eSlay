@@ -1,12 +1,12 @@
 import { createTheme } from "@material-ui/core";
-import { blue, lightBlue } from "@material-ui/core/colors";
+import { blue, grey } from "@material-ui/core/colors";
 
 export const globalTheme = createTheme({
 	palette: {
 		primary: {
-			main: lightBlue[500],
-			light: lightBlue[300],
-			dark: lightBlue[700],
+			main: grey[500],
+			light: grey[300],
+			dark: grey[700],
 		},
 		secondary: {
 			main: blue[500],

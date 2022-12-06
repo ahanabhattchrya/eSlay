@@ -1,7 +1,8 @@
 import logo from "./assets/images/logo.svg";
-import "./assets/css/App.scss";
+import "./assets/css/eslay.scss";
 import React from "react";
-import Register from "./components/Register.js";
+import Register from "./components/register.js";
+import Login from "./components/login.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { globalTheme } from "./assets/globalTheme.js";
@@ -15,6 +16,7 @@ function App() {
 					<Router>
 						<Routes>
 							<Route exact path="/register" element={<Register />} />
+							<Route exact path="/login" element={<Login />} />
 						</Routes>
 					</Router>
 				</div>

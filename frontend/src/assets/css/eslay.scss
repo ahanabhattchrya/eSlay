@@ -6,33 +6,33 @@ body {
 
 .form-container {
 	margin: auto;
-	max-width: 600px;
+	max-width: 400px;
+	text-align: center;
 
 	.form-box {
 		padding: 30px;
-		border: 1px solid black;
+		border: 3px solid black;
 		border-radius: 10px;
 		display: flex;
 		flex-direction: column;
 
-		box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
-		-webkit-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
-		-moz-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+		// box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+		// -webkit-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
+		// -moz-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
 
 		h2 {
 			margin-bottom: 30px;
 		}
 
 		.MuiFormControl-root {
-			// Text input
 			margin: 0 auto 20px auto;
-			width: 75%;
+			width: 90%;
 		}
 
 		.MuiButtonBase-root {
-			// Button
-			// max-width: 30%;
+			max-width: 30%;
 			margin: 25px auto 10px auto;
+			color: white;
 		}
 	}
 }
