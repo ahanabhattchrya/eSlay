@@ -1,6 +1,6 @@
 from flask import Flask
 
-app = Flask(__name__, static_folder="../build", static_url_path='/')
+app = Flask(__name__, static_folder='frontend/build', template_folder='frontend/build')
 
 #for the homepage html
 @app.route('/')
@@ -12,6 +12,11 @@ def html():
 def frontendjs():
     pass
     # return app.send_static_file("frontend.js")
+
+@app.route('/login')
+def login(): 
+    pass
+    # return app.send_static_file()
 
 #for the get and post request
 
