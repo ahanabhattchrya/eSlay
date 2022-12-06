@@ -4,7 +4,7 @@ import { blue, grey } from "@material-ui/core/colors";
 export const globalTheme = createTheme({
 	palette: {
 		primary: {
-			main: grey[500],
+			main: grey[900],
 			light: grey[300],
 			dark: grey[700],
 		},

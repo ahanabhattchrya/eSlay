@@ -1,6 +1,4 @@
 body {
-	max-width: 1400px;
-	margin: auto;
 	line-height: 1.5;
 }
 
@@ -30,7 +28,8 @@ body {
 		}
 
 		.MuiButtonBase-root {
-			max-width: 30%;
+			width: 200px;
+			border-radius: 15px;
 			margin: 25px auto 10px auto;
 			color: white;
 		}

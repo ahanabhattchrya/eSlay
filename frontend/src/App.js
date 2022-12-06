@@ -1,11 +1,12 @@
 import logo from "./assets/images/logo.svg";
-import "./assets/css/eslay.scss";
 import React from "react";
-import Register from "./components/register.js";
-import Login from "./components/login.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { globalTheme } from "./assets/globalTheme.js";
+
+import Register from "./components/register.js";
+import Login from "./components/login.js";
+import "./assets/css/eslay.scss";
 
 function App() {
 	return (

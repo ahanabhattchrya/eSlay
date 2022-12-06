@@ -8,13 +8,12 @@ const Register = () => {
 	return (
 		<div className="register form-container">
 			<Box className=" form-box register-box">
-				<h2>Register</h2>
 				<TextField required id="outlined-required" label="Email" variant="outlined" />
 				<TextField required id="outlined-required" label="Username" variant="outlined" />
 				<TextField required id="outlined-required" label="Password" variant="outlined" />
 				<TextField required id="outlined-required" label="Confirm password" variant="outlined" />
 				<Button variant="contained" color="primary" path="/register" size="large">
-					Register Here
+					Register
 				</Button>
 				<div>
 					<p className="redirect">
