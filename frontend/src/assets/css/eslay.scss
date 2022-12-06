@@ -4,6 +4,28 @@ body {
 
 .navBar {
 	margin-bottom: 100px;
+	width: 100%;
+	height: 10%;
+	background-color: #f694c1;
+
+	.title-container {
+		.title {
+			font-family: "Nabla";
+			font-size: 40px;
+		}
+	}
+
+	.menu-bar {
+		width: 40%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.menu-item {
+			opacity: 90%;
+			letter-spacing: 0.15em;
+		}
+	}
 }
 
 .form-container {

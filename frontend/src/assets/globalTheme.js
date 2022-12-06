@@ -1,18 +1,16 @@
 import { createTheme } from "@material-ui/core";
-import { blue, grey } from "@material-ui/core/colors";
 
 export const globalTheme = createTheme({
 	palette: {
 		primary: {
-			main: grey[900],
-			light: grey[300],
-			dark: grey[700],
+			main: "#f694c1",
 		},
 		secondary: {
-			main: blue[500],
-			dark: blue[700],
-			light: blue[300],
+			main: "#6E2594",
 		},
+	},
+	typography: {
+		fontFamily: ["Abel", "Roboto"],
 	},
 });
 
