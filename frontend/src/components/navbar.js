@@ -22,7 +22,7 @@ const Navbar = () => {
                 </p>
               </Button>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1.5}>
               <Button variant="text" color="secondary" size="large" component={Link} to="/" style={{ opacity: "90%", letterSpacing: "0.15em" }}>
                 <p>
                     <b>Auctions</b>

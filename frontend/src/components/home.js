@@ -20,7 +20,7 @@ const Home = () => {
                 <Typography component="div">
                     <Box sx={{ lineHeight: 2, ml: 18, mt:-5, fontSize: "h3.fontSize", fontWeight: 'bold'}}>First Time Here?</Box>
                     <Box sx={{ lineHeight: 2, ml: 5, mr: 5, fontSize: "h5.fontSize", textAlign: 'center'}}>There's a whole world of people ready to buy your used or new items. <br/> Register here now!</Box>
-                    
+                    <Button variant="contained">Register</Button>
                 </Typography>
             </Box>
         </div>
