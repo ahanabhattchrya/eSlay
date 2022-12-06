@@ -4,14 +4,19 @@ body {
 
 .navBar {
 	margin-bottom: 100px;
+	padding: 0 10%;
 	width: 100%;
 	height: 10%;
+	min-height: 100px;
 	background-color: #f694c1;
+	border-bottom: 3px solid black;
+	border-radius: 2px;
 
 	.title-container {
 		.title {
 			font-family: "Nabla";
-			font-size: 40px;
+			font-size: 80px;
+			margin: 25px 0;
 		}
 	}
 
@@ -24,6 +29,11 @@ body {
 		.menu-item {
 			opacity: 90%;
 			letter-spacing: 0.15em;
+			margin: 0 20px;
+
+			p {
+				font-size: 20px;
+			}
 		}
 	}
 }
