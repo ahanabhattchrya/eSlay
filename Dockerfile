@@ -1,5 +1,12 @@
 # https://blog.miguelgrinberg.com/post/how-to-dockerize-a-react-flask-project
 
+
+# IMPORTANT!!! IMPORTANT!!!! IMPORTANT!!!!
+#
+# DO NOT USE THE LINK GIVEN FROM FLASK, IT DOES NOT WORK.
+#
+# USE localhost:3030 INSTEAD!!!!
+
 # Build step #1: build the React.js front end
 FROM node:16-alpine as build-step
 WORKDIR /frontend
