@@ -1,0 +1,13 @@
+@import "settings";
+
+.dashboard {
+	width: 90%;
+	margin: auto;
+	.user-info {
+		background-color: $primary;
+	}
+
+	.user-lists {
+		background-color: $primary;
+	}
+}

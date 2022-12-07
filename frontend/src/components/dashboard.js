@@ -1,14 +1,30 @@
 import React from "react";
-import { Box, Button, Grid } from "@material-ui/core";
+import { Button, Table, Grid } from "@material-ui/core";
+
+const UserInfo = () => {
+	return <div className="user-info"></div>;
+};
+
+const Listings = () => {
+	return (
+		<div className="user-items">
+			<DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
+		</div>
+	);
+};
+
+const History = () => {
+	return <div className="purchase-history"></div>;
+};
 
 const Dashboard = () => {
 	return (
 		<div className="dashboard">
 			<Grid container>
-				<Grid item>
+				<Grid item xs={2}>
 					<UserInfo />
 				</Grid>
-				<Grid item>
+				<Grid item xs={10}>
 					<Grid container className="user-lists" direction="column">
 						<Grid item>
 							<Listings />
@@ -21,18 +37,6 @@ const Dashboard = () => {
 			</Grid>
 		</div>
 	);
-};
-
-const UserInfo = () => {
-	return <div className="user-info"></div>;
-};
-
-const Listings = () => {
-	return <div className="user-items"></div>;
-};
-
-const History = () => {
-	return <div className="purchase-history"></div>;
 };
 
 export default Dashboard;
