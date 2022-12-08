@@ -18,7 +18,7 @@ import exceptions
 import User
 
 
-app = Flask(__name__, static_folder='../build/static', template_folder='../build/')
+app = Flask(__name__, static_folder='../../build/static', template_folder='../../build/')
 CORS(app)
 
 #for the homepage html
@@ -26,13 +26,17 @@ CORS(app)
 def html():
     return render_template("index.html")
 
-
-@app.route("/<path:path>")
-def static_proxy(path):
-    ''' This will serve the static files needed for our site '''
-    file_name = path.split("/")[-1]
-    directory_name = os.path.join(app.static_folder, "/".join(path.split("/")[:1]))
-    return send_from_directory(directory_name, file_name)
+# https://stackoverflow.com/a/50660437
+# The above stack overflow link allowed us to utilize React Routing while allowing Flask to handle
+# any requests made to the same routes by sending it straight from the directory as a static file the
+# same way React woudl. God bless this person.
+@app.route('/<path:path>')
+def serve(path):
+     path_dir = os.path.abspath("../../build") #path react build
+     if path != "" and os.path.exists(os.path.join(path_dir, path)):
+         return send_from_directory(os.path.join(path_dir), path)
+     else:
+         return send_from_directory(os.path.join(path_dir),'index.html')
 
 #for the front end js
 @app.route('/frontendjs')
