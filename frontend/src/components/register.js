@@ -65,7 +65,7 @@ function changeConfirmedPassword(value) {
 
 const Register = () => {
 	return (
-		<div className="register form-container">
+		<div className="register form-container small-form">
 			<Box className=" form-box register-box">
 				<TextField required id="outlined-required" label="Email" variant="outlined" onChange={(event) => changeEmail(event.target.value)} />
 				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />

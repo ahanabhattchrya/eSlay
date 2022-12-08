@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 
-let loggedIn = false;
-
 const Navbar = () => {
 	return (
 		<div class="navBar">
