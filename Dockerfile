@@ -24,14 +24,26 @@ FROM python:3.9
 WORKDIR /frontend
 COPY --from=build-step /frontend/build ./build
 
-RUN mkdir ./api
-COPY backend/requirements.txt backend/app/app.py backend/database/ ./api/
-RUN pip install -r ./api/requirements.txt
+RUN mkdir ./backend
+COPY backend/requirements.txt ./backend
+COPY backend/__init__.py ./backend
+
+WORKDIR /frontend/backend
+
+RUN mkdir ./app
+RUN mkdir ./database
+
+COPY backend/app/ ./app
+COPY backend/database/ ./database
+
+WORKDIR /frontend
+
+RUN pip install -r ./backend/requirements.txt
 
 EXPOSE 3000
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
 RUN chmod +x /wait
 
-WORKDIR /frontend/api
+WORKDIR /frontend/backend/app
 CMD /wait && python -u app.py
