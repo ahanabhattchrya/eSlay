@@ -43,14 +43,14 @@ const Login = () => {
 		<div className="login form-container">
 			<Box className="form-box login-box" sx={{ border: "3px solid black", borderRadius: 2 }}>
 				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
-				<TextField required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
+				<TextField type={"password"} required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
 				<Button variant="contained" size="large" color="primary" onClick={sendLoginInfo}>
 					Login
 				</Button>
 				<p>
 					New to E-Slay? Sign Up <a href="/register">Here</a>
 					<br />
-					Forgot Password?
+					<a href="/change-password">Forgot Password?</a>
 				</p>
 			</Box>
 		</div>
