@@ -34,8 +34,6 @@ function sendLoginInfo() {
 	(error) => {
 		console.log(error);
 	});
-
-	console.log("request sent")
 };
 
 const Login = () => {
