@@ -50,15 +50,15 @@ def login():
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
-    #print("")
+    print("Username: " + str(haveUser) + "\n")
     
     # salted entered password 
     enteredPassword = dictUser["password"].encode()
-    enteredPassword += database.theSalt
-    enterPassword = hashlib.sha256(enteredPassword).digest()
+    enteredPassword += haveUser.salt
+    enteredPassword = hashlib.sha256(enteredPassword).digest()
     
-    #print("Database password: " + str(haveUser.password) + "\n")
-    #print("Entered password: " + str(enteredPassword) + "\n")
+    print("Database password: " + str(haveUser.password) + "\n")
+    print("Entered password: " + str(enteredPassword) + "\n")
     
     if enteredPassword == haveUser.password:
         # give token to user

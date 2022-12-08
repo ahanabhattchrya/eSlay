@@ -4,8 +4,8 @@
 
 # Imports
 from pymongo import MongoClient
-from user import User
-from exceptions import exceptions
+import User
+import exceptions
 import os
 import sys
 import bcrypt
@@ -21,6 +21,37 @@ itemListings = db["itemListings"] # collection #2: item listings
 
 theSalt = bcrypt.gensalt()
 
+# Custom Functions For Encoding and Decoding
+
+# Encoding and Decoding User Custom Classes
+def userCustomEncode(user):
+    return {"_type": "user", 
+            "username": user.username,
+            "password" : user.password,
+            "email" : user.email,
+            "clientId" : user.clientId,
+            "totalMade" : user.totalMade,
+            "currBid" : user.currBid,
+            "cartList" : user.cartList,
+            "itemsForSale" : user.itemsForSale,
+            "itemsPurchased" : user.itemsPurchased,
+            "pointsObtained" : user.pointsObtained,
+            "salt": user.salt}
+
+def userCustomDecode(document):
+    assert document["_type"] == "user"
+    return User.User(document["username"],
+                     document["password"],
+                     document["email"],
+                     document["clientId"],
+                     document["totalMade"],
+                     document["currBid"],
+                     document["cartList"],
+                     document["itemsForSale"],
+                     document["itemsPurchased"],
+                     document["pointsObtained"],
+                     document["salt"]
+    )
 
 def update_password(username, newPassword):
     '''change password when given username and new password'''
@@ -53,14 +84,14 @@ def insert_data(data, collection):
         new_user["username"] = data["username"]
 
         # Salt and hash password here
-        if len(data["password"] < 10):
+        if len(data["password"]) < 10:
             raise exceptions.PasswordTooShort(data["password"])
         password = data["password"].encode()
         password += theSalt
         password = hashlib.sha256(password).digest()
         
 
-        new_user_object = User(
+        new_user_object = User.User(
             data["username"],
             password,
             data["email"], 
@@ -70,10 +101,11 @@ def insert_data(data, collection):
             data["cartList"],
             data["itemsForSale"],
             data["itemsPurchased"],
-            data["pointsObtained"]
+            data["pointsObtained"],
+            theSalt
         )
 
-        new_user["user"] = new_user_object
+        new_user["user"] = userCustomEncode(new_user_object)
         
         userAccts.insert_one(new_user)
     else:
@@ -104,6 +136,6 @@ def get_user(username):
     user = userAccts.find_one({"username" : username}, {"_id" : 0})
     
     if user:
-        return user["user"]
+        return userCustomDecode(user["user"])
     else:
         exceptions.UserNotFound(username)
