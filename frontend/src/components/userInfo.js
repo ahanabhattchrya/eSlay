@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 const UserInfo = () => {
 	return <div className="user-info"></div>;

@@ -9,6 +9,14 @@
 	background-color: $accent;
 }
 
+.dashboard-wrapper {
+	justify-content: space-around;
+}
+
+.table-wrapper {
+	display: flex;
+}
+
 .user-lists {
 	background-color: $accent;
 }

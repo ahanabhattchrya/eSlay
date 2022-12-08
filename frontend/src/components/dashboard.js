@@ -10,11 +10,11 @@ import History from "./history.js";
 const Dashboard = () => {
 	return (
 		<div className="dashboard">
-			<Grid container>
-				<Grid item xs={2}>
+			<Grid container className="dashboard-wrapper">
+				<Grid item xs={4}>
 					<UserInfo />
 				</Grid>
-				<Grid item xs={10}>
+				<Grid item className="table-wrapper" xs={7}>
 					<Grid container className="user-lists" direction="column">
 						<Grid item>
 							<Listings />
