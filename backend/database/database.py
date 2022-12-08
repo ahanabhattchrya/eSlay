@@ -24,14 +24,19 @@ theSalt = bcrypt.gensalt()
 
 def update_password(username, newPassword):
     '''change password when given username and new password'''
+    global theSalt
     
     #salt & hash password
-    #salt = bcrypt.genSalt()
-    newPassword = newPassword.append(salt)
+    newPassword = newPassword.encode
+    newPassword += theSalt
     hashedPassword = hashlib.sha256(newPassword).digest()
     
-    #update passsword in db
-    userAccts.update_one({"password": hashedPassword})
+    # finds user and updates the password
+    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user.password = hashedPassword
+    
+    # we don't know whether or not the password is actual being updated 
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
 
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
@@ -67,6 +72,8 @@ def insert_data(data, collection):
             data["pointsObtained"]
         )
 
+        new_user["user"] = new_user_object
+        
         userAccts.insert_one(new_user)
     else:
         pass
@@ -91,9 +98,9 @@ def update_data():
 
 def get_user(username):
     ''' Sees if there's a current user and returns their User object '''
-    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
     
     if user:
-        return user
+        return user["user"]
     else:
         exceptions.UserNotFound(username)
