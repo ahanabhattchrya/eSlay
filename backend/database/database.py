@@ -23,7 +23,7 @@ def update_password(username, newPassword):
     '''change password when given username and new password'''
     
     #salt & hash password
-    salt = bcrypt.genSalt()
+    #salt = bcrypt.genSalt()
     newPassword = newPassword.append(salt)
     hashedPassword = hashlib.sha256(newPassword).digest()
     
