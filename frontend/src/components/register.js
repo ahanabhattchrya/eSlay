@@ -3,6 +3,8 @@ import React from "react";
 import { TextField, Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
+import axios from "axios";
+
 // This will handle all our registration information to send to the backend.
 let registerInfo = {
 	email : "",
@@ -11,10 +13,31 @@ let registerInfo = {
 	confirmedPassword: ""
 };
 
+// This function will test the passwords to make sure they are exactly alike. 
+// If they are not, do not send the data and prompt the user to check their 
+// passwords and make sure they match.
+function verifyPasswords(password1, password2){ 
+	return password1 === password2
+}
+
 // This handler will verify passwords are the same, throw error if not
 // and then will send our data to the backend through /register
 function sendRegisterInfo(){
-	verifyPasswords(registerInfo.password, registerInfo.confirmedPassword);
+	axios({
+		method:'POST',
+		url:'/register', 
+		data: {
+			email : registerInfo.email,
+			username : registerInfo.username,
+			password : registerInfo.password
+		}
+	})
+	.then((response) => {
+		console.log(response);
+	},
+	(error) => {
+		console.log(error);
+	});
 };
 
 
@@ -42,9 +65,7 @@ const Register = () => {
 				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={event => changeUsername(event.target.value)} />
 				<TextField required id="outlined-required" label="Password" variant="outlined" onChange={event => changePassword(event.target.value)} />
 				<TextField required id="outlined-required" label="Confirm password" variant="outlined" onChange={event => changeConfirmedPassword(event.target.value)} />
-				<Button variant="contained" color="primary" onClick={sendRegisterInfo} size="large">
-					Register
-				</Button>
+				<Button variant="contained" color="primary" onClick={sendRegisterInfo} size="large">Register</Button>
 				<div>
 					<p className="redirect">
 						Already have an account?
