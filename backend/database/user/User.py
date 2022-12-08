@@ -10,7 +10,8 @@ class User:
                  cartList,
                  itemsForSale,
                  itemsPurchased,
-                 pointsObtained
+                 pointsObtained,
+                 salt
                 ):
 
         self.username = username
@@ -23,3 +24,4 @@ class User:
         self.itemsForSale = itemsForSale
         self.itemsPurchased = itemsPurchased
         self.pointsObtained = pointsObtained
+        self.salt = salt

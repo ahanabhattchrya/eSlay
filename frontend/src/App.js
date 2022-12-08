@@ -11,11 +11,11 @@ import ChangePassword from "./components/changePassword.js";
 import ItemListTable from "./components/itemListings/itemListings.js";
 import "./assets/css/eslay.scss"
 
-let currLoginInfo = {
-	username : "",
-	password : "",
-	authenticated: false,
-	token: null
+export let currLoginInfo = {
+	username: "",
+	password: "",
+	authenticated: true,
+	token: null,
 };
 
 function App() {
