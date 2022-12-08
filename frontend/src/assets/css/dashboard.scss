@@ -15,13 +15,31 @@
 
 .table-wrapper {
 	display: flex;
+	border: solid 3px $secondary;
+	border-radius: 10px;
+
+	.user-lists {
+		margin-bottom: 10px;
+		background-color: $accent;
+		border-top-left-radius: 7px;
+		border-top-right-radius: 7px;
+	}
+	.purchase-history {
+		border-bottom-left-radius: 7px;
+		border-bottom-right-radius: 7px;
+	}
 }
 
-.user-lists {
-	background-color: $accent;
-}
-
-.MuiTableCell-root {
-	text-align: center;
-	// max-width: 200px;
+.MuiTableRow-root {
+	display: flex;
+	justify-content: space-between;
+	.MuiTableCell-root {
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
+		max-width: 20px;
+	}
+	.desc-col {
+		flex-grow: 5;
+	}
 }

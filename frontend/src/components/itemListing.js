@@ -33,7 +33,7 @@ const Listings = () => {
 							</TableCell>
 							<TableCell>Image</TableCell>
 							<TableCell>Listing</TableCell>
-							<TableCell>Description</TableCell>
+							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Status</TableCell>
 							<TableCell>Price</TableCell>
 							<TableCell>Current Top Bid</TableCell>
@@ -50,7 +50,7 @@ const Listings = () => {
 									<img src={row.imageDir} />
 								</TableCell>
 								<TableCell>{row.listing}</TableCell>
-								<TableCell xs={3}>{row.desc}</TableCell>
+								<TableCell className="desc-col">{row.desc}</TableCell>
 								<TableCell>{row.status}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>{row.curTopBid}</TableCell>
