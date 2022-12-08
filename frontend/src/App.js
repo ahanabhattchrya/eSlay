@@ -9,7 +9,7 @@ import Register from "./components/register.js";
 import Login from "./components/login.js";
 import Dashboard from "./components/dashboard.js";
 import ChangePassword from "./components/changePassword.js";
-import UploadItem from "./components/item-upload.js";
+import UploadItem from "./components/uploadItem.js";
 
 import "./assets/css/eslay.scss";
 

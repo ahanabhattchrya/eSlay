@@ -1,13 +1,18 @@
 import React from "react";
-import { Button, Grid, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
+import { Button, Grid, Modal } from "@material-ui/core";
 
 import "../assets/css/dashboard.scss";
 
 import UserInfo from "./userInfo.js";
 import Listings from "./itemListing.js";
 import History from "./history.js";
+import UploadItem from "./uploadItem";
 
 const Dashboard = () => {
+	const [open, setOpen] = React.useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
+
 	return (
 		<div className="dashboard">
 			<Grid container className="dashboard-wrapper">
@@ -15,6 +20,10 @@ const Dashboard = () => {
 					<UserInfo />
 				</Grid>
 				<Grid item className="table-wrapper" xs={7}>
+					<Button onClick={handleOpen}>List New Item</Button>
+					<Modal open={open} onClose={handleClose}>
+						<UploadItem />
+					</Modal>
 					<Grid container className="user-lists" direction="column">
 						<Grid item>
 							<Listings />
