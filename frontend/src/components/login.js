@@ -51,7 +51,7 @@ const Login = () => {
 				<p>
 					New to E-Slay? Sign Up <a href="/register">Here</a>
 					<br />
-					Forgot Password?
+					<a href="/change-password">Forgot Password?</a>
 				</p>
 			</Box>
 		</div>

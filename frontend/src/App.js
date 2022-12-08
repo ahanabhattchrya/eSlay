@@ -7,6 +7,7 @@ import Register from "./components/register.js";
 import Login from "./components/login.js";
 import Home from "./components/home.js";
 import Navbar from "./components/navbar.js";
+import ChangePassword from "./components/changePassword.js";
 import "./assets/css/eslay.scss";
 
 function App() {

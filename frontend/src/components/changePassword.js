@@ -29,7 +29,7 @@ function changeConfirmedNewPassword(value) { changePasswordInfo.newPasswordConfi
 function sendChangePasswordInfo(){
     axios({
 		method:'POST',
-		url:'/login', 
+		url:'/change-password', 
 		data: {
             username : changePasswordInfo.username,
             password : changePasswordInfo.newPassword
