@@ -5,7 +5,7 @@ from flask_cors import CORS
 import os
 import sys
 import hashlib
-import jwt
+import secrets
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -62,11 +62,20 @@ def login():
     
     if enteredPassword == haveUser.password:
         # give token to user
-        token = JWT(None, dictUser["username"], None)
-        return token 
+        token = secrets.token_hex(32)
+        token = hashlib.sha256(token.encode()).digest
+        
+        # make the response and set the cookie to the response 
+        resp = make_response(render_template("index.html"))
+        resp.set_cookie("token", token)
+        
+        # send response back to home page
+        # might need to store the specific cookie to the user later...
+        # database.insert_data(,1)
+        return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
-        return {"404" : "Error: Password is not the same"}
+        return {"status_message" : 404, "message": "Error: Password is not the same"}
     
     # return app.send_static_file()
 

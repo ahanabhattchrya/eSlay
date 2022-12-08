@@ -10,6 +10,7 @@ class User:
                  itemsForSale,
                  itemsPurchased,
                  pointsObtained
+                 token
                 ):
 
         self.username = username
@@ -21,3 +22,4 @@ class User:
         self.itemsForSale = itemsForSale
         self.itemsPurchased = itemsPurchased
         self.pointsObtained = pointsObtained
+        self.token = token

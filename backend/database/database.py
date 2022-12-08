@@ -54,6 +54,7 @@ def insert_data(data, collection):
             data["itemsForSale"],
             data["itemsPurchased"],
             data["pointsObtained"]
+            data["token"]
         )
 
         userAccts.insert_one(new_user)
