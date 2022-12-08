@@ -70,6 +70,38 @@ def login():
     
     # return app.send_static_file()
 
+@app.route('/register', methods=["POST"])
+def register(): 
+    dictUser = json.loads((request.data).decode())
+    print(dictUser)
+
+    email = dictUser['email']
+    username = dictUser['username']
+    password = dictUser['password']
+
+    data = {
+        "username": username, 
+        "password": password, 
+        "email": email,
+        "clientId" : 0,
+        "totalMade" : 0,
+        "currBid" : 0,
+        "cartList" : [],
+        "itemsForSale" : [],
+        "itemsPurchased" : [],
+        "pointsObtained" : 0
+        }
+
+    database_return = database.insert_data(data, 1)
+
+    # print(f'email : {email}')
+    # print(f'username : {username}')
+    # print(f'password : {password}')
+    if database_return == 0: 
+        return {"status_code" : 200, "message" : "Successfully Registered"}
+    else: 
+        return {"status_code" : 404, "message" : "Error unable to register"}
+
 #for the get and post request
 
 if __name__ == "__main__":

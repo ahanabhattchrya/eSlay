@@ -62,7 +62,8 @@ def insert_data(data, collection):
 
         new_user_object = User(
             data["username"],
-            password, 
+            password,
+            data["email"], 
             data["clientId"],
             data["totalMade"],
             data["currBid"],
@@ -77,6 +78,8 @@ def insert_data(data, collection):
         userAccts.insert_one(new_user)
     else:
         pass
+    
+    return 0
     
 def delete_data(username, collection):
     '''remove data from collections userAccts and itemListings'''
