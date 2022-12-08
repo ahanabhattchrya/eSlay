@@ -33,9 +33,18 @@ axios({
 
 
 const ShoppingCart = () => {
-    return (
-        <div></div>
-    );
+
+    if (currShoppingCartInfo.shoppingCart == []) {
+        return (
+            <p> Your current shopping cart is empty. Please go to the Items page and add items to your cart. </p>
+        );
+    }
+    
+    else{
+        return (
+            <div></div>
+        );
+    };
 };
 
 export default ShoppingCart;
