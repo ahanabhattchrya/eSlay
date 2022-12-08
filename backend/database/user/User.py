@@ -6,7 +6,7 @@ class User:
                  email,
                  clientId,
                  totalMade,
-                 currBid,
+                 curBid,
                  cartList,
                  itemsForSale,
                  itemsPurchased,
@@ -19,7 +19,7 @@ class User:
         self.email = email
         self.clientId = clientId
         self.totalMade = totalMade
-        self.currBid = currBid
+        self.curBid = curBid
         self.cartList = cartList
         self.itemsForSale = itemsForSale
         self.itemsPurchased = itemsPurchased
