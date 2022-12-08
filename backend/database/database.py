@@ -35,7 +35,7 @@ def update_password(username, newPassword):
     user = userAccts.find({"username" : username}, {"_id" : 0})
     user.password = hashedPassword
     
-    # we don't know whether or not the password is actual being updated 
+    # we don't know whether or not the password is actual being updated
     userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
 
 def insert_data(data, collection):
