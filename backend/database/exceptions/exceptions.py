@@ -41,3 +41,24 @@ class PasswordTooLong(Exception):
 
     def __str__(self) -> str:
         return f'{self.password} -> {self.message}'
+   
+    
+class UserNotFound(Exception):
+    """
+        Exception raised when the username does not exist in database.
+
+        Attributes:
+
+        username -- the username that caused the error
+        message -- explanation of the error
+    """
+    
+    def __init__(self, username: str, message: str = "The username does not exist!") -> None:
+
+        self.username = username
+        self.message = message
+
+        super().__init__(self.message)
+
+    def __str__(self) -> str:
+        return f'{self.username} -> {self.message}'
