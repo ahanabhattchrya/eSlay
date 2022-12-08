@@ -2,7 +2,8 @@ class User:
 
     def __init__(self, 
                  username, 
-                 password, 
+                 password,
+                 email,
                  clientId,
                  totalMade,
                  currBid,
@@ -14,6 +15,7 @@ class User:
 
         self.username = username
         self.password = password
+        self.email = email
         self.clientId = clientId
         self.totalMade = totalMade
         self.currBid = currBid
