@@ -46,9 +46,23 @@ def frontendjs():
 def login(): 
     # print(request.data)
     dictUser = json.loads((request.data).decode())
-    print(database.userAccts)
     pass
     # return app.send_static_file()
+
+@app.route('/register', methods=["POST"])
+def register(): 
+    dictUser = json.loads((request.data).decode())
+    print(dictUser)
+
+    email = dictUser['email']
+    username = dictUser['username']
+    password = dictUser['password']
+
+    print(f'email : {email}')
+    print(f'username : {username}')
+    print(f'password : {password}')
+    
+    pass
 
 #for the get and post request
 
