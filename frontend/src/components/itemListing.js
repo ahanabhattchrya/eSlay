@@ -10,14 +10,7 @@ function createData(imageDir, listing, desc, status, price, curTopBid) {
 	{ image, listing, desc, status, price, curTopBid }
 	Example: { "Toy boat", "A tiny boat", "sold", "$20", "$99" }
 */
-const rows = [
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-];
+const rows = [];
 
 /*
 	Test Data
