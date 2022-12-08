@@ -6,11 +6,15 @@ import Box from "@mui/material/Box";
 import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
+import Cookies from 'js-cookie';
+
+
 
 let currLoginInfo = {
 	username : "",
 	password : "",
-	authenticated: false
+	authenticated: false,
+	token: null
 };
 
 function changeUsername(value) { currLoginInfo.username = value; };
@@ -28,6 +32,7 @@ function sendLoginInfo() {
 		if (decodedResponse["status_code"] == "200"){
 			currLoginInfo.authenticated = true;
 			currLoginInfo.username = decodedResponse["username"];
+			currLoginInfo.token = Cookies.get("token");
 		}
 
 	},
