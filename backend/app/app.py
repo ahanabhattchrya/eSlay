@@ -4,6 +4,8 @@ import json
 from flask_cors import CORS
 import os
 import sys
+import hashlib
+import jwt
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -40,10 +42,28 @@ def frontendjs():
 
 @app.route('/login', methods=["POST"])
 def login(): 
-    # print(request.data)
+    # decodes the username and password given and check if in database
     dictUser = json.loads((request.data).decode())
-    print(database.userAccts)
-    pass
+    haveUser = database.get_user(dictUser["username"])
+    
+    #print("")
+    
+    # salted entered password 
+    enteredPassword = dictUser["password"].encode()
+    enteredPassword += database.theSalt
+    enterPassword = hashlib.sha256(enteredPassword).digest()
+    
+    #print("Database password: " + str(haveUser.password) + "\n")
+    #print("Entered password: " + str(enteredPassword) + "\n")
+    
+    if enteredPassword == haveUser.password:
+        # give token to user
+        token = JWT(None, dictUser["username"], None)
+        return token 
+    else:
+        # return dictionary with error 404 code. Error password not the same 
+        return {"404" : "Error: Password is not the same"}
+    
     # return app.send_static_file()
 
 #for the get and post request
