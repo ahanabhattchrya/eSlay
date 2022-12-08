@@ -2,8 +2,8 @@ import React from "react";
 import { Button, Grid, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
 
 // I don't actually know if we'll need this function
-function createData(listing, desc, status, price, curTopBid) {
-	return { listing, desc, status, price, curTopBid };
+function createData(imageDir, listing, desc, status, price, curTopBid) {
+	return { imageDir, listing, desc, status, price, curTopBid };
 }
 /*
 	Fetch items from backend and insert them into objects like:
@@ -12,6 +12,15 @@ function createData(listing, desc, status, price, curTopBid) {
 */
 const rows = [];
 
+/*
+	Test Data
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
+*/
 const Listings = () => {
 	return (
 		<div className="user-items">
@@ -38,7 +47,7 @@ const Listings = () => {
 									<Checkbox />
 								</TableCell>
 								<TableCell>
-									<img src="{row.image}" />
+									<img src={row.imageDir} />
 								</TableCell>
 								<TableCell>{row.listing}</TableCell>
 								<TableCell xs={3}>{row.desc}</TableCell>
