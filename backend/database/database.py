@@ -74,7 +74,7 @@ def insert_data(data, collection):
             data["description"],
             data["image"],
             data["status"],
-            data["curBid"],
+            data["currBid"],
             data["maxBid"],
             data["minBid"]
         )

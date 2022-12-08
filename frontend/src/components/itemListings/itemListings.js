@@ -7,6 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import axios from 'axios';
+
 let currTable = []
 
 function makeItemRow(itemId, name, price, description, status, currBid, maxBid, minBid) {
@@ -25,7 +27,7 @@ axios({
 });
 
 for (let idx = 0; idx < currTable.length; idx++) {
-    currItem = currTable[idx]
+    let currItem = currTable[idx];
     currTable[idx] = makeItemRow(
         currItem["itemId"],
         currItem["name"],
