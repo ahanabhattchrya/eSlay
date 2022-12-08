@@ -63,12 +63,10 @@ def login():
     if enteredPassword == haveUser.password:
         # give token to user
         token = JWT(None, dictUser["username"], None)
-        return token 
+        return { "status_code" : 200, "token" : token }
     else:
         # return dictionary with error 404 code. Error password not the same 
-        return {"404" : "Error: Password is not the same"}
-    
-    # return app.send_static_file()
+        return {"status_code" : 404, "message" : "Error: Password is not the same"}
 
 @app.route('/register', methods=["POST"])
 def register(): 

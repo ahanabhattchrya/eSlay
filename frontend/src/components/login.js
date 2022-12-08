@@ -13,15 +13,9 @@ let currLoginInfo = {
 	authenticated: false
 };
 
-function changeUsername(value) {
-	currLoginInfo.username = value;
+function changeUsername(value) { currLoginInfo.username = value; };
+function changePassword(value) { currLoginInfo.password = value; };
 
-	console.log('value is: ', value);
-};
-
-function changePassword(value) {
-	currLoginInfo.password = value;
-};
 
 function sendLoginInfo() {
 	axios({
