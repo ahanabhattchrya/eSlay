@@ -86,7 +86,7 @@ def register():
         "email": email,
         "clientId" : 0,
         "totalMade" : 0,
-        "currBid" : 0,
+        "curBid" : 0,
         "cartList" : [],
         "itemsForSale" : [],
         "itemsPurchased" : [],
