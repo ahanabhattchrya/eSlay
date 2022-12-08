@@ -7,15 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 import Cookies from 'js-cookie';
+import currLoginInfo from "../App";
 
-
-
-let currLoginInfo = {
-	username : "",
-	password : "",
-	authenticated: false,
-	token: null
-};
 
 function changeUsername(value) { currLoginInfo.username = value; };
 function changePassword(value) { currLoginInfo.password = value; };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
+import currLoginInfo from "../App"
 
 const Navbar = () => {
 	return (
