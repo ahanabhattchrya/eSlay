@@ -16,7 +16,7 @@ import exceptions
 import User
 
 
-app = Flask(__name__, static_folder='../build/static', template_folder='../build/')
+app = Flask(__name__, static_folder='../../build/static', template_folder='../../build/')
 CORS(app)
 
 #for the homepage html
@@ -30,7 +30,7 @@ def html():
 # same way React woudl. God bless this person.
 @app.route('/<path:path>')
 def serve(path):
-     path_dir = os.path.abspath("../build") #path react build
+     path_dir = os.path.abspath("../../build") #path react build
      if path != "" and os.path.exists(os.path.join(path_dir, path)):
          return send_from_directory(os.path.join(path_dir), path)
      else:
