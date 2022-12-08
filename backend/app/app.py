@@ -11,6 +11,7 @@ import jwt
 sys.path.append('/frontend/backend/database')
 sys.path.append('/frontend/backend/database/exceptions')
 sys.path.append('/frontend/backend/database/user')
+sys.path.append('/frontend/backend/database/item')
 
 # Adding imports from files
 import database
