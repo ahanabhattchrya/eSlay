@@ -1,7 +1,20 @@
 # Imports
 from flask import Flask, send_from_directory, jsonify, render_template, request
+import json
 from flask_cors import CORS
 import os
+import sys
+
+# Adding all files for imports
+sys.path.append('/frontend/backend/database')
+sys.path.append('/frontend/backend/database/exceptions')
+sys.path.append('/frontend/backend/database/user')
+
+# Adding imports from files
+import database
+import exceptions
+import User
+
 
 app = Flask(__name__, static_folder='../build/static', template_folder='../build/')
 CORS(app)
@@ -31,7 +44,9 @@ def frontendjs():
 
 @app.route('/login', methods=["POST"])
 def login(): 
-    print(request.data)
+    # print(request.data)
+    dictUser = json.loads((request.data).decode())
+    print(database.userAccts)
     pass
     # return app.send_static_file()
 
