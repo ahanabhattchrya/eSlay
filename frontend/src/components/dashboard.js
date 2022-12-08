@@ -6,11 +6,7 @@ const UserInfo = () => {
 };
 
 const Listings = () => {
-	return (
-		<div className="user-items">
-			<DataGrid rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} checkboxSelection />
-		</div>
-	);
+	return <div className="user-items"></div>;
 };
 
 const History = () => {
