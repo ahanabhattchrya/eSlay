@@ -164,7 +164,7 @@ def insert_data(data, collection):
         
         itemListings.insert_one(new_item)
     
-def delete_data(username, collection):
+def delete_data(idGiven, collection):
     '''remove data from collections userAccts and itemListings'''
     
     if collection == 1:
@@ -186,6 +186,11 @@ def update_data():
     '''update data in userAccts and itemListings'''
     
 
+### ALL GET FUNCTIONS ARE UNDER THIS LINE
+
+
+##### All OF THESE WILL BE THE GET FUNCTIONS FOR USERS #####
+
 def get_user(username):
     ''' Sees if there's a current user and returns their User object '''
     user = userAccts.find_one({"username" : username}, {"_id" : 0})
@@ -194,6 +199,42 @@ def get_user(username):
         return userCustomDecode(user["user"])
     else:
         exceptions.UserNotFound(username)
+
+
+def get_user_token(token):
+    user = userAccts.find_one({"token" : token}, {"_id": 0})
+    print(f"get_user_token: {user}")
+    if user:
+        return userCustomDecode(user["user"])
+    else:
+        pass
+    
+
+def set_token(username, token):
+    user = userAccts.find_one({"username": username}, {"_id": 0})
+    if user:
+        userAccts.update_one({"username" : username}, {'$set' : {"token" : token}})
+        return
+    else:
+        pass
+
+
+def get_user_shopping_cart(username):
+    ''' Grabs the user's shopping cart. '''
+
+    the_user = userAccts.find_one({"username": username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+        # call error that username does not exist
+
+    user_object = userCustomDecode(the_user["user"])
+
+    return user_object.cartList
+
+
+##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
+
 
 def get_item(itemId):
     ''' Sees if there's a current item and returns their Item  object '''
@@ -204,22 +245,7 @@ def get_item(itemId):
     else:
         exceptions.UserNotFound(itemId)
 
-def get_user_token(token):
-    user = userAccts.find_one({"token" : token}, {"_id": 0})
-    print(f"get_user_token: {user}")
-    if user:
-        return userCustomDecode(user["user"])
-    else:
-        pass
-    
-def set_token(username, token):
-    
-    user = userAccts.find_one({"username": username}, {"_id": 0})
-    if user:
-        userAccts.update_one({"username" : username}, {'$set' : {"token" : token}})
-        return
-    else:
-        pass
+
 def get_all_items(): 
     cursor = itemListings.find({})
 
