@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Grid, Modal } from "@material-ui/core";
+import { Button, Grid, Dialog } from "@material-ui/core";
 
-import "../assets/css/dashboard.scss";
+import "../../assets/css/dashboard.scss";
 
 import UserInfo from "./userInfo.js";
 import Listings from "./itemListing.js";
@@ -21,9 +21,9 @@ const Dashboard = () => {
 				</Grid>
 				<Grid item className="table-wrapper" xs={7}>
 					<Button onClick={handleOpen}>List New Item</Button>
-					<Modal open={open} onClose={handleClose}>
+					<Dialog open={open} onClose={handleClose}>
 						<UploadItem />
-					</Modal>
+					</Dialog>
 					<Grid container className="user-lists" direction="column">
 						<Grid item>
 							<Listings />

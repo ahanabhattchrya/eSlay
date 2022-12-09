@@ -7,9 +7,8 @@ import Navbar from "./components/navbar.js";
 import Home from "./components/home.js";
 import Register from "./components/register.js";
 import Login from "./components/login.js";
-import Dashboard from "./components/dashboard.js";
+import Dashboard from "./components/dashboard/dashboard.js";
 import ChangePassword from "./components/changePassword.js";
-import UploadItem from "./components/uploadItem.js";
 
 import "./assets/css/eslay.scss";
 
@@ -27,7 +26,6 @@ function App() {
 							<Route exact path="/dashboard" element={<Dashboard />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
-							<Route exact path="/upload-item" element={<UploadItem />} />
 						</Routes>
 					</Router>
 				</div>
