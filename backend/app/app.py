@@ -5,7 +5,7 @@ from flask_cors import CORS
 import os
 import sys
 import hashlib
-import jwt
+import secrets
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -63,7 +63,12 @@ def login():
     
     if enteredPassword == haveUser.password:
         # give token to user
-        token = JWT(None, dictUser["username"], None)
+        # token = JWT(None, dictUser["username"], None)
+
+        token = secrets.token_hex(32)
+        token = hashlib.sha256(token.encode()).digest()
+        resp = make_response(render_template("index.html"))
+        resp.set_cookie("token", token)
         return { "status_code" : 200, "token" : token }
     else:
         # return dictionary with error 404 code. Error password not the same 
@@ -108,6 +113,10 @@ def change_password():
     password = dictUser['password']
 
     database_return = database.update_password(username, password)
+
+    haveUser = database.get_user(dictUser['username'])
+    print(f'old password {haveUser.password}')
+    print(f'new password {password}')
 
     if database_return == 0: 
         return {"status_code" : 200, "message" : "Successfully Registered"}

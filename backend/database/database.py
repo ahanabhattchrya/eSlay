@@ -96,7 +96,7 @@ def update_password(username, newPassword):
     userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
 
     return 0
-    
+
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
     
@@ -112,14 +112,14 @@ def insert_data(data, collection):
         new_user["username"] = data["username"]
 
         # Salt and hash password here
-        if len(data["password"] < 10):
+        if len(data["password"]) < 10:
             raise exceptions.PasswordTooShort(data["password"])
         password = data["password"].encode()
         password += theSalt
         password = hashlib.sha256(password).digest()
         
 
-        new_user_object = User(
+        new_user_object = User.User(
             data["username"],
             password,
             data["email"], 
@@ -129,7 +129,8 @@ def insert_data(data, collection):
             data["cartList"],
             data["itemsForSale"],
             data["itemsPurchased"],
-            data["pointsObtained"]
+            data["pointsObtained"],
+            theSalt
         )
 
         userAccts.insert_one(new_user)
