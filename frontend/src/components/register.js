@@ -31,15 +31,15 @@ function sendRegisterInfo() {
 			username: registerInfo.username,
 			password: registerInfo.password,
 		},
-	}).then(
-		(response) => {
-			console.log(response);
-		},
-		(error) => {
-			console.log(error);
-		}
-	);
-}
+	}).then((response) => {
+		window.location.replace("http://localhost:3030/login")
+	},
+	(error) => {
+		console.log(error);
+	});
+};
+
+
 
 /*
  * All functions for the onChange events will happen here.
