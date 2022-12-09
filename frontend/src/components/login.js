@@ -7,31 +7,27 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 import Cookies from 'js-cookie';
-import currLoginInfo from "../App";
+import currLoginInfo from '../App'
 
 
-function changeUsername(value) { currLoginInfo.username = value; };
-function changePassword(value) { currLoginInfo.password = value; };
+let currLoginInfoForDB = {
+	username : "",
+	password : ""
+};
+
+function changeUsername(value) { currLoginInfoForDB.username = value; };
+function changePassword(value) { currLoginInfoForDB.password = value; };
 
 
 function sendLoginInfo() {
 	axios({
 		method:'POST',
 		url:'/login', 
-		data: currLoginInfo
-	})
-	.then((response) => {
-		let decodedResponse = JSON.parse(response)
-		if (decodedResponse["status_code"] == "200"){
-			currLoginInfo.authenticated = true;
-			currLoginInfo.username = decodedResponse["username"];
-			currLoginInfo.token = Cookies.get("token");
+		data: {
+			username : currLoginInfoForDB.username,
+			password : currLoginInfoForDB.password
 		}
-
-	},
-	(error) => {
-		console.log(error);
-	});
+	})
 };
 
 const Login = () => {
