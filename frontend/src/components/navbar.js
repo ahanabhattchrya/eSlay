@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
-import currLoginInfo from "../App";
 
-let test = true;
-const Navbar = () => {
+const Navbar = (props) => {
 	return (
 		<div class="navBar">
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">
@@ -27,28 +25,28 @@ const Navbar = () => {
 							<b>Auctions</b>
 						</p>
 					</Button>
-					{!test && (
+					{!props.loginInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/login">
 							<p>
 								<b>Login</b>
 							</p>
 						</Button>
 					)}
-					{!test && (
+					{!props.loginInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" component={Link} to="/register">
 							<p>
 								<b>Register</b>
 							</p>
 						</Button>
 					)}
-					{test && (
+					{props.loginInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/dashboard">
 							<p>
 								<b>Dashboard</b>
 							</p>
 						</Button>
 					)}
-					{test && (
+					{props.loginInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" component={Link} to="/logout">
 							<p>
 								<b>Logout</b>
