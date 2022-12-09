@@ -7,7 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 import Cookies from 'js-cookie';
-import currLoginInfo from "../App";
+
+let currLoginInfo = {
+	username : "",
+	password : ""
+};
 
 
 function changeUsername(value) { currLoginInfo.username = value; };
@@ -15,6 +19,7 @@ function changePassword(value) { currLoginInfo.password = value; };
 
 
 function sendLoginInfo() {
+	console.log(currLoginInfo)
 	axios({
 		method:'POST',
 		url:'/login', 
@@ -37,10 +42,10 @@ function sendLoginInfo() {
 const Login = () => {
 	const navigate = useNavigate();
 
-	if (currLoginInfo.authenticated) {
-		navigate("/dashboard")
-	}
-	else{
+	// if (currLoginInfo.authenticated) {
+	// 	navigate("/dashboard")
+	// }
+	// else{
 		return (
 			<div className="login form-container">
 				<Box className="form-box login-box" sx={{ border: "3px solid black", borderRadius: 2 }}>
@@ -58,6 +63,5 @@ const Login = () => {
 			</div>
 		);
 	};
-};
 
 export default Login;

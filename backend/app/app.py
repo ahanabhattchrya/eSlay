@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response
 import json
 from flask_cors import CORS
 import os
@@ -48,6 +48,7 @@ def frontendjs():
 @app.route('/login', methods=["POST"])
 def login(): 
     # decodes the username and password given and check if in database
+    print(request.data)
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
@@ -107,6 +108,7 @@ def register():
 
 @app.route('/change-password', methods=["POST"])
 def change_password(): 
+    print(request.data)
     dictUser = json.loads((request.data).decode())
 
     username = dictUser['username']

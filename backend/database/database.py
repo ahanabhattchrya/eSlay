@@ -37,7 +37,8 @@ def userCustomEncode(user):
             "itemsForSale" : user.itemsForSale,
             "itemsPurchased" : user.itemsPurchased,
             "pointsObtained" : user.pointsObtained,
-            "salt": user.salt}
+            "salt": user.salt,
+            "token" : user.token}
 
 def userCustomDecode(document):
     assert document["_type"] == "user"
@@ -51,7 +52,8 @@ def userCustomDecode(document):
                     document["itemsForSale"],
                     document["itemsPurchased"],
                     document["pointsObtained"],
-                    document["salt"]
+                    document["salt"],
+                    document["token"]
     )
 
 def itemCustomEncode(item):
@@ -84,16 +86,17 @@ def update_password(username, newPassword):
     global theSalt
     
     #salt & hash password
-    newPassword = newPassword.encode
+    newPassword = newPassword.encode()
     newPassword += theSalt
     hashedPassword = hashlib.sha256(newPassword).digest()
     
     # finds user and updates the password
     user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userCustomDecode(user["user"])
     user.password = hashedPassword
-    
+
     # we don't know whether or not the password is actual being updated
-    userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
 
     return 0
 

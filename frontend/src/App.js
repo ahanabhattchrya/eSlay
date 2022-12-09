@@ -14,7 +14,6 @@ export let currLoginInfo = {
 	username: "",
 	password: "",
 	authenticated: true,
-	token: null,
 };
 
 function App() {
