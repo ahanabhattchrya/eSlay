@@ -22,6 +22,7 @@ itemListings = db["itemListings"] # collection #2: item listings
 
 theSalt = bcrypt.gensalt()
 
+
 # Custom Functions For Encoding and Decoding
 
 # Encoding and Decoding User Custom Classes
@@ -38,7 +39,7 @@ def userCustomEncode(user):
             "itemsPurchased" : user.itemsPurchased,
             "pointsObtained" : user.pointsObtained,
             "salt": user.salt,
-            "token" : user.token}
+            "token": user.token}
 
 def userCustomDecode(document):
     assert document["_type"] == "user"
@@ -97,7 +98,7 @@ def update_password(username, newPassword):
 
     # we don't know whether or not the password is actual being updated
     userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
-
+    
     return 0
 
 def insert_data(data, collection):
@@ -124,8 +125,8 @@ def insert_data(data, collection):
 
         new_user_object = User.User(
             data["username"],
-            password,
-            data["email"], 
+            password, 
+            data["email"],
             data["clientId"],
             data["totalMade"],
             data["curBid"],
@@ -133,9 +134,12 @@ def insert_data(data, collection):
             data["itemsForSale"],
             data["itemsPurchased"],
             data["pointsObtained"],
-            theSalt
+            theSalt,
+            data["token"]
         )
 
+        new_user["user"] = userCustomEncode(new_user_object)
+        
         userAccts.insert_one(new_user)
     else:
         all_items = itemListings.find({})
@@ -161,9 +165,7 @@ def insert_data(data, collection):
         
         itemListings.insert_one(new_item)
     
-    return 0
-
-def delete_data(idGiven, collection):
+def delete_data(username, collection):
     '''remove data from collections userAccts and itemListings'''
     
     if collection == 1:
@@ -187,10 +189,10 @@ def update_data():
 
 def get_user(username):
     ''' Sees if there's a current user and returns their User object '''
-    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
     
     if user:
-        return user
+        return userCustomDecode(user["user"])
     else:
         exceptions.UserNotFound(username)
 

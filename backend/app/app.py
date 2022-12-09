@@ -6,6 +6,7 @@ import os
 import sys
 import hashlib
 import secrets
+import secrets
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -64,13 +65,17 @@ def login():
     
     if enteredPassword == haveUser.password:
         # give token to user
-        # token = JWT(None, dictUser["username"], None)
-
         token = secrets.token_hex(32)
-        token = hashlib.sha256(token.encode()).digest()
+        token = hashlib.sha256(token.encode()).digest
+        
+        # make the response and set the cookie to the response 
         resp = make_response(render_template("index.html"))
         resp.set_cookie("token", token)
-        return { "status_code" : 200, "token" : token }
+        
+        # send response back to home page
+        # might need to store the specific cookie to the user later...
+        # database.insert_data(,1)
+        return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
         return {"status_code" : 404, "message" : "Error: Password is not the same"}
@@ -93,7 +98,8 @@ def register():
         "cartList" : [],
         "itemsForSale" : [],
         "itemsPurchased" : [],
-        "pointsObtained" : 0
+        "pointsObtained" : 0,
+        "token" : None
         }
 
     database_return = database.insert_data(data, 1)

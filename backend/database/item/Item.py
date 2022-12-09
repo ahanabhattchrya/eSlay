@@ -20,6 +20,6 @@ class Item:
         self.description = description
         self.image = image
         self.status = status
-        self.curBid = curBid
+        self.curBid = currBid
         self.maxBid = maxBid
         self.minBid = minBid
