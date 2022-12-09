@@ -48,6 +48,7 @@ def frontendjs():
 @app.route('/login', methods=["POST"])
 def login(): 
     # decodes the username and password given and check if in database
+    print(request.data)
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
@@ -97,7 +98,8 @@ def register():
         "cartList" : [],
         "itemsForSale" : [],
         "itemsPurchased" : [],
-        "pointsObtained" : 0
+        "pointsObtained" : 0,
+        "token" : None
         }
 
     database_return = database.insert_data(data, 1)

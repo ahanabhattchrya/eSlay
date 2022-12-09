@@ -11,8 +11,8 @@ class User:
                  itemsForSale,
                  itemsPurchased,
                  pointsObtained,
-                 token,
-                 salt
+                 salt,
+                 token
                 ):
 
         self.username = username

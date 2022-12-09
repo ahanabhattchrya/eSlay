@@ -33,7 +33,7 @@ def userCustomEncode(user):
             "email" : user.email,
             "clientId" : user.clientId,
             "totalMade" : user.totalMade,
-            "currBid" : user.currBid,
+            "curBid" : user.curBid,
             "cartList" : user.cartList,
             "itemsForSale" : user.itemsForSale,
             "itemsPurchased" : user.itemsPurchased,
@@ -48,7 +48,7 @@ def userCustomDecode(document):
                     document["email"],
                     document["clientId"],
                     document["totalMade"],
-                    document["currBid"],
+                    document["curBid"],
                     document["cartList"],
                     document["itemsForSale"],
                     document["itemsPurchased"],
@@ -93,10 +93,13 @@ def update_password(username, newPassword):
     
     # finds user and updates the password
     user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userCustomDecode(user["user"])
     user.password = hashedPassword
     
     # we don't know whether or not the password is actual being updated
-    userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+    
+    return 0
 
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
@@ -123,6 +126,7 @@ def insert_data(data, collection):
         new_user_object = User.User(
             data["username"],
             password, 
+            data["email"],
             data["clientId"],
             data["totalMade"],
             data["curBid"],
@@ -130,8 +134,8 @@ def insert_data(data, collection):
             data["itemsForSale"],
             data["itemsPurchased"],
             data["pointsObtained"],
-            data["token"],
-            theSalt
+            theSalt,
+            data["token"]
         )
 
         new_user["user"] = userCustomEncode(new_user_object)
@@ -152,7 +156,7 @@ def insert_data(data, collection):
             data["description"],
             data["image"],
             data["status"],
-            data["currBid"],
+            data["curBid"],
             data["maxBid"],
             data["minBid"]
         )
