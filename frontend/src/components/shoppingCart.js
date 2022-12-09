@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
@@ -11,11 +11,11 @@ function makeItemRow(itemId, name, price, description, status, curBid, maxBid, m
 function getCartItems(props) {
 	let currTable = [];
 
-	username = props.userInfo.username;
+	let username = props.userInfo.username;
 	axios({
 		method: "POST",
 		url: "/shopping-cart-items",
-		data: { "username" : username },
+		data: { username: username },
 	}).then((response) => {
 		let decodedResponse = JSON.parse(response);
 		if (decodedResponse["status_code"] == 200) {
@@ -68,7 +68,7 @@ export default function ShoppingCart(props) {
 						))}
 					</TableBody>
 				</Table>
-				{!(currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
+				{!(state.currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
 			</TableContainer>
 		</div>
 	);
