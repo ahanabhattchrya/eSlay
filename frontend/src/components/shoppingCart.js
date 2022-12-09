@@ -15,7 +15,7 @@ function getCartItems(props) {
 	axios({
 		method: "POST",
 		url: "/shopping-cart-items",
-		data: { username },
+		data: { "username" : username },
 	}).then((response) => {
 		let decodedResponse = JSON.parse(response);
 		if (decodedResponse["status_code"] == 200) {

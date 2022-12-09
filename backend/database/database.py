@@ -219,6 +219,20 @@ def set_token(username, token):
         pass
 
 
+def get_user_shopping_cart(username):
+    ''' Grabs the user's shopping cart. '''
+
+    the_user = userAccts.find_one({"username": username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+        # call error that username does not exist
+
+    user_object = userCustomDecode(the_user["user"])
+
+    return user_object.cartList
+
+
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
 
 
