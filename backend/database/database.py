@@ -38,8 +38,7 @@ def userCustomEncode(user):
             "itemsForSale" : user.itemsForSale,
             "itemsPurchased" : user.itemsPurchased,
             "pointsObtained" : user.pointsObtained,
-            "salt": user.salt,
-            "token": user.token}
+            "salt": user.salt}
 
 def userCustomDecode(document):
     assert document["_type"] == "user"
