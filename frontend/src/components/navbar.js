@@ -15,7 +15,7 @@ const Navbar = (props) => {
 							<b>Home</b>
 						</p>
 					</Button>
-					<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/">
+					<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/item-listings">
 						<p>
 							<b>Items</b>
 						</p>

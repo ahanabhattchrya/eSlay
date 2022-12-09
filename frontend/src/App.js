@@ -8,7 +8,8 @@ import Login from "./components/login.js";
 import Home from "./components/home.js";
 import Navbar from "./components/navbar.js";
 import ChangePassword from "./components/changePassword.js";
-import "./assets/css/eslay.scss";
+import ItemListTable from "./components/itemListings/itemListings.js";
+import "./assets/css/eslay.scss"
 
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -55,6 +56,7 @@ function App() {
 							<Route exact path="/login" element={<Login />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
+							<Route exact path="/item-listings" element={<ItemListTable />} />
 						</Routes>
 					</Router>
 				</div>
