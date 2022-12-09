@@ -55,8 +55,8 @@ def insert_data(data, collection):
             data["itemsForSale"],
             data["itemsPurchased"],
             data["pointsObtained"],
-            theSalt,
-            data["token"]
+            data["token"],
+            theSalt
         )
 
         new_user["user"] = userCustomEncode(new_user_object)
