@@ -155,7 +155,7 @@ def check_token():
         return {"status_code" : 404, "message" : "Error not correct token"}
         
     
-@app.route('/shopping-cart-items', methods=["POST"])
+@app.route('/all-items', methods=["GET"])
 def all_items():
     items_document = []
 
