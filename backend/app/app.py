@@ -75,7 +75,7 @@ def login():
         #resp = make_response(render_template("index.html"))
         resp = redirect(url_for('html'))
         resp.set_cookie("token", token)
-        print("this is the response: " + str(resp))
+        print(hashedToken)
         
         # send response back to home page
         # might need to store the specific cookie to the user later...
@@ -139,17 +139,17 @@ def change_password():
 @app.route('/check-token', methods=["POST"])
 def check_token():
     dictUser = json.loads((request.data).decode())
-    print(request.data.decode())
+    print(hashlib.sha256(dictUser["token"].encode()).digest())
     user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
     
     print(user)
     if user:
         print("hello")
-        return jsonify({"username": user["username"], 
+        return jsonify({"username": user.username, 
                 "authenticated": True, 
-                "points": user["pointsObtained"],
-                "rewardLevel": user["pointsObtained"],
-                "totalProfit": user["totalMade"]})
+                "points": user.pointsObtained,
+                "rewardLevel": user.pointsObtained,
+                "totalProfit": user.totalMade})
     else:
         print("error for some reason\n")
         return {"status_code" : 404, "message" : "Error not correct token"}

@@ -53,8 +53,7 @@ def userCustomDecode(document):
                     document["itemsForSale"],
                     document["itemsPurchased"],
                     document["pointsObtained"],
-                    document["salt"],
-                    document["token"]
+                    document["salt"]
     )
 
 def itemCustomEncode(item):
@@ -136,7 +135,6 @@ def insert_data(data, collection):
             data["itemsPurchased"],
             data["pointsObtained"],
             theSalt,
-            data["token"]
         )
 
         new_user["user"] = userCustomEncode(new_user_object)
@@ -207,7 +205,7 @@ def get_item(itemId):
         exceptions.UserNotFound(itemId)
 
 def get_user_token(token):
-    user = userAccts.find_one({"user": {"token" : token}}, {"_id": 0})
+    user = userAccts.find_one({"token" : token}, {"_id": 0})
     print(f"get_user_token: {user}")
     if user:
         return userCustomDecode(user["user"])
@@ -218,10 +216,7 @@ def set_token(username, token):
     
     user = userAccts.find_one({"username": username}, {"_id": 0})
     if user:
-        user = userCustomDecode(user["user"])
-        user.token = token
-        userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
-        print(f"set_token: {user.token}")
+        userAccts.update_one({"username" : username}, {'$set' : {"token" : token}})
         return
     else:
         pass

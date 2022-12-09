@@ -29,8 +29,7 @@ function sendLoginInfo() {
 		data: currLoginInfoForDB
 	})
 	.then((response) => {
-		const data = response.data.url
-		window.location = data
+		window.location.replace("http://localhost:3030/")
 	});
 };
 
