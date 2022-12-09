@@ -23,6 +23,56 @@ itemListings = db["itemListings"] # collection #2: item listings
 theSalt = bcrypt.gensalt()
 
 
+# Custom Functions For Encoding and Decoding
+
+# Encoding and Decoding User Custom Classes
+def userCustomEncode(user):
+    return {"_type": "user", 
+            "username": user.username,
+            "password" : user.password,
+            "email" : user.email,
+            "clientId" : user.clientId,
+            "totalMade" : user.totalMade,
+            "currBid" : user.currBid,
+            "cartList" : user.cartList,
+            "itemsForSale" : user.itemsForSale,
+            "itemsPurchased" : user.itemsPurchased,
+            "pointsObtained" : user.pointsObtained,
+            "salt": user.salt,
+            "token": user.token}
+
+def userCustomDecode(document):
+    assert document["_type"] == "user"
+    return User.User(document["username"],
+                     document["password"],
+                     document["email"],
+                     document["clientId"],
+                     document["totalMade"],
+                     document["currBid"],
+                     document["cartList"],
+                     document["itemsForSale"],
+                     document["itemsPurchased"],
+                     document["pointsObtained"],
+                     document["salt"],
+                     document["token"]
+    )
+
+def update_password(username, newPassword):
+    '''change password when given username and new password'''
+    global theSalt
+    
+    #salt & hash password
+    newPassword = newPassword.encode
+    newPassword += theSalt
+    hashedPassword = hashlib.sha256(newPassword).digest()
+    
+    # finds user and updates the password
+    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user.password = hashedPassword
+    
+    # we don't know whether or not the password is actual being updated
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
+
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
     
