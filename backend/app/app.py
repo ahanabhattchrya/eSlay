@@ -131,7 +131,14 @@ def change_password():
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
+@app.route('/shopping-cart-items', methods=["POST"])
+def all_items():
+    data = json.loads((request.data).decode())
 
+    for n in data: 
+        database.shoppingCartItems(n)
+        
+    pass
 #for the get and post request
 
 if __name__ == "__main__":

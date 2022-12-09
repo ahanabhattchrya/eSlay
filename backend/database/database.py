@@ -82,6 +82,11 @@ def itemCustomDecode(document):
                     document["minBid"]
     )
 
+def shoppingCartItems(items):
+    return {
+
+    }
+
 def update_password(username, newPassword):
     '''change password when given username and new password'''
     global theSalt
