@@ -10,9 +10,9 @@ function createData(imageDir, listing, desc, status, price, curTopBid) {
 	{ image, listing, desc, status, price, curTopBid }
 	Example: { "Toy boat", "A tiny boat", "sold", "$20", "$99" }
 */
-// const rows = [];
+	const rows = [];
 
-
+/*
 	const rows = [
 	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
 	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
@@ -21,6 +21,8 @@ function createData(imageDir, listing, desc, status, price, curTopBid) {
 	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
 	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
 ]
+*/
+
 const History = () => {
 	return (
 		<div className="user-items">
