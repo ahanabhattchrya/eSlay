@@ -2,17 +2,18 @@ import * as React from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
-import "../../assets/css/itemListings.scss";
+import "../assets/css/shoppingCart.scss";
 
 let currTable = [];
-
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
 
+// Fill out data once user info connection works
 axios({
-	method: "GET",
-	url: "/all-items",
+	method: "POST",
+	url: "/shopping-cart-items",
+	data: {},
 }).then((response) => {
 	let decodedResponse = JSON.parse(response);
 	if (decodedResponse["status_code"] == 200) {
@@ -25,10 +26,13 @@ for (let idx = 0; idx < currTable.length; idx++) {
 	currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
 }
 
-export default function ItemListTable() {
+export default function ShoppingCart() {
 	return (
-		<div className="page-container item-listings">
-			<h1 className="page-title">Items For Sale</h1>
+		<div className="page-container shopping-cart">
+			<h1 className="page-title">Shopping Cart</h1>
+			<Button variant="contained" className="checkout" component={Link} to="/register">
+				<b>Checkout All Items</b>
+			</Button>
 			<TableContainer className="item-table">
 				<Table>
 					<TableHead>
@@ -37,7 +41,6 @@ export default function ItemListTable() {
 							<TableCell>Name</TableCell>
 							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Price</TableCell>
-							<TableCell>Purchase</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -49,16 +52,11 @@ export default function ItemListTable() {
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
-								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" component={Link} to="/add-to-cart">
-										Add to Cart
-									</Button>
-								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
-				{!(currTable.length > 0) && <h2 className="empty-cell">There are no items available at this time</h2>}
+				{!(currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
 			</TableContainer>
 		</div>
 	);

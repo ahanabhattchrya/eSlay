@@ -13,6 +13,7 @@ import "./assets/css/eslay.scss";
 
 import Cookies from "js-cookie";
 import axios from "axios";
+import ShoppingCart from "./components/shoppingCart.js";
 
 let currLoginInfo = {
 	username: "",
@@ -64,6 +65,7 @@ function App() {
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
 							<Route exact path="/item-listings" element={<ItemListTable />} />
+							<Route exact path="/shopping-cart" element={<ShoppingCart />} />
 						</Routes>
 					</Router>
 				</div>

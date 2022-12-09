@@ -1,21 +1,5 @@
 @import "settings";
 
-.table-wrapper {
-	display: flex;
-	border: solid 3px $secondary;
-	border-radius: 10px;
-
-	.user-lists {
-		margin-bottom: 10px;
-		background-color: $accent;
-		border-top-left-radius: 7px;
-		border-top-right-radius: 7px;
-	}
-	.purchase-history {
-		border-bottom-left-radius: 7px;
-		border-bottom-right-radius: 7px;
-	}
-}
 .item-table {
 	max-width: 90%;
 	margin: auto;
@@ -32,9 +16,6 @@
 		padding-right: 0;
 		text-align: center;
 		width: 150px;
-	}
-	.desc-col {
-		width: 200px;
 	}
 }
 

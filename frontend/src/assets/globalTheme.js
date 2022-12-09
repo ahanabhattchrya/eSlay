@@ -7,7 +7,7 @@ export const globalTheme = createTheme({
 		},
 		secondary: {
 			main: "#6e2594",
-		}
+		},
 	},
 	typography: {
 		fontFamily: ["Abel", "Roboto"],
