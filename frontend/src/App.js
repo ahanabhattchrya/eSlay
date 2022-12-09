@@ -31,12 +31,12 @@ function checkToken() {
 	axios({
 		method: "POST",
 		url: "/check-token",
-		data: { "token" : token }
+		data: { token: token },
 	}).then(
 		(response) => {
-			console.log(response)
+			console.log(response);
 			let decodedResponse = response;
-			console.log(decodedResponse.data)
+			console.log(decodedResponse.data);
 			currLoginInfo.username = decodedResponse.data["username"];
 			currLoginInfo.authenticated = decodedResponse.data["authenticated"];
 			currLoginInfo.points = decodedResponse.data["points"];
@@ -67,7 +67,7 @@ function App() {
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
 							<Route exact path="/login" element={<Login />} />
-							<Route exact path="/dashboard" element={<Dashboard />} />
+							<Route exact path="/dashboard" element={<Dashboard userInfo={currLoginInfo} />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
 							<Route exact path="/item-listings" element={<ItemListTable />} />

@@ -9,7 +9,7 @@ let currTable = [];
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
-function getAllItems(props) {
+function getAllItems() {
 	axios({
 		method: "GET",
 		url: "/all-items",
@@ -25,16 +25,12 @@ function getAllItems(props) {
 		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
 	}
 
+	console.log("Retrieved all items");
 	return currTable;
 }
 
-export default function ItemListTable(props) {
-	const [state, setTable] = useState([]);
-
-	useEffect(() => {
-		setTable(getAllItems(props));
-		console.log("Retrieved cart items");
-	}, []);
+export default function ItemListTable() {
+	const [table, setTable] = useState(getAllItems());
 
 	return (
 		<div className="page-container item-listings">
@@ -51,7 +47,7 @@ export default function ItemListTable(props) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{state.currTable.map((row) => (
+						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
 									<img src={row.image} alt={row.name} />
