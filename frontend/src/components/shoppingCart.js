@@ -30,7 +30,7 @@ export default function ShoppingCart() {
 	return (
 		<div className="page-container shopping-cart">
 			<h1 className="page-title">Shopping Cart</h1>
-			<Button variant="contained" className="checkout" component={Link} to="/register">
+			<Button variant="contained" className="checkout" component={Link} to="/checkout">
 				<b>Checkout All Items</b>
 			</Button>
 			<TableContainer className="item-table">
