@@ -164,7 +164,7 @@ def insert_data(data, collection):
         
         itemListings.insert_one(new_item)
     
-def delete_data(username, collection):
+def delete_data(idGiven, collection):
     '''remove data from collections userAccts and itemListings'''
     
     if collection == 1:
