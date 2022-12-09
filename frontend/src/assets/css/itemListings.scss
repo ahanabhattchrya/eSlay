@@ -16,18 +16,37 @@
 		border-bottom-right-radius: 7px;
 	}
 }
+.item-table {
+	max-width: 90%;
+	margin: auto;
+	border: solid 3px $secondary;
+	border-radius: 10px;
+	text-align: center;
+}
 
 .MuiTableRow-root {
 	display: flex;
-    justify-content: space-between;
+	justify-content: space-around;
 	.MuiTableCell-root {
 		padding-left: 0;
 		padding-right: 0;
 		text-align: center;
-        max-width: 20px;
-        background-color: $primary;
+		width: 150px;
 	}
 	.desc-col {
-		flex-grow: 5;
+		width: 200px;
+	}
+}
+
+.MuiTableHead-root {
+	.MuiTableRow-root {
+		background-color: $primary;
+	}
+}
+
+.MuiTableBody-root {
+	.MuiTableRow-root {
+		.MuiTableCell-root {
+		}
 	}
 }
