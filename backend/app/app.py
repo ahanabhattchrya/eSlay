@@ -11,6 +11,7 @@ import secrets
 sys.path.append('/frontend/backend/database')
 sys.path.append('/frontend/backend/database/exceptions')
 sys.path.append('/frontend/backend/database/user')
+sys.path.append('/frontend/backend/database/item')
 
 # Adding imports from files
 import database
@@ -50,15 +51,15 @@ def login():
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
-    #print("")
+    print("Username: " + str(haveUser) + "\n")
     
     # salted entered password 
     enteredPassword = dictUser["password"].encode()
-    enteredPassword += database.theSalt
-    enterPassword = hashlib.sha256(enteredPassword).digest()
+    enteredPassword += haveUser.salt
+    enteredPassword = hashlib.sha256(enteredPassword).digest()
     
-    #print("Database password: " + str(haveUser.password) + "\n")
-    #print("Entered password: " + str(enteredPassword) + "\n")
+    print("Database password: " + str(haveUser.password) + "\n")
+    print("Entered password: " + str(enteredPassword) + "\n")
     
     if enteredPassword == haveUser.password:
         # give token to user
@@ -75,9 +76,39 @@ def login():
         return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
-        return {"status_message" : 404, "message": "Error: Password is not the same"}
-    
-    # return app.send_static_file()
+        return {"status_code" : 404, "message" : "Error: Password is not the same"}
+
+@app.route('/register', methods=["POST"])
+def register(): 
+    dictUser = json.loads((request.data).decode())
+    print(dictUser)
+
+    email = dictUser['email']
+    username = dictUser['username']
+    password = dictUser['password']
+
+    data = {
+        "username": username, 
+        "password": password, 
+        "email": email,
+        "clientId" : 0,
+        "totalMade" : 0,
+        "curBid" : 0,
+        "cartList" : [],
+        "itemsForSale" : [],
+        "itemsPurchased" : [],
+        "pointsObtained" : 0
+        }
+
+    database_return = database.insert_data(data, 1)
+
+    # print(f'email : {email}')
+    # print(f'username : {username}')
+    # print(f'password : {password}')
+    if database_return == 0: 
+        return {"status_code" : 200, "message" : "Successfully Registered"}
+    else: 
+        return {"status_code" : 404, "message" : "Error unable to register"}
 
 #for the get and post request
 

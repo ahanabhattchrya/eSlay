@@ -7,7 +7,16 @@ import Register from "./components/register.js";
 import Login from "./components/login.js";
 import Home from "./components/home.js";
 import Navbar from "./components/navbar.js";
-import "./assets/css/eslay.scss";
+import ChangePassword from "./components/changePassword.js";
+import ItemListTable from "./components/itemListings/itemListings.js";
+import "./assets/css/eslay.scss"
+
+export let currLoginInfo = {
+	username: "",
+	password: "",
+	authenticated: true,
+	token: null,
+};
 
 function App() {
 	return (
@@ -20,6 +29,8 @@ function App() {
 							<Route exact path="/register" element={<Register />} />
 							<Route exact path="/login" element={<Login />} />
 							<Route exact path="/" element={<Home />} />
+							<Route exact path="/change-password" element={<ChangePassword />} />
+							<Route exact path="/item-listings" element={<ItemListTable />} />
 						</Routes>
 					</Router>
 				</div>
