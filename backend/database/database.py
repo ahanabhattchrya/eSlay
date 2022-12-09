@@ -205,3 +205,10 @@ def get_item(itemId):
         return itemCustomDecode(item["item"])
     else:
         exceptions.UserNotFound(itemId)
+
+def get_user_token(token):
+    user = userAccts.find_one({"token": token}, {"_id": 0})
+    if user:
+        return userCustomDecode(user["user"])
+    else:
+        pass 

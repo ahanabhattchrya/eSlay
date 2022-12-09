@@ -131,7 +131,23 @@ def change_password():
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
-
+@app.route('/check-token', methods=["POST"])
+def check_token():
+    dictUser = json.loads((request.data).decode())
+    print(request.data.decode())
+    user = database.get_user_token(dictUser["token"])
+    
+    if user:
+        return {"username": user["username"], 
+                "authenticated": True, 
+                "points": user["pointsObtained"],
+                "rewardLevel": user["pointsObtained"],
+                "totalProfit": user["totalMade"]}
+    else:
+        return {"status_code" : 404, "message" : "Error not correct token"}
+        
+    
+    
 #for the get and post request
 
 if __name__ == "__main__":

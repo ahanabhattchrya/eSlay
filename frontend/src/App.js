@@ -28,7 +28,7 @@ function checkToken() {
 	axios({
 		method: "POST",
 		url: "/check-token",
-		data: { token },
+		data: { "token" : token },
 	}).then(
 		(response) => {
 			let decodedResponse = JSON.parse(response);
