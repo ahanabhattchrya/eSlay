@@ -92,9 +92,10 @@ def update_password(username, newPassword):
     hashedPassword = hashlib.sha256(newPassword).digest()
     
     # finds user and updates the password
-    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
     user = userCustomDecode(user["user"])
     user.password = hashedPassword
+    user.salt = theSalt
 
     # we don't know whether or not the password is actual being updated
     userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
