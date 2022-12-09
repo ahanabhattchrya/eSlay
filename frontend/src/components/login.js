@@ -3,58 +3,58 @@ import React from "react";
 import { TextField, Button } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import Cookies from "js-cookie";
+import currLoginInfo from "../App";
 
-let currLoginInfo = {
+let currLoginInfoForDB = {
 	username: "",
 	password: "",
 };
 
 function changeUsername(value) {
-	currLoginInfo.username = value;
-
-	console.log("value is: ", value);
+	currLoginInfoForDB.username = value;
 }
-
 function changePassword(value) {
-	currLoginInfo.password = value;
+	currLoginInfoForDB.password = value;
 }
 
 function sendLoginInfo() {
+	console.log(currLoginInfo);
 	axios({
 		method: "POST",
 		url: "/login",
-		data: currLoginInfo,
-	}).then(
-		(response) => {
-			console.log(response);
-		},
-		(error) => {
-			console.log(error);
-		}
-	);
-
-	console.log("request sent");
+		data: currLoginInfoForDB,
+	}).then((response) => {
+		window.location.replace("http://localhost:3030/");
+	});
 }
 
 const Login = () => {
-	return (
-		<div className="login form-container small-form">
-			<Box className="form-box login-box" sx={{ border: "3px solid black", borderRadius: 2 }}>
-				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
-				<TextField type={"password"} required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
-				<Button variant="contained" size="large" color="primary" onClick={sendLoginInfo}>
-					Login
-				</Button>
-				<p>
-					New to E-Slay? Sign Up <a href="/register">Here</a>
-					<br />
-					<a href="/change-password">Forgot Password?</a>
-				</p>
-			</Box>
-		</div>
-	);
+	const navigate = useNavigate();
+
+	if (currLoginInfo.authenticated) {
+		navigate("/dashboard");
+	} else {
+		return (
+			<div className="login form-container">
+				<Box className="form-box login-box" sx={{ border: "3px solid black", borderRadius: 2 }}>
+					<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
+					<TextField type={"password"} required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
+					<Button variant="contained" size="large" color="primary" onClick={sendLoginInfo}>
+						Login
+					</Button>
+					<p>
+						New to E-Slay? Sign Up <a href="/register">Here</a>
+						<br />
+						<a href="/change-password">Forgot Password?</a>
+					</p>
+				</Box>
+			</div>
+		);
+	}
 };
 
 export default Login;

@@ -1,16 +1,18 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
 import json
 from flask_cors import CORS
 import os
 import sys
 import hashlib
-import jwt
+import secrets
+import secrets
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
 sys.path.append('/frontend/backend/database/exceptions')
 sys.path.append('/frontend/backend/database/user')
+sys.path.append('/frontend/backend/database/item')
 
 # Adding imports from files
 import database
@@ -47,33 +49,45 @@ def frontendjs():
 @app.route('/login', methods=["POST"])
 def login(): 
     # decodes the username and password given and check if in database
+    print(request.data)
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
-    #print("")
+    print("Username: " + str(haveUser) + "\n")
     
     # salted entered password 
     enteredPassword = dictUser["password"].encode()
-    enteredPassword += database.theSalt
-    enterPassword = hashlib.sha256(enteredPassword).digest()
+    enteredPassword += haveUser.salt
+    enteredPassword = hashlib.sha256(enteredPassword).digest()
     
-    #print("Database password: " + str(haveUser.password) + "\n")
-    #print("Entered password: " + str(enteredPassword) + "\n")
+    print("Database password: " + str(haveUser.password) + "\n")
+    print("Entered password: " + str(enteredPassword) + "\n")
     
     if enteredPassword == haveUser.password:
         # give token to user
-        token = JWT(None, dictUser["username"], None)
-        return token 
+        print("passed the password, inputing token now\n")
+        token = secrets.token_hex(32)
+        hashedToken = hashlib.sha256(token.encode()).digest()
+        
+        database.set_token(haveUser.username, hashedToken)
+        # make the response and set the cookie to the response 
+        
+        #resp = make_response(render_template("index.html"))
+        resp = redirect(url_for('html'))
+        resp.set_cookie("token", token)
+        print(hashedToken)
+        
+        # send response back to home page
+        # might need to store the specific cookie to the user later...
+        # database.insert_data(,1)
+        return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
-        return {"404" : "Error: Password is not the same"}
-    
-    # return app.send_static_file()
+        return {"status_code" : 404, "message" : "Error: Password is not the same"}
 
 @app.route('/register', methods=["POST"])
 def register(): 
     dictUser = json.loads((request.data).decode())
-    print(dictUser)
 
     email = dictUser['email']
     username = dictUser['username']
@@ -85,11 +99,12 @@ def register():
         "email": email,
         "clientId" : 0,
         "totalMade" : 0,
-        "currBid" : 0,
+        "curBid" : 0,
         "cartList" : [],
         "itemsForSale" : [],
         "itemsPurchased" : [],
-        "pointsObtained" : 0
+        "pointsObtained" : 0,
+        "token" : None
         }
 
     database_return = database.insert_data(data, 1)
@@ -102,6 +117,68 @@ def register():
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
+@app.route('/change-password', methods=["POST"])
+def change_password(): 
+    print(request.data)
+    dictUser = json.loads((request.data).decode())
+
+    username = dictUser['username']
+    password = dictUser['password']
+
+    database_return = database.update_password(username, password)
+
+    haveUser = database.get_user(dictUser['username'])
+    print(f'old password {haveUser.password}')
+    print(f'new password {password}')
+
+    if database_return == 0: 
+        return {"status_code" : 200, "message" : "Successfully Registered"}
+    else: 
+        return {"status_code" : 404, "message" : "Error unable to register"}
+
+@app.route('/check-token', methods=["POST"])
+def check_token():
+    dictUser = json.loads((request.data).decode())
+    print(hashlib.sha256(dictUser["token"].encode()).digest())
+    user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
+    
+    print(user)
+    if user:
+        print("hello")
+        return jsonify({"username": user.username, 
+                "authenticated": True, 
+                "points": user.pointsObtained,
+                "rewardLevel": user.pointsObtained,
+                "totalProfit": user.totalMade})
+    else:
+        print("error for some reason\n")
+        return {"status_code" : 404, "message" : "Error not correct token"}
+        
+    
+@app.route('/all-items', methods=["GET"])
+def all_items():
+    items_document = []
+
+    items_database_list = database.get_all_items()
+
+    for n in items_database_list:
+        items_document.append(
+            {
+                "itemId": n.itemId,
+                "name": n.name,
+                "price": n.price, 
+                "description": n.description,
+                "status": n.status, 
+                "curBid": n.curBid,
+                "maxBid": n.maxBid,
+                "minBid": n.minBid
+            }
+        )
+
+    # print(f'these are all the items {items_document}')
+
+    return {"status_code": 200, "item": items_document}    
+    
 #for the get and post request
 
 if __name__ == "__main__":

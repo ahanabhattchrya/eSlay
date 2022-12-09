@@ -1,0 +1,26 @@
+@import "settings";
+
+.item-table {
+	max-width: 90%;
+	margin: auto;
+	border: solid 3px $secondary;
+	border-radius: 10px;
+	text-align: center;
+}
+
+.MuiTableRow-root {
+	display: flex;
+	justify-content: space-around;
+	.MuiTableCell-root {
+		padding-left: 0;
+		padding-right: 0;
+		text-align: center;
+		width: 150px;
+	}
+}
+
+.MuiTableHead-root {
+	.MuiTableRow-root {
+		background-color: $primary;
+	}
+}

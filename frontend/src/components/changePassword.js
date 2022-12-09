@@ -1,6 +1,5 @@
 /* This page is the change password page for users to change their password if they so please */
 import React from "react";
-
 import { TextField, Button } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
@@ -50,7 +49,7 @@ function sendChangePasswordInfo() {
 
 const ChangePassword = () => {
 	return (
-		<div className="change-password form-container small-form">
+		<div className="change-password form-container">
 			<Box className="form-box change-password-box" sx={{ border: "3px solid black", borderRadius: 2 }}>
 				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
 				<TextField type={"password"} required id="outlined-required" label="New Password" variant="outlined" onChange={(event) => changeNewPassword(event.target.value)} />
