@@ -58,14 +58,14 @@ function App() {
 			<CssBaseline>
 				<div className="App">
 					<Router>
-						<Navbar loginInfo={currLoginInfo} />
+						<Navbar userInfo={currLoginInfo} />
 						<Routes>
 							<Route exact path="/register" element={<Register />} />
 							<Route exact path="/login" element={<Login />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
 							<Route exact path="/item-listings" element={<ItemListTable />} />
-							<Route exact path="/shopping-cart" element={<ShoppingCart />} />
+							<Route exact path="/shopping-cart" element={<ShoppingCart userInfo={currLoginInfo} />} />
 						</Routes>
 					</Router>
 				</div>
