@@ -95,6 +95,8 @@ def update_password(username, newPassword):
     # we don't know whether or not the password is actual being updated
     userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
 
+    return 0
+    
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
     

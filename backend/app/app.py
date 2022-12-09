@@ -72,7 +72,6 @@ def login():
 @app.route('/register', methods=["POST"])
 def register(): 
     dictUser = json.loads((request.data).decode())
-    print(dictUser)
 
     email = dictUser['email']
     username = dictUser['username']
@@ -100,6 +99,21 @@ def register():
         return {"status_code" : 200, "message" : "Successfully Registered"}
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
+
+@app.route('/change-password', methods=["POST"])
+def change_password(): 
+    dictUser = json.loads((request.data).decode())
+
+    username = dictUser['username']
+    password = dictUser['password']
+
+    database_return = database.update_password(username, password)
+
+    if database_return == 0: 
+        return {"status_code" : 200, "message" : "Successfully Registered"}
+    else: 
+        return {"status_code" : 404, "message" : "Error unable to register"}
+
 
 #for the get and post request
 
