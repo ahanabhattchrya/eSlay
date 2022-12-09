@@ -9,7 +9,7 @@ class User:
                  cartList,
                  itemsForSale,
                  itemsPurchased,
-                 pointsObtained
+                 pointsObtained,
                  token
                 ):
 
