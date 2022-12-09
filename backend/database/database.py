@@ -22,6 +22,7 @@ itemListings = db["itemListings"] # collection #2: item listings
 
 theSalt = bcrypt.gensalt()
 
+
 # Custom Functions For Encoding and Decoding
 
 # Encoding and Decoding User Custom Classes
@@ -37,7 +38,8 @@ def userCustomEncode(user):
             "itemsForSale" : user.itemsForSale,
             "itemsPurchased" : user.itemsPurchased,
             "pointsObtained" : user.pointsObtained,
-            "salt": user.salt}
+            "salt": user.salt,
+            "token": user.token}
 
 def userCustomDecode(document):
     assert document["_type"] == "user"
@@ -51,7 +53,8 @@ def userCustomDecode(document):
                     document["itemsForSale"],
                     document["itemsPurchased"],
                     document["pointsObtained"],
-                    document["salt"]
+                    document["salt"],
+                    document["token"]
     )
 
 def itemCustomEncode(item):
@@ -84,16 +87,20 @@ def update_password(username, newPassword):
     global theSalt
     
     #salt & hash password
-    newPassword = newPassword.encode
+    newPassword = newPassword.encode()
     newPassword += theSalt
     hashedPassword = hashlib.sha256(newPassword).digest()
     
     # finds user and updates the password
-    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    user = userCustomDecode(user["user"])
     user.password = hashedPassword
-    
+    user.salt = theSalt
+
     # we don't know whether or not the password is actual being updated
-    userAccts.update_one({"username" : username}, {'$set' : {"user" : user}})
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+    
+    return 0
 
 def insert_data(data, collection):
     '''insert data to collections userAccts and itemListings'''
@@ -110,26 +117,30 @@ def insert_data(data, collection):
         new_user["username"] = data["username"]
 
         # Salt and hash password here
-        if len(data["password"] < 10):
+        if len(data["password"]) < 10:
             raise exceptions.PasswordTooShort(data["password"])
         password = data["password"].encode()
         password += theSalt
         password = hashlib.sha256(password).digest()
         
 
-        new_user_object = User(
+        new_user_object = User.User(
             data["username"],
-            password,
-            data["email"], 
+            password, 
+            data["email"],
             data["clientId"],
             data["totalMade"],
             data["curBid"],
             data["cartList"],
             data["itemsForSale"],
             data["itemsPurchased"],
-            data["pointsObtained"]
+            data["pointsObtained"],
+            theSalt,
+            data["token"]
         )
 
+        new_user["user"] = userCustomEncode(new_user_object)
+        
         userAccts.insert_one(new_user)
     else:
         all_items = itemListings.find({})
@@ -146,7 +157,7 @@ def insert_data(data, collection):
             data["description"],
             data["image"],
             data["status"],
-            data["currBid"],
+            data["curBid"],
             data["maxBid"],
             data["minBid"]
         )
@@ -155,9 +166,7 @@ def insert_data(data, collection):
         
         itemListings.insert_one(new_item)
     
-    return 0
-
-def delete_data(idGiven, collection):
+def delete_data(username, collection):
     '''remove data from collections userAccts and itemListings'''
     
     if collection == 1:
@@ -181,10 +190,10 @@ def update_data():
 
 def get_user(username):
     ''' Sees if there's a current user and returns their User object '''
-    user = userAccts.find({"username" : username}, {"_id" : 0})
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
     
     if user:
-        return user
+        return userCustomDecode(user["user"])
     else:
         exceptions.UserNotFound(username)
 

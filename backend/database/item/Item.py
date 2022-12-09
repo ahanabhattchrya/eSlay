@@ -9,7 +9,7 @@ class Item:
                         # 1 = unsold (not at auction), 
                         # 2 = sold (at auction), 
                         # 3 = unsold (not at auction)
-                currBid = None,
+                curBid = None,
                 maxBid = None,
                 minBid = None
                 ):
@@ -20,6 +20,6 @@ class Item:
         self.description = description
         self.image = image
         self.status = status
-        self.currBid = currBid
+        self.curBid = currBid
         self.maxBid = maxBid
         self.minBid = minBid

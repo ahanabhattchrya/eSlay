@@ -1,11 +1,12 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response
 import json
 from flask_cors import CORS
 import os
 import sys
 import hashlib
-import jwt
+import secrets
+import secrets
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -48,6 +49,7 @@ def frontendjs():
 @app.route('/login', methods=["POST"])
 def login(): 
     # decodes the username and password given and check if in database
+    print(request.data)
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
@@ -63,8 +65,17 @@ def login():
     
     if enteredPassword == haveUser.password:
         # give token to user
-        token = JWT(None, dictUser["username"], None)
-        return { "status_code" : 200, "token" : token }
+        token = secrets.token_hex(32)
+        token = hashlib.sha256(token.encode()).digest
+        
+        # make the response and set the cookie to the response 
+        resp = make_response(render_template("index.html"))
+        resp.set_cookie("token", token)
+        
+        # send response back to home page
+        # might need to store the specific cookie to the user later...
+        # database.insert_data(,1)
+        return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
         return {"status_code" : 404, "message" : "Error: Password is not the same"}
@@ -72,7 +83,6 @@ def login():
 @app.route('/register', methods=["POST"])
 def register(): 
     dictUser = json.loads((request.data).decode())
-    print(dictUser)
 
     email = dictUser['email']
     username = dictUser['username']
@@ -88,7 +98,8 @@ def register():
         "cartList" : [],
         "itemsForSale" : [],
         "itemsPurchased" : [],
-        "pointsObtained" : 0
+        "pointsObtained" : 0,
+        "token" : None
         }
 
     database_return = database.insert_data(data, 1)
@@ -100,6 +111,26 @@ def register():
         return {"status_code" : 200, "message" : "Successfully Registered"}
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
+
+@app.route('/change-password', methods=["POST"])
+def change_password(): 
+    print(request.data)
+    dictUser = json.loads((request.data).decode())
+
+    username = dictUser['username']
+    password = dictUser['password']
+
+    database_return = database.update_password(username, password)
+
+    haveUser = database.get_user(dictUser['username'])
+    print(f'old password {haveUser.password}')
+    print(f'new password {password}')
+
+    if database_return == 0: 
+        return {"status_code" : 200, "message" : "Successfully Registered"}
+    else: 
+        return {"status_code" : 404, "message" : "Error unable to register"}
+
 
 #for the get and post request
 
