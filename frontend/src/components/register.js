@@ -7,32 +7,31 @@ import axios from "axios";
 
 // This will handle all our registration information to send to the backend.
 let registerInfo = {
-	email : "",
+	email: "",
 	username: "",
 	password: "",
-	confirmedPassword: ""
+	confirmedPassword: "",
 };
 
-// This function will test the passwords to make sure they are exactly alike. 
-// If they are not, do not send the data and prompt the user to check their 
+// This function will test the passwords to make sure they are exactly alike.
+// If they are not, do not send the data and prompt the user to check their
 // passwords and make sure they match.
-function verifyPasswords(password1, password2){ 
-	return password1 === password2
+function verifyPasswords(password1, password2) {
+	return password1 === password2;
 }
 
 // This handler will verify passwords are the same, throw error if not
 // and then will send our data to the backend through /register
-function sendRegisterInfo(){
+function sendRegisterInfo() {
 	axios({
-		method:'POST',
-		url:'/register', 
+		method: "POST",
+		url: "/register",
 		data: {
-			email : registerInfo.email,
-			username : registerInfo.username,
-			password : registerInfo.password
-		}
-	})
-	.then((response) => {
+			email: registerInfo.email,
+			username: registerInfo.username,
+			password: registerInfo.password,
+		},
+	}).then((response) => {
 		window.location.replace("http://localhost:3030/login")
 	},
 	(error) => {
@@ -41,31 +40,40 @@ function sendRegisterInfo(){
 };
 
 
+
 /*
- * All functions for the onChange events will happen here. 
+ * All functions for the onChange events will happen here.
  * This is to help with updating the registerInfo dict
  * with updated values
  */
 
-function changeEmail(value) { registerInfo.email = value; };
+function changeEmail(value) {
+	registerInfo.email = value;
+}
 
-function changeUsername(value) { registerInfo.username = value; };
+function changeUsername(value) {
+	registerInfo.username = value;
+}
 
-function changePassword(value) { registerInfo.password = value; };
+function changePassword(value) {
+	registerInfo.password = value;
+}
 
-function changeConfirmedPassword(value) { registerInfo.confirmedPassword = value; };
-
-
+function changeConfirmedPassword(value) {
+	registerInfo.confirmedPassword = value;
+}
 
 const Register = () => {
 	return (
-		<div className="register form-container">
+		<div className="register form-container small-form">
 			<Box className=" form-box register-box">
-				<TextField required id="outlined-required" label="Email" variant="outlined" onChange={event => changeEmail(event.target.value)} />
-				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={event => changeUsername(event.target.value)} />
-				<TextField required id="outlined-required" label="Password" variant="outlined" onChange={event => changePassword(event.target.value)} />
-				<TextField required id="outlined-required" label="Confirm password" variant="outlined" onChange={event => changeConfirmedPassword(event.target.value)} />
-				<Button variant="contained" color="primary" onClick={sendRegisterInfo} size="large">Register</Button>
+				<TextField required id="outlined-required" label="Email" variant="outlined" onChange={(event) => changeEmail(event.target.value)} />
+				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
+				<TextField required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
+				<TextField required id="outlined-required" label="Confirm password" variant="outlined" onChange={(event) => changeConfirmedPassword(event.target.value)} />
+				<Button variant="contained" color="primary" onClick={sendRegisterInfo} size="large">
+					Register
+				</Button>
 				<div>
 					<p className="redirect">
 						Already have an account?

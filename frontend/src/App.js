@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { globalTheme } from "./assets/globalTheme.js";
 
+import Navbar from "./components/navbar.js";
+import Home from "./components/home.js";
 import Register from "./components/register.js";
 import Login from "./components/login.js";
-import Home from "./components/home.js";
-import Navbar from "./components/navbar.js";
+import Dashboard from "./components/dashboard/dashboard.js";
 import ChangePassword from "./components/changePassword.js";
 import ItemListTable from "./components/itemListings/itemListings.js";
+
 import "./assets/css/eslay.scss";
 
 import Cookies from "js-cookie";
@@ -62,8 +64,10 @@ function App() {
 					<Router>
 						<Navbar userInfo={currLoginInfo} />
 						<Routes>
+							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
 							<Route exact path="/login" element={<Login />} />
+							<Route exact path="/dashboard" element={<Dashboard />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
 							<Route exact path="/item-listings" element={<ItemListTable />} />

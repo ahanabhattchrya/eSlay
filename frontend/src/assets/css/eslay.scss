@@ -53,12 +53,20 @@ body {
 .form-container {
 	margin: auto;
 	max-width: 400px;
+}
+
+.upload-item {
+	max-width: 800px;
+
+}
+.form-container {
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 
 	.form-box {
-		padding: 30px;
-		border: 3px solid black;
-		border-radius: 10px;
+		padding: 25px;
+		border: 5px solid $secondary;
 		display: flex;
 		flex-direction: column;
 
@@ -66,6 +74,30 @@ body {
 		-webkit-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
 		-moz-box-shadow: 9px 11px 27px 3px rgba(0, 0, 0, 0.22);
 
+		.closeButton {
+			border-color: $primary;
+			border-width: 2px;
+		}
+
+		.input-container {
+			display: flex;
+			flex-direction: column;
+			.small-fields {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				.MuiFormControl-root {
+					width: 49%;
+					margin-left: 0;
+					margin-right: 0;
+				}
+			}
+			.large-fields {
+				.MuiFormControl-root {
+					width: 100%;
+				}
+			}
+		}
 		h2 {
 			margin-bottom: 30px;
 		}
@@ -83,3 +115,5 @@ body {
 		}
 	}
 }
+
+
