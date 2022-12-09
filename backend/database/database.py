@@ -184,3 +184,48 @@ def delete_data(idGiven, collection):
 
 def update_data():
     '''update data in userAccts and itemListings'''
+    
+
+def get_user(username):
+    ''' Sees if there's a current user and returns their User object '''
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    
+    if user:
+        return userCustomDecode(user["user"])
+    else:
+        exceptions.UserNotFound(username)
+
+def get_item(itemId):
+    ''' Sees if there's a current item and returns their Item  object '''
+    item = itemListings.find_one({"itemId" : itemId}, {"_id" : 0})
+    
+    if item:
+        return itemCustomDecode(item["item"])
+    else:
+        exceptions.UserNotFound(itemId)
+
+def get_user_token(token):
+    user = userAccts.find_one({"token" : token}, {"_id": 0})
+    print(f"get_user_token: {user}")
+    if user:
+        return userCustomDecode(user["user"])
+    else:
+        pass
+    
+def set_token(username, token):
+    
+    user = userAccts.find_one({"username": username}, {"_id": 0})
+    if user:
+        userAccts.update_one({"username" : username}, {'$set' : {"token" : token}})
+        return
+    else:
+        pass
+def get_all_items(): 
+    cursor = itemListings.find({})
+
+    item_list = []
+
+    for n in cursor: 
+        item_list.append(itemCustomDecode(n["item"]))
+
+    return item_list
