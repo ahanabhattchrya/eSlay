@@ -131,7 +131,7 @@ def change_password():
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
-@app.route('/shopping-cart-items', methods=["POST"])
+@app.route('/all-items', methods=["GET"])
 def all_items():
     items_document = []
 
@@ -151,7 +151,7 @@ def all_items():
             }
         )
 
-    print(f'these are all the items {items_document}')
+    # print(f'these are all the items {items_document}')
 
     return {"status_code": 200, "item": items_document}    
     
