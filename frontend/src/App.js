@@ -9,7 +9,7 @@ import Home from "./components/home.js";
 import Navbar from "./components/navbar.js";
 import ChangePassword from "./components/changePassword.js";
 import ItemListTable from "./components/itemListings/itemListings.js";
-import "./assets/css/eslay.scss"
+import "./assets/css/eslay.scss";
 
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -17,6 +17,9 @@ import axios from "axios";
 let currLoginInfo = {
 	username: "",
 	authenticated: false,
+	points: "",
+	rewardLevel: "",
+	totalProfit: "",
 	token: null,
 };
 
@@ -28,8 +31,12 @@ function checkToken() {
 		data: { token },
 	}).then(
 		(response) => {
-			currLoginInfo.username = response.data.username;
-			currLoginInfo.authenticated = response.data.authenticated;
+			let decodedResponse = JSON.parse(response);
+			currLoginInfo.username = decodedResponse["username"];
+			currLoginInfo.authenticated = decodedResponse["authenticated"];
+			currLoginInfo.points = decodedResponse["points"];
+			currLoginInfo.rewardLevel = decodedResponse["rewardLevel"];
+			currLoginInfo.totalProfit = decodedResponse["totalProfit"];
 			currLoginInfo.token = token;
 			console.log(response);
 		},
