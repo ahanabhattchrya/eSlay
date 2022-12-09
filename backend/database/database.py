@@ -179,7 +179,7 @@ def delete_data(idGiven, collection):
             itemListings.delete_one({"itemId": idGiven})
         else:
             return "no custom error delete_data"
-    
+  
 
 def update_data():
     '''update data in userAccts and itemListings'''
@@ -254,3 +254,4 @@ def get_all_items():
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
+
