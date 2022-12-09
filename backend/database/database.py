@@ -44,17 +44,42 @@ def userCustomEncode(user):
 def userCustomDecode(document):
     assert document["_type"] == "user"
     return User.User(document["username"],
-                     document["password"],
-                     document["email"],
-                     document["clientId"],
-                     document["totalMade"],
-                     document["currBid"],
-                     document["cartList"],
-                     document["itemsForSale"],
-                     document["itemsPurchased"],
-                     document["pointsObtained"],
-                     document["salt"],
-                     document["token"]
+                    document["password"],
+                    document["email"],
+                    document["clientId"],
+                    document["totalMade"],
+                    document["currBid"],
+                    document["cartList"],
+                    document["itemsForSale"],
+                    document["itemsPurchased"],
+                    document["pointsObtained"],
+                    document["salt"],
+                    document["token"]
+    )
+
+def itemCustomEncode(item):
+    return {"_type": "item", 
+            "itemId": item.itemId,
+            "name" : item.name,
+            "price" : item.price,
+            "description" : item.description,
+            "image" : item.image,
+            "status" : item.status,
+            "curBid" : item.curBid,
+            "maxBid" : item.maxBid,
+            "minBid" : item.minBid
+            }
+
+def itemCustomDecode(document):
+    assert document["_type"] == "item"
+    return Item.Item(document["itemId"],
+                    document["name"],
+                    document["price"],
+                    document["description"],
+                    document["image"],
+                    document["curBid"],
+                    document["maxBid"],
+                    document["minBid"]
     )
 
 def update_password(username, newPassword):
