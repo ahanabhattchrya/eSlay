@@ -142,6 +142,7 @@ def insert_data(data, collection):
         new_user["user"] = userCustomEncode(new_user_object)
         
         userAccts.insert_one(new_user)
+        return 0
     else:
         all_items = itemListings.find({})
         

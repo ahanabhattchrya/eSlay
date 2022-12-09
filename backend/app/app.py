@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
 import json
 from flask_cors import CORS
 import os
@@ -34,6 +34,7 @@ def html():
 # same way React woudl. God bless this person.
 @app.route('/<path:path>')
 def serve(path):
+     print(path)
      path_dir = os.path.abspath("../../build") #path react build
      if path != "" and os.path.exists(os.path.join(path_dir, path)):
          return send_from_directory(os.path.join(path_dir), path)
@@ -108,7 +109,7 @@ def register():
     # print(f'username : {username}')
     # print(f'password : {password}')
     if database_return == 0: 
-        return {"status_code" : 200, "message" : "Successfully Registered"}
+        return jsonify({"status_code" : 200, "message" : "Success!"})
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
