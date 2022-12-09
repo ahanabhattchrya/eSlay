@@ -28,6 +28,7 @@ CORS(app)
 def html():
     return render_template("index.html")
 
+
 # https://stackoverflow.com/a/50660437
 # The above stack overflow link allowed us to utilize React Routing while allowing Flask to handle
 # any requests made to the same routes by sending it straight from the directory as a static file the
@@ -40,32 +41,22 @@ def serve(path):
      else:
          return send_from_directory(os.path.join(path_dir),'index.html')
 
-#for the front end js
-@app.route('/frontendjs')
-def frontendjs():
-    pass
-    # return app.send_static_file("frontend.js")
 
 @app.route('/login', methods=["POST"])
 def login(): 
     # decodes the username and password given and check if in database
-    print(request.data)
     dictUser = json.loads((request.data).decode())
     haveUser = database.get_user(dictUser["username"])
     
-    print("Username: " + str(haveUser) + "\n")
     
     # salted entered password 
     enteredPassword = dictUser["password"].encode()
     enteredPassword += haveUser.salt
     enteredPassword = hashlib.sha256(enteredPassword).digest()
-    
-    print("Database password: " + str(haveUser.password) + "\n")
-    print("Entered password: " + str(enteredPassword) + "\n")
+
     
     if enteredPassword == haveUser.password:
         # give token to user
-        print("passed the password, inputing token now\n")
         token = secrets.token_hex(32)
         hashedToken = hashlib.sha256(token.encode()).digest()
         
@@ -75,15 +66,13 @@ def login():
         #resp = make_response(render_template("index.html"))
         resp = redirect(url_for('html'))
         resp.set_cookie("token", token)
-        print(hashedToken)
         
         # send response back to home page
-        # might need to store the specific cookie to the user later...
-        # database.insert_data(,1)
         return resp
     else:
         # return dictionary with error 404 code. Error password not the same 
         return {"status_code" : 404, "message" : "Error: Password is not the same"}
+
 
 @app.route('/register', methods=["POST"])
 def register(): 
@@ -109,17 +98,14 @@ def register():
 
     database_return = database.insert_data(data, 1)
 
-    # print(f'email : {email}')
-    # print(f'username : {username}')
-    # print(f'password : {password}')
     if database_return == 0: 
         return {"status_code" : 200, "message" : "Successfully Registered"}
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
+
 @app.route('/change-password', methods=["POST"])
 def change_password(): 
-    print(request.data)
     dictUser = json.loads((request.data).decode())
 
     username = dictUser['username']
@@ -128,23 +114,19 @@ def change_password():
     database_return = database.update_password(username, password)
 
     haveUser = database.get_user(dictUser['username'])
-    print(f'old password {haveUser.password}')
-    print(f'new password {password}')
 
     if database_return == 0: 
         return {"status_code" : 200, "message" : "Successfully Registered"}
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
+
 @app.route('/check-token', methods=["POST"])
 def check_token():
     dictUser = json.loads((request.data).decode())
-    print(hashlib.sha256(dictUser["token"].encode()).digest())
     user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
     
-    print(user)
     if user:
-        print("hello")
         return jsonify({"username": user.username, 
                 "authenticated": True, 
                 "points": user.pointsObtained,
@@ -179,7 +161,6 @@ def all_items():
 
     return {"status_code": 200, "item": items_document}    
     
-#for the get and post request
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
