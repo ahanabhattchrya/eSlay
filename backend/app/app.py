@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
 import json
 from flask_cors import CORS
 import os
@@ -65,12 +65,17 @@ def login():
     
     if enteredPassword == haveUser.password:
         # give token to user
+        print("passed the password, inputing token now\n")
         token = secrets.token_hex(32)
-        token = hashlib.sha256(token.encode()).digest
+        hashedToken = hashlib.sha256(token.encode()).digest()
         
+        database.set_token(haveUser.username, hashedToken)
         # make the response and set the cookie to the response 
-        resp = make_response(render_template("index.html"))
+        
+        #resp = make_response(render_template("index.html"))
+        resp = redirect(url_for('html'))
         resp.set_cookie("token", token)
+        print(hashedToken)
         
         # send response back to home page
         # might need to store the specific cookie to the user later...
@@ -131,7 +136,26 @@ def change_password():
     else: 
         return {"status_code" : 404, "message" : "Error unable to register"}
 
-@app.route('/all-items', methods=["GET"])
+@app.route('/check-token', methods=["POST"])
+def check_token():
+    dictUser = json.loads((request.data).decode())
+    print(hashlib.sha256(dictUser["token"].encode()).digest())
+    user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
+    
+    print(user)
+    if user:
+        print("hello")
+        return jsonify({"username": user.username, 
+                "authenticated": True, 
+                "points": user.pointsObtained,
+                "rewardLevel": user.pointsObtained,
+                "totalProfit": user.totalMade})
+    else:
+        print("error for some reason\n")
+        return {"status_code" : 404, "message" : "Error not correct token"}
+        
+    
+@app.route('/shopping-cart-items', methods=["POST"])
 def all_items():
     items_document = []
 
