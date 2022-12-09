@@ -82,11 +82,6 @@ def itemCustomDecode(document):
                     document["minBid"]
     )
 
-def shoppingCartItems(items):
-    return {
-
-    }
-
 def update_password(username, newPassword):
     '''change password when given username and new password'''
     global theSalt
@@ -210,3 +205,13 @@ def get_item(itemId):
         return itemCustomDecode(item["item"])
     else:
         exceptions.UserNotFound(itemId)
+
+def get_all_items(): 
+    cursor = itemListings.find({})
+
+    item_list = []
+
+    for n in cursor: 
+        item_list.append(itemCustomDecode(n["item"]))
+
+    return item_list

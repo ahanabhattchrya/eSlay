@@ -133,12 +133,28 @@ def change_password():
 
 @app.route('/shopping-cart-items', methods=["POST"])
 def all_items():
-    data = json.loads((request.data).decode())
+    items_document = []
 
-    for n in data: 
-        database.shoppingCartItems(n)
-        
-    pass
+    items_database_list = database.get_all_items()
+
+    for n in items_database_list:
+        items_document.append(
+            {
+                "itemId": n.itemId,
+                "name": n.name,
+                "price": n.price, 
+                "description": n.description,
+                "status": n.status, 
+                "curBid": n.curBid,
+                "maxBid": n.maxBid,
+                "minBid": n.minBid
+            }
+        )
+
+    print(f'these are all the items {items_document}')
+
+    return {"status_code": 200, "item": items_document}    
+    
 #for the get and post request
 
 if __name__ == "__main__":
