@@ -67,6 +67,7 @@ function App() {
 							<Route exact path="/change-password" element={<ChangePassword />} />
 							<Route exact path="/item-listings" element={<ItemListTable />} />
 							<Route exact path="/shopping-cart" element={<ShoppingCart />} />
+							<Route exact path="/auction" element={<Auction />} />
 						</Routes>
 					</Router>
 				</div>
