@@ -159,7 +159,32 @@ def all_items():
 
     # print(f'these are all the items {items_document}')
 
-    return {"status_code": 200, "item": items_document}    
+    return {"status_code": 200, "item": items_document}   
+
+@app.route('/shopping-cart-items', methods=["GET"]) 
+def shopping_cart_items():
+    dictUser = json.loads((request.data).decode())
+
+    username = dictUser['username']
+
+    shopping_cart_items = database.get_user_shopping_cart(username)
+
+    items_list = []
+    for items in shopping_cart_items: 
+        items_list.append(
+            {
+                "itemId": items.itemId,
+                "name": items.name,
+                "price": items.price, 
+                "description": items.description,
+                "status": items.status, 
+                "curBid": items.curBid,
+                "maxBid": items.maxBid,
+                "minBid": items.minBid
+            }
+        )
+
+    return {"status_code": 200, "item": items_list}
     
 
 if __name__ == "__main__":

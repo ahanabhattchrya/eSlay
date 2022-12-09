@@ -13,7 +13,7 @@ function getCartItems(props) {
 
 	username = props.userInfo.username;
 	axios({
-		method: "POST",
+		method: "GET",
 		url: "/shopping-cart-items",
 		data: { "username" : username },
 	}).then((response) => {

@@ -219,6 +219,7 @@ def set_token(username, token):
         pass
 
 
+#This returns a [item, item, ... ]
 def get_user_shopping_cart(username):
     ''' Grabs the user's shopping cart. '''
 
@@ -230,7 +231,11 @@ def get_user_shopping_cart(username):
 
     user_object = userCustomDecode(the_user["user"])
 
-    return user_object.cartList
+    shoppingCartOfItems = []
+    for elem in user_object.cartList:
+        shoppingCartOfItems.append(itemCustomDecode(elem))
+
+    return shoppingCartOfItems
 
 
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
