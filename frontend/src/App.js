@@ -9,6 +9,7 @@ import Home from "./components/home.js";
 import Navbar from "./components/navbar.js";
 import ChangePassword from "./components/changePassword.js";
 import ItemListTable from "./components/itemListings/itemListings.js";
+import Auction from "./components/auction.js";
 import "./assets/css/eslay.scss";
 
 import Cookies from "js-cookie";
