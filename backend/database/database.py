@@ -220,3 +220,12 @@ def set_token(username, token):
         return
     else:
         pass
+def get_all_items(): 
+    cursor = itemListings.find({})
+
+    item_list = []
+
+    for n in cursor: 
+        item_list.append(itemCustomDecode(n["item"]))
+
+    return item_list
