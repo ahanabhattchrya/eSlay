@@ -28,15 +28,17 @@ function checkToken() {
 	axios({
 		method: "POST",
 		url: "/check-token",
-		data: { "token" : token },
+		data: { "token" : token }
 	}).then(
 		(response) => {
-			let decodedResponse = JSON.parse(response);
-			currLoginInfo.username = decodedResponse["username"];
-			currLoginInfo.authenticated = decodedResponse["authenticated"];
-			currLoginInfo.points = decodedResponse["points"];
-			currLoginInfo.rewardLevel = decodedResponse["rewardLevel"];
-			currLoginInfo.totalProfit = decodedResponse["totalProfit"];
+			console.log(response)
+			let decodedResponse = response;
+			console.log(decodedResponse.data)
+			currLoginInfo.username = decodedResponse.data["username"];
+			currLoginInfo.authenticated = decodedResponse.data["authenticated"];
+			currLoginInfo.points = decodedResponse.data["points"];
+			currLoginInfo.rewardLevel = decodedResponse.data["rewardLevel"];
+			currLoginInfo.totalProfit = decodedResponse.data["totalProfit"];
 			currLoginInfo.token = token;
 			console.log(response);
 		},

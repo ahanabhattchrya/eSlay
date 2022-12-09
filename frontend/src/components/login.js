@@ -27,6 +27,10 @@ function sendLoginInfo() {
 		method:'POST',
 		url:'/login', 
 		data: currLoginInfoForDB
+	})
+	.then((response) => {
+		const data = response.data.url
+		window.location = data
 	});
 };
 
