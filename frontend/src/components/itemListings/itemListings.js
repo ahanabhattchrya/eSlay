@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ function getAllItems(props) {
 	return currTable;
 }
 
-export default function ItemListTable() {
+export default function ItemListTable(props) {
 	const [state, setTable] = useState([]);
 
 	useEffect(() => {
