@@ -160,6 +160,9 @@ def all_items():
     # print(f'these are all the items {items_document}')
 
     return {"status_code": 200, "item": items_document}    
+
+@app.route('/add-to-cart', methods=['POST'])
+def addToCart():
     
 
 if __name__ == "__main__":
