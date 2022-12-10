@@ -159,7 +159,19 @@ def all_items():
 
     # print(f'these are all the items {items_document}')
 
-    return {"status_code": 200, "item": items_document}    
+    return {"status_code": 200, "item": items_document}
+
+
+@app.route('/checkout', methods=["POST"])
+def checkout():
+    dictUser = json.loads((request.data).decode())
+
+    username = dict["username"]
+
+    database.empty_shopping_cart(username)
+
+    return jsonify({"status_code" : 200, "message" : "Success!"})
+
     
 
 if __name__ == "__main__":

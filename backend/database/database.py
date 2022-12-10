@@ -232,6 +232,26 @@ def get_user_shopping_cart(username):
     return user_object.cartList
 
 
+def empty_shopping_cart(username):
+    ''' Empties the user's shopping cart and moves them into purchased '''
+
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if user:
+        user = userCustomDecode(user["user"])
+
+        for item in user.cartList: 
+            user.itemsPurchased.append(itemCustomDecode(item))
+        
+        user.cartList = []
+
+
+        userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+
+    else:
+        raise exceptions.UserNotFound(username)
+
+
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
 
 
