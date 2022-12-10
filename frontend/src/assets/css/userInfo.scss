@@ -1,0 +1,14 @@
+@import "settings";
+
+.user-info {
+    width: 350px;
+    height: 369px;
+    margin: 70px auto 30px auto;
+    border: solid 3px $secondary;
+    flex-direction: column;
+
+    .MuiTableCell-root {
+        padding-left: 10px;
+        text-align: left;
+    }
+}
