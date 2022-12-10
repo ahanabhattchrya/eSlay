@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 
 const Navbar = (props) => {
+	console.log(`Navbar props: ${props}`);
 	return (
 		<div class="navBar">
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">

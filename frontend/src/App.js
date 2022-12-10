@@ -27,7 +27,7 @@ const prevInfo = {
 };
 
 // Expects response that looks like {username: string, authenticated: boolean}
-function checkToken(prevInfo) {
+function checkToken() {
 	axios({
 		method: "POST",
 		url: "/check-token",
@@ -38,18 +38,28 @@ function checkToken(prevInfo) {
 			let decodedResponse = response;
 
 			if (decodedResponse.status != 200) {
-				return prevInfo;
+				return {
+					username: "",
+					authenticated: false,
+					points: "",
+					rewardLevel: "",
+					totalProfit: "",
+					token: "",
+				};
 			}
 			console.log(decodedResponse.data);
-			prevInfo.username = decodedResponse.data["username"];
-			prevInfo.authenticated = decodedResponse.data["authenticated"];
-			prevInfo.points = decodedResponse.data["points"];
-			prevInfo.rewardLevel = decodedResponse.data["rewardLevel"];
-			prevInfo.totalProfit = decodedResponse.data["totalProfit"];
-			prevInfo.token = token;
+			console.log(`PrevInfo: ${prevInfo}`);
 
-			console.log(prevInfo);
-			return prevInfo;
+			return {
+				username: decodedResponse.data["username"],
+				authenticated: decodedResponse.data["authenticated"],
+				points: decodedResponse.data["points"];
+				rewardLevel: decodedResponse.data["rewardLevel"],
+				totalProfit: decodedResponse.data["totalProfit"],
+				token: token
+			};
+				
+
 		},
 		(error) => {
 			console.log(error);
@@ -59,19 +69,12 @@ function checkToken(prevInfo) {
 
 let token = Cookies.get("token");
 function App() {
-	const [loginInfo, setLoginInfo] = useState({
-		username: "",
-		authenticated: false,
-		points: "",
-		rewardLevel: "",
-		totalProfit: "",
-		token: "",
-	});
-	// useEffect(() => {
-	// 	setLoginInfo(() => {
-	// 		checkToken(loginInfo);
-	// 	});
-	// }, []);
+	let loginInfo = checkToken();
+	useEffect(() => {
+		setLoginInfo(() => {
+			loginInfo = checkToken(loginInfo);
+		});
+	}, []);
 
 	return (
 		<ThemeProvider theme={globalTheme}>
@@ -79,7 +82,6 @@ function App() {
 				<div className="App">
 					<Router>
 						<Navbar userInfo={loginInfo} />
-
 						<Routes>
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
