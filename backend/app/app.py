@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape
 import json
 from flask_cors import CORS
 import os
@@ -46,7 +46,8 @@ def serve(path):
 def login(): 
     # decodes the username and password given and check if in database
     dictUser = json.loads((request.data).decode())
-    haveUser = database.get_user(dictUser["username"])
+    username = escape(dictUser["username"])
+    haveUser = database.get_user(username)
     
     
     # salted entered password 
@@ -78,8 +79,8 @@ def login():
 def register(): 
     dictUser = json.loads((request.data).decode())
 
-    email = dictUser['email']
-    username = dictUser['username']
+    email = escape(dictUser['email'])
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     data = {
@@ -108,7 +109,7 @@ def register():
 def change_password(): 
     dictUser = json.loads((request.data).decode())
 
-    username = dictUser['username']
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     database_return = database.update_password(username, password)
