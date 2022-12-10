@@ -3,6 +3,16 @@
 body {
 	line-height: 1.5;
 }
+
+.loading {
+	width: 100vw;
+	height: 100vh;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 100vh;
+	font-family: "Nabla";
+	font-size: 80px;
+}
 .page-title {
 	font-size: 40px;
 	margin-bottom: 50px;
@@ -57,7 +67,6 @@ body {
 
 .upload-item {
 	max-width: 800px;
-
 }
 .form-container {
 	margin-left: auto;
@@ -115,5 +124,3 @@ body {
 		}
 	}
 }
-
-

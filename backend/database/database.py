@@ -218,6 +218,7 @@ def set_token(username, token):
         pass
 
 
+#This returns a [item, item, ... ]
 def get_user_shopping_cart(username):
     ''' Grabs the user's shopping cart. '''
 
@@ -229,7 +230,50 @@ def get_user_shopping_cart(username):
 
     user_object = userCustomDecode(the_user["user"])
 
-    return user_object.cartList
+    cartList = []
+
+    for n in user_object.cartList:
+        cartList.append(itemCustomDecode(n))
+
+    return cartList
+
+
+def get_items_for_sale(username):
+    ''' Gets the users items that they're selling '''
+
+    the_user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+    
+    user_object = userCustomDecode(the_user["user"])
+
+    itemsForSale = []
+
+    for n in user_object.itemsForSale:
+        itemsForSale.append(itemCustomDecode(n))
+
+    return user_object.itemsForSale
+
+
+def empty_shopping_cart(username):
+    ''' Empties the user's shopping cart and moves them into purchased '''
+
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if user:
+        user = userCustomDecode(user["user"])
+
+        for item in user.cartList: 
+            user.itemsPurchased.append(itemCustomDecode(item))
+        
+        user.cartList = []
+
+
+        userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+
+    else:
+        raise exceptions.UserNotFound(username)
 
 
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
@@ -254,3 +298,18 @@ def get_all_items():
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
+
+def get_purchased_history_items(username):
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    if user:
+        user = userCustomDecode(user["user"])
+        if user.itemsPurchased != []:
+            newList = []
+            for i in user.itemsPurchased:
+                item = itemCustomDecode(i)
+                newList.append(item)
+            return newList
+        else:
+            return []
+    else:
+        raise exceptions.UserNotFound(username)

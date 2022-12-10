@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape
 import json
 from flask_cors import CORS
 import os
@@ -46,7 +46,8 @@ def serve(path):
 def login(): 
     # decodes the username and password given and check if in database
     dictUser = json.loads((request.data).decode())
-    haveUser = database.get_user(dictUser["username"])
+    username = escape(dictUser["username"])
+    haveUser = database.get_user(username)
     
     
     # salted entered password 
@@ -78,8 +79,8 @@ def login():
 def register(): 
     dictUser = json.loads((request.data).decode())
 
-    email = dictUser['email']
-    username = dictUser['username']
+    email = escape(dictUser['email'])
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     data = {
@@ -108,7 +109,7 @@ def register():
 def change_password(): 
     dictUser = json.loads((request.data).decode())
 
-    username = dictUser['username']
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     database_return = database.update_password(username, password)
@@ -166,19 +167,91 @@ def all_items():
 
     return {"status_code": 200, "item": items_document}
 
+@app.route('/shopping-cart-items', methods=["POST"])
+def shopping_cart_items():
+    dictUser = json.loads((request.data).decode())["userInfo"]
 
-@app.route('/add-item', methods=["POST"])
-def add_item():
-    itemInfo = json.loads((request.data).decode())
+    username = dictUser['username']
 
-    newItemDict = {
-        "name" : itemInfo["name"],
-        "price" : itemInfo["price"],
-        "description" : itemInfo["description"],
-        "image" : itemInfo["image"]
-    }
+    shopping_cart_items = database.get_user_shopping_cart(username)
+
+    items_list = []
+    for items in shopping_cart_items:
+        items_list.append(
+            {
+                "itemId": items.itemId,
+                "name": items.name,
+                "price": items.price, 
+                "description": items.description,
+                "status": items.status, 
+                "curBid": items.curBid,
+                "maxBid": items.maxBid,
+                "minBid": items.minBid
+            }
+        )
+
+    return {"status_code": 200, "item": items_list}
+    
+@app.route('/currently-selling', methods=["POST"])
+def currently_selling(): 
+    dictUser = json.loads((request.data).decode())
+    user = dictUser['username']
+
+    itemsForSale = database.get_items_for_sale(user)
+    currently_selling_list = []
+    for items_for_sale in itemsForSale: 
+        currently_selling_list.append(
+            {
+            "itemId": items_for_sale.itemId,
+            "name" : items_for_sale.name,
+            "price" : items_for_sale.price,
+            "description" : items_for_sale.description,
+            "image" : items_for_sale.image,
+            "status" : items_for_sale.status,
+            "curBid" : items_for_sale.curBid,
+            "maxBid" : items_for_sale.maxBid,
+            "minBid" : items_for_sale.minBid
+            }
+        )
+    return jsonify({"status_code": 200, "item": currently_selling_list})
+
+
+
+@app.route('/purchase-history', methods= ['POST'])
+def purchase_history():
+    dictUser = json.loads((request.data).decode())
+    username = dictUser["username"]
+    
+    itemsPurchasedDocument = []
+    
+    itemsPurchased = database.get_purchased_history_items(username)
+    
+    for n in itemsPurchased:
+        itemsPurchasedDocument.append(
+            {
+                "itemId": n.itemId,
+                "name": n.name,
+                "price": n.price, 
+                "description": n.description,
+                "status": n.status, 
+                "curBid": n.curBid,
+                "maxBid": n.maxBid,
+                "minBid": n.minBid
+            }
+        )
+    
+    return jsonify({"status_code": 200, "item": itemsPurchasedDocument}) 
+
+
+@app.route("/checkout")
+def checkout():
+    dictUser = json.loads((request.data).decode())
+    username = dictUser['username']
+
+    database.empty_shopping_cart(username)
+
+    return jsonify({"status_code" : 200, "message" : "Success!"})
 
     
-
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
