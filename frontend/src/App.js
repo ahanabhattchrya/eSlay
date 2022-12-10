@@ -25,8 +25,16 @@ const emptyInfo = {
 	totalProfit: "",
 	token: "",
 };
-// Expects response that looks like {username: string, authenticated: boolean}
+
 function checkToken() {
+	let info = {
+		username: "",
+		authenticated: false,
+		points: "",
+		rewardLevel: "",
+		totalProfit: "",
+		token: "",
+	};
 	axios({
 		method: "POST",
 		url: "/check-token",
@@ -34,14 +42,8 @@ function checkToken() {
 	}).then(
 		(response) => {
 			let decodedResponse = response;
-			let info = {
-				username: "",
-				authenticated: false,
-				points: "",
-				rewardLevel: "",
-				totalProfit: "",
-				token: "",
-			};
+			console.log(`DecodedResponse: ${JSON.stringify(decodedResponse)}`);
+
 			if (decodedResponse.status == 200) {
 				info.username = decodedResponse.data["username"];
 				info.authenticated = decodedResponse.data["authenticated"];
@@ -51,20 +53,30 @@ function checkToken() {
 				info.token = token;
 			}
 			console.log(`info: ${JSON.stringify(info)}`);
-			return info;
 		},
 		(error) => {
-			console.log(error);
+			console.log(`Ran into error: ${error}`);
 		}
 	);
+	return info;
 }
 
 let token = Cookies.get("token");
 function App() {
-	let loginInfo = emptyInfo;
-	useEffect(() => {
-		loginInfo = checkToken(loginInfo);
-	}, []);
+	let loginInfoStart = checkToken();
+	const [loginInfo, updateLoginInfo] = useState(loginInfoStart);
+
+	// useEffect(() => {
+	// 	if loginInfo
+	// })
+
+	// useEffect(() => {
+	// 	let newInfo = checkToken();
+	// 	if (loginInfo.token !== newInfo.token) {
+	// 		updateLoginInfo(newInfo);
+	// 	}
+	// 	console.log(`Called useEffect. loginInfo: ${JSON.stringify(loginInfo)}`);
+	// });
 
 	return (
 		<ThemeProvider theme={globalTheme}>
@@ -90,4 +102,4 @@ function App() {
 }
 
 export default App;
-export { emptyInfo };
+export { emptyInfo, checkToken };

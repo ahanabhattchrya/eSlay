@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 
-import { emptyInfo } from "../App";
+import { checkToken, emptyInfo } from "../App";
 
-const Navbar = (props) => {
+function Navbar(props) {
 	console.log(`Navbar props: ${JSON.stringify(props)}`);
-	if (props == undefined || props.length === 0) {
-		props = { userInfo: emptyInfo };
-	}
+
 	return (
 		<div class="navBar">
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">
@@ -63,6 +61,6 @@ const Navbar = (props) => {
 			</Grid>
 		</div>
 	);
-};
+}
 
 export default Navbar;
