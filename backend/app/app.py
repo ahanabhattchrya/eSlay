@@ -124,17 +124,22 @@ def change_password():
 @app.route('/check-token', methods=["POST"])
 def check_token():
     dictUser = json.loads((request.data).decode())
+
+    if "token" not in dictUser.keyS():
+        return jsonify({"status_code" : 404, "message" : "Error not correct token"})
+        
     user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
     
     if user:
-        return jsonify({"username": user.username, 
+        return jsonify({"status_code" : 200,
+                "username": user.username,
                 "authenticated": True, 
                 "points": user.pointsObtained,
                 "rewardLevel": user.pointsObtained,
                 "totalProfit": user.totalMade})
     else:
         print("error for some reason\n")
-        return {"status_code" : 404, "message" : "Error not correct token"}
+        return jsonify({"status_code" : 404, "message" : "Error not correct token"})
         
     
 @app.route('/all-items', methods=["GET"])
