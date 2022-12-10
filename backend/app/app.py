@@ -252,6 +252,18 @@ def checkout():
 
     return jsonify({"status_code" : 200, "message" : "Success!"})
 
+
+@app.route('/add-item', methods=["POST"])
+def add_item():
+    itemInfo = json.loads((request.data).decode())
+
+    newItemDict = {
+        "name" : itemInfo["name"],
+        "price" : itemInfo["price"],
+        "description" : itemInfo["description"],
+        "image" : itemInfo["image"]
+    }
+
     
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
