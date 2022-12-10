@@ -53,13 +53,11 @@ function checkToken() {
 			return {
 				username: decodedResponse.data["username"],
 				authenticated: decodedResponse.data["authenticated"],
-				points: decodedResponse.data["points"];
+				points: decodedResponse.data["points"],
 				rewardLevel: decodedResponse.data["rewardLevel"],
 				totalProfit: decodedResponse.data["totalProfit"],
-				token: token
+				token: token,
 			};
-				
-
 		},
 		(error) => {
 			console.log(error);
