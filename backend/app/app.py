@@ -240,7 +240,18 @@ def purchase_history():
             }
         )
     
-    return jsonify({"status_code": 200, "item": itemsPurchasedDocument})  
+    return jsonify({"status_code": 200, "item": itemsPurchasedDocument}) 
+
+
+@app.route("/checkout")
+def checkout():
+    dictUser = json.loads((request.data).decode())
+    username = dictUser['username']
+
+    database.empty_shopping_cart(username)
+
+    return jsonify({"status_code" : 200, "message" : "Success!"})
+
     
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
