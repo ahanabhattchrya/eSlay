@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
-import "../../assets/css/itemListings.scss";
+import "../../assets/css/allItems.scss";
 
 let currTable = [];
 
