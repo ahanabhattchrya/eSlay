@@ -1,12 +1,13 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape, send_file
 import json
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import os
 import sys
 import hashlib
 import secrets
-import secrets
+import base64
 
 # Adding all files for imports
 sys.path.append('/frontend/backend/database')
@@ -240,7 +241,49 @@ def purchase_history():
             }
         )
     
-    return jsonify({"status_code": 200, "item": itemsPurchasedDocument})  
+    return jsonify({"status_code": 200, "item": itemsPurchasedDocument}) 
+
+
+@app.route("/checkout")
+def checkout():
+    dictUser = json.loads((request.data).decode())
+    username = dictUser['username']
+
+    database.empty_shopping_cart(username)
+
+    return jsonify({"status_code" : 200, "message" : "Success!"})
+
+
+@app.route('/add-item', methods=["POST"])
+def add_item():
+
+    info = request.form.to_dict()
+    username = request.cookies.get('token')
+    print(username)
+    username = database.get_user_token(hashlib.sha256(username.encode()).digest())
+
+    file = request.files["upload"]
+
+    filename = secure_filename(file.filename)
+
+    newFilename = "images/" + filename
+    file.save("./images/" + filename)
+
+    newItemData = {
+        "name" : info["item-name"],
+        "price" : info["item-price"],
+        "description" : info["item-description"],
+        "image" : newFilename
+    }
+
+    newItem = database.insert_data(newItemData, 2)
+    database.update_sellings(username, newItem)
+
+    return redirect('html')
+
+@app.route('/images/<image>')
+def image_get(image):
+    return send_file(f"images/{image}")
     
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
