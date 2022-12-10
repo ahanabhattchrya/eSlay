@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { globalTheme } from "./assets/globalTheme.js";
@@ -17,7 +17,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import ShoppingCart from "./components/shoppingCart.js";
 
-let currLoginInfo = {
+const emptyLoginInfo = {
 	username: "",
 	authenticated: false,
 	points: "",
@@ -26,52 +26,55 @@ let currLoginInfo = {
 	token: null,
 };
 
-// Expects response that looks like {username: string, authenticated: boolean}
-function checkToken() {
-	axios({
-		method: "POST",
-		url: "/check-token",
-		data: { token: token },
-	}).then(
-		(response) => {
-			console.log(response);
-			let decodedResponse = response;
-			console.log(decodedResponse.data);
-			currLoginInfo.username = decodedResponse.data["username"];
-			currLoginInfo.authenticated = decodedResponse.data["authenticated"];
-			currLoginInfo.points = decodedResponse.data["points"];
-			currLoginInfo.rewardLevel = decodedResponse.data["rewardLevel"];
-			currLoginInfo.totalProfit = decodedResponse.data["totalProfit"];
-			currLoginInfo.token = token;
-			console.log(response);
-		},
-		(error) => {
-			console.log(error);
-		}
-	);
-}
-
-let token = Cookies.get("token");
 function App() {
+	const [isLoading, setLoading] = useState(true);
+	const [loginInfo, setLoginInfo] = useState(emptyLoginInfo);
 	useEffect(() => {
-		checkToken();
-		console.log(`Authenticated user? ${currLoginInfo.authenticated}`);
-	});
+		let token = Cookies.get("token");
+		axios({
+			method: "POST",
+			url: "/check-token",
+			data: { token: token },
+		}).then(
+			(response) => {
+				let info = JSON.parse(JSON.stringify(emptyLoginInfo));
+				let decodedResponse = response;
+				console.log(decodedResponse.data);
+				info.username = decodedResponse.data["username"];
+				info.authenticated = decodedResponse.data["authenticated"];
+				info.points = decodedResponse.data["points"];
+				info.rewardLevel = decodedResponse.data["rewardLevel"];
+				info.totalProfit = decodedResponse.data["totalProfit"];
+				info.token = token;
+
+				setLoginInfo(info);
+				setLoading(false);
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}, []);
+
+	if (isLoading) {
+		return <div className="App loading">Loading . . .</div>;
+	}
+
 	return (
 		<ThemeProvider theme={globalTheme}>
 			<CssBaseline>
 				<div className="App">
 					<Router>
-						<Navbar userInfo={currLoginInfo} />
+						<Navbar userInfo={loginInfo} />
 						<Routes>
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
-							<Route exact path="/login" element={<Login />} />
-							<Route exact path="/dashboard" element={<Dashboard userInfo={currLoginInfo} />} />
+							<Route exact path="/login" element={<Login userInfo={loginInfo}/>} />
+							<Route exact path="/dashboard" element={<Dashboard userInfo={loginInfo} />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
-							<Route exact path="/item-listings" element={<ItemListTable userInfo={currLoginInfo} />} />
-							<Route exact path="/shopping-cart" element={<ShoppingCart userInfo={currLoginInfo} />} />
+							<Route exact path="/item-listings" element={<ItemListTable userInfo={loginInfo} />} />
+							<Route exact path="/shopping-cart" element={<ShoppingCart userInfo={loginInfo} />} />
 						</Routes>
 					</Router>
 				</div>

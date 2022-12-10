@@ -22,6 +22,16 @@ itemListings = db["itemListings"] # collection #2: item listings
 
 theSalt = bcrypt.gensalt()
 
+# Get the next id in the items collection
+def get_next_id():
+    id_object = itemListings.find_one({})
+    if id_object:
+        next_id = int(id_object['last_id']) + 1
+        itemListings.update_one({}, {'$set': {'last_id' : next_id}})
+        return next_id
+    else:
+        itemListings.insert_one({"last_id" : 1})
+        return 1
 
 # Custom Functions For Encoding and Decoding
 
@@ -142,26 +152,26 @@ def insert_data(data, collection):
     else:
         all_items = itemListings.find({})
         
-        if data["itemId"] in all_items:
-            raise exceptions.AlreadyInDatabase(data["itemId"])
+        itemId = get_next_id()
         
-        new_item = { "itemId" : data["itemId"] }
+        new_item = { "itemId" : itemId }
         
         new_item_object = Item.Item(
-            data["itemId"],
+            itemId,
             data["name"], 
             data["price"],
             data["description"],
             data["image"],
-            data["status"],
-            data["curBid"],
-            data["maxBid"],
-            data["minBid"]
+            1,
+            None,
+            None,
+            None
         )
 
         new_item["item"] = itemCustomEncode(new_item_object)
         
         itemListings.insert_one(new_item)
+        return new_item["item"]
     
 def delete_data(idGiven, collection):
     '''remove data from collections userAccts and itemListings'''
@@ -218,6 +228,7 @@ def set_token(username, token):
         pass
 
 
+#This returns a [item, item, ... ]
 def get_user_shopping_cart(username):
     ''' Grabs the user's shopping cart. '''
 
@@ -252,7 +263,36 @@ def get_items_for_sale(username):
     for n in user_object.itemsForSale:
         itemsForSale.append(itemCustomDecode(n))
 
-    return user_object.itemsForSale
+    return itemsForSale
+
+
+def empty_shopping_cart(username):
+    ''' Empties the user's shopping cart and moves them into purchased '''
+
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if user:
+        user = userCustomDecode(user["user"])
+
+        for item in user.cartList: 
+            user.itemsPurchased.append(itemCustomDecode(item))
+        
+        user.cartList = []
+
+
+        userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+
+    else:
+        raise exceptions.UserNotFound(username)
+    
+
+def update_sellings(user, newItem):
+    ''' Updates the selling items for the specific user. '''
+    username = user.username
+
+    user.itemsForSale.append(newItem)
+
+    userAccts.update_one({"username" : username}, {'$set' : {'user' : userCustomEncode(user)}})
 
 
 def add_item_to_cart(username, userObject, itemObject):
@@ -287,3 +327,18 @@ def get_all_items():
 
     return item_list
 
+
+def get_purchased_history_items(username):
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    if user:
+        user = userCustomDecode(user["user"])
+        if user.itemsPurchased != []:
+            newList = []
+            for i in user.itemsPurchased:
+                item = itemCustomDecode(i)
+                newList.append(item)
+            return newList
+        else:
+            return []
+    else:
+        raise exceptions.UserNotFound(username)

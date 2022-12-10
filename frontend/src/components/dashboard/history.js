@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 
 import axios from "axios";
 
@@ -15,9 +15,9 @@ function getPurchaseHistory(userInfo) {
 		url: "/purchase-history",
 		data: { username: userInfo.username },
 	}).then((response) => {
-		let decodedResponse = JSON.parse(response);
-		if (decodedResponse["status_code"] == 200) {
-			currTable = decodedResponse["item"];
+		console.log(`purchase history response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
 		}
 	});
 
@@ -50,7 +50,7 @@ const History = (props) => {
 						{table.map((row) => (
 							<TableRow key={row.listing}>
 								<TableCell>
-									<img src={row.imageDir} />
+									<img src={row.imageDir} alt={row.listing} />
 								</TableCell>
 								<TableCell>{row.listing}</TableCell>
 								<TableCell className="desc-col">{row.desc}</TableCell>
@@ -61,6 +61,7 @@ const History = (props) => {
 						))}
 					</TableBody>
 				</Table>
+				{!(table.length > 0) && <h2 className="empty-cell">You've never purchased an item!</h2>}
 			</TableContainer>
 		</div>
 	);

@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
 import "../../assets/css/allItems.scss";
-import UserInfo from "../dashboard/userInfo";
-
-let currTable = [];
 
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
@@ -13,13 +10,14 @@ function makeItemRow(itemId, name, price, description, status, curBid, maxBid, m
 
 // This will send a request to retreive all of the current items
 function getAllItems() {
+	let currTable = [];
 	axios({
 		method: "GET",
 		url: "/all-items",
 	}).then((response) => {
-		let decodedResponse = JSON.parse(response);
-		if (decodedResponse["status_code"] == 200) {
-			currTable = decodedResponse["item"];
+		console.log(`All items response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
 		}
 	});
 
@@ -30,23 +28,22 @@ function getAllItems() {
 
 	console.log("Retrieved all items");
 	return currTable;
-};
+}
 
-function addToCart(id, userInfo){
+function addToCart(id, userInfo) {
 	axios({
-		method : 'POST',
-		url : '/add-to-cart',
-		data : {
-			username : userInfo.username,
-			itemId : id
+		method: "POST",
+		url: "/add-to-cart",
+		data: {
+			username: userInfo.username,
+			itemId: id,
+		},
+	}).then((response) => {
+		if (response.data["status_code"] === 200) {
+			window.location.replace("http://localhost:3030/item-listings");
 		}
-	})
-	.then((response) => {
-		if (response.data["status_code"] == 200) {
-			window.location.replace("http://localhost:3030/item-listings")
-		}
-	})
-};
+	});
+}
 export default function ItemListTable(props) {
 	const [table, setTable] = useState(getAllItems());
 
@@ -74,7 +71,10 @@ export default function ItemListTable(props) {
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={addToCart(row.itemId, props.userInfo)}>
+									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={(event) => {
+																																									event.preventDefault();
+																																									addToCart(event.target.value, props.userInfo);
+																																								}} >
 										Add to Cart
 									</Button>
 								</TableCell>
@@ -82,7 +82,7 @@ export default function ItemListTable(props) {
 						))}
 					</TableBody>
 				</Table>
-				{!(currTable.length > 0) && <h2 className="empty-cell">There are no items available at this time</h2>}
+				{!(table.length > 0) && <h2 className="empty-cell">There are no items available at this time</h2>}
 			</TableContainer>
 		</div>
 	);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
 import "../assets/css/shoppingCart.scss";
@@ -14,11 +14,11 @@ function getCartItems(userInfo) {
 	axios({
 		method: "POST",
 		url: "/shopping-cart-items",
-		data: { username: userInfo.username },
+		data: { userInfo: userInfo },
 	}).then((response) => {
-		let decodedResponse = JSON.parse(response);
-		if (decodedResponse["status_code"] == 200) {
-			currTable = decodedResponse["item"];
+		console.log(`Shopping cart response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
 		}
 	});
 
@@ -26,25 +26,23 @@ function getCartItems(userInfo) {
 		let currItem = currTable[idx];
 		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
 	}
-	console.log("Retrieved cart items");
+
+	console.log("Retrieved currently sold items");
 	return currTable;
 }
 
 // This will checkout the users current cart
-function checkout(userInfo){
+function checkout(userInfo) {
 	axios({
-		method : 'POST',
-		url : "/checkout",
-		data : {
-			username : userInfo.username
-		}
-	})
-	.then((response) => {
-		if (response.data["status_code"] == 200) {
-			window.location.replace("http://localhost:3030/shopping-cart")
+		method: "POST",
+		url: "/checkout",
+		data: userInfo,
+	}).then((response) => {
+		if (response.data["status_code"] === 200) {
+			window.location.replace("http://localhost:3030/shopping-cart");
 		}
 	});
-};
+}
 
 export default function ShoppingCart(props) {
 	const [table, setTable] = useState(getCartItems(props.userInfo));
@@ -78,7 +76,7 @@ export default function ShoppingCart(props) {
 						))}
 					</TableBody>
 				</Table>
-				{!(table.currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
+				{!(table.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
 			</TableContainer>
 		</div>
 	);
