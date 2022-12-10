@@ -32,10 +32,10 @@ function sendLoginInfo() {
 	});
 }
 
-const Login = () => {
+const Login = (props) => {
 	const navigate = useNavigate();
 
-	if (currLoginInfo.authenticated) {
+	if (props.userInfo.authenticated) {
 		navigate("/dashboard");
 	} else {
 		return (

@@ -71,7 +71,10 @@ export default function ItemListTable(props) {
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={addToCart(row.itemId, props.userInfo)}>
+									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={(event) => {
+																																									event.preventDefault();
+																																									addToCart(event.target.value, props.userInfo);
+																																								}} >
 										Add to Cart
 									</Button>
 								</TableCell>
