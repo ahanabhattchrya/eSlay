@@ -166,6 +166,30 @@ def all_items():
 
     return {"status_code": 200, "item": items_document}    
     
+@app.route('/currently-selling', methods=["POST"])
+def currently_selling(): 
+    dictUser = json.loads((request.data).decode())
+    user = dictUser['username']
+
+    itemsForSale = database.get_items_for_sale(user)
+    currently_selling_list = []
+    for items_for_sale in itemsForSale: 
+        currently_selling_list.append(
+            {
+            "itemId": items_for_sale.itemId,
+            "name" : items_for_sale.name,
+            "price" : items_for_sale.price,
+            "description" : items_for_sale.description,
+            "image" : items_for_sale.image,
+            "status" : items_for_sale.status,
+            "curBid" : items_for_sale.curBid,
+            "maxBid" : items_for_sale.maxBid,
+            "minBid" : items_for_sale.minBid
+            }
+        )
+    return jsonify({"status_code": 200, "item": currently_selling_list})
+
+
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
