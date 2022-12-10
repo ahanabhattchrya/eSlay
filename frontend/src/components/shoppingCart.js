@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
@@ -8,14 +8,13 @@ function makeItemRow(itemId, name, price, description, status, curBid, maxBid, m
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
 
-function getCartItems(props) {
+function getCartItems(userInfo) {
 	let currTable = [];
 
-	let username = props.userInfo.username;
 	axios({
 		method: "POST",
 		url: "/shopping-cart-items",
-		data: { username: username },
+		data: { username: userInfo.username },
 	}).then((response) => {
 		let decodedResponse = JSON.parse(response);
 		if (decodedResponse["status_code"] == 200) {
@@ -27,17 +26,12 @@ function getCartItems(props) {
 		let currItem = currTable[idx];
 		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
 	}
-
+	console.log("Retrieved cart items");
 	return currTable;
 }
 
 export default function ShoppingCart(props) {
-	const [state, setTable] = useState([]);
-
-	useEffect(() => {
-		setTable(getCartItems(props));
-		console.log("Retrieved cart items");
-	}, []);
+	const [table, setTable] = useState(getCartItems(props.userInfo));
 
 	return (
 		<div className="page-container shopping-cart">
@@ -56,7 +50,7 @@ export default function ShoppingCart(props) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{state.currTable.map((row) => (
+						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
 									<img src={row.image} alt={row.name} />
@@ -68,7 +62,7 @@ export default function ShoppingCart(props) {
 						))}
 					</TableBody>
 				</Table>
-				{!(state.currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
+				{!(table.currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
 			</TableContainer>
 		</div>
 	);
