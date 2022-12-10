@@ -57,7 +57,7 @@ function App() {
 	}, []);
 
 	if (isLoading) {
-		return <div className="App loading">Loading . . .</div>;
+		return <div className="App loading">✨Loading . . . ✨</div>;
 	}
 
 	return (
@@ -69,7 +69,7 @@ function App() {
 						<Routes>
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
-							<Route exact path="/login" element={<Login userInfo={loginInfo}/>} />
+							<Route exact path="/login" element={<Login userInfo={loginInfo} />} />
 							<Route exact path="/dashboard" element={<Dashboard userInfo={loginInfo} />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
