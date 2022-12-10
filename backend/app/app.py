@@ -159,7 +159,20 @@ def all_items():
 
     # print(f'these are all the items {items_document}')
 
-    return {"status_code": 200, "item": items_document}    
+    return {"status_code": 200, "item": items_document}
+
+
+@app.route('/add-item', methods=["POST"])
+def add_item():
+    itemInfo = json.loads((request.data).decode())
+
+    newItemDict = {
+        "name" : itemInfo["name"],
+        "price" : itemInfo["price"],
+        "description" : itemInfo["description"],
+        "image" : itemInfo["image"]
+    }
+
     
 
 if __name__ == "__main__":
