@@ -66,7 +66,7 @@ const Dashboard = (props) => {
 						</Box>
 						<TabPanel value={value} index={0}>
 							<Grid container className="dashboard-wrapper">
-								<Grid item className="table-wrapper" xs={7}>
+								<Grid item className="table-wrapper" xs={6}>
 									<Button className="list-item-button" color="secondary" variant="contained" onClick={handleOpen}>
 										List New Item
 									</Button>
