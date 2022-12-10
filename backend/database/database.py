@@ -19,18 +19,19 @@ db = mongoClient["eSlay"]
 # Initialize collections here
 userAccts = db["userAccts"] #collection #1: user accounts
 itemListings = db["itemListings"] # collection #2: item listings
+itemIdCollect = db["itemId"]
 
 theSalt = bcrypt.gensalt()
 
 # Get the next id in the items collection
 def get_next_id():
-    id_object = itemListings.find_one({})
+    id_object = itemIdCollect.find_one({})
     if id_object:
         next_id = int(id_object['last_id']) + 1
-        itemListings.update_one({}, {'$set': {'last_id' : next_id}})
+        itemIdCollect.update_one({}, {'$set': {'last_id' : next_id}})
         return next_id
     else:
-        itemListings.insert_one({"last_id" : 1})
+        itemIdCollect.insert_one({"last_id" : 1})
         return 1
 
 # Custom Functions For Encoding and Decoding
@@ -313,7 +314,11 @@ def get_all_items():
 
     item_list = []
 
-    for n in cursor: 
+    if cursor.explain().get("executionStats", {}).get("nReturned") == 0:
+        return item_list
+
+    for n in cursor:
+        print(n)
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
