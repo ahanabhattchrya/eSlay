@@ -56,6 +56,7 @@ function App() {
 	useEffect(() => {
 		checkToken();
 		console.log(`Authenticated user? ${currLoginInfo.authenticated}`);
+		console.log(currLoginInfo);
 	});
 	return (
 		<ThemeProvider theme={globalTheme}>
