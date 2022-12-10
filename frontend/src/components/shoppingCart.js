@@ -30,13 +30,29 @@ function getCartItems(userInfo) {
 	return currTable;
 }
 
+// This will checkout the users current cart
+function checkout(userInfo){
+	axios({
+		method : 'POST',
+		url : "/checkout",
+		data : {
+			username : userInfo.username
+		}
+	})
+	.then((response) => {
+		if (response.data["status_code"] == 200) {
+			window.location.replace("http://localhost:3030/shopping-cart")
+		}
+	});
+};
+
 export default function ShoppingCart(props) {
 	const [table, setTable] = useState(getCartItems(props.userInfo));
 
 	return (
 		<div className="page-container shopping-cart">
 			<h1 className="page-title">Shopping Cart</h1>
-			<Button variant="contained" className="checkout" component={Link} to="/checkout">
+			<Button variant="contained" className="checkout" onClick={checkout(props.userInfo)}>
 				<b>Checkout All Items</b>
 			</Button>
 			<TableContainer className="item-table">

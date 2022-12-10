@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for
+from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape
 import json
 from flask_cors import CORS
 import os
@@ -46,7 +46,8 @@ def serve(path):
 def login(): 
     # decodes the username and password given and check if in database
     dictUser = json.loads((request.data).decode())
-    haveUser = database.get_user(dictUser["username"])
+    username = escape(dictUser["username"])
+    haveUser = database.get_user(username)
     
     
     # salted entered password 
@@ -78,8 +79,8 @@ def login():
 def register(): 
     dictUser = json.loads((request.data).decode())
 
-    email = dictUser['email']
-    username = dictUser['username']
+    email = escape(dictUser['email'])
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     data = {
@@ -108,7 +109,7 @@ def register():
 def change_password(): 
     dictUser = json.loads((request.data).decode())
 
-    username = dictUser['username']
+    username = escape(dictUser['username'])
     password = dictUser['password']
 
     database_return = database.update_password(username, password)
@@ -165,6 +166,31 @@ def all_items():
     # print(f'these are all the items {items_document}')
 
     return {"status_code": 200, "item": items_document}    
+    
+@app.route('/currently-selling', methods=["POST"])
+def currently_selling(): 
+    dictUser = json.loads((request.data).decode())
+    user = dictUser['username']
+
+    itemsForSale = database.get_items_for_sale(user)
+    currently_selling_list = []
+    for items_for_sale in itemsForSale: 
+        currently_selling_list.append(
+            {
+            "itemId": items_for_sale.itemId,
+            "name" : items_for_sale.name,
+            "price" : items_for_sale.price,
+            "description" : items_for_sale.description,
+            "image" : items_for_sale.image,
+            "status" : items_for_sale.status,
+            "curBid" : items_for_sale.curBid,
+            "maxBid" : items_for_sale.maxBid,
+            "minBid" : items_for_sale.minBid
+            }
+        )
+    return jsonify({"status_code": 200, "item": currently_selling_list})
+
+
 
 @app.route('/purchase-history', methods= ['POST'])
 def purchase_history():
