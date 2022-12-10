@@ -230,11 +230,30 @@ def get_user_shopping_cart(username):
 
     user_object = userCustomDecode(the_user["user"])
 
-    shoppingCartOfItems = []
-    for elem in user_object.cartList:
-        shoppingCartOfItems.append(itemCustomDecode(elem))
+    cartList = []
 
-    return shoppingCartOfItems
+    for n in user_object.cartList:
+        cartList.append(itemCustomDecode(n))
+
+    return cartList
+
+
+def get_items_for_sale(username):
+    ''' Gets the users items that they're selling '''
+
+    the_user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+    
+    user_object = userCustomDecode(the_user["user"])
+
+    itemsForSale = []
+
+    for n in user_object.itemsForSale:
+        itemsForSale.append(itemCustomDecode(n))
+
+    return user_object.itemsForSale
 
 
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
@@ -259,3 +278,18 @@ def get_all_items():
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
+
+def get_purchased_history_items(username):
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    if user:
+        user = userCustomDecode(user["user"])
+        if user.itemsPurchased != []:
+            newList = []
+            for i in user.itemsPurchased:
+                item = itemCustomDecode(i)
+                newList.append(item)
+            return newList
+        else:
+            return []
+    else:
+        raise exceptions.UserNotFound(username)

@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
-import "../../assets/css/itemListings.scss";
+import "../../assets/css/allItems.scss";
+import UserInfo from "../dashboard/userInfo";
 
 let currTable = [];
 
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
-function getAllItems(props) {
+
+// This will send a request to retreive all of the current items
+function getAllItems() {
 	axios({
 		method: "GET",
 		url: "/all-items",
@@ -25,16 +28,27 @@ function getAllItems(props) {
 		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
 	}
 
+	console.log("Retrieved all items");
 	return currTable;
-}
+};
 
+function addToCart(id, userInfo){
+	axios({
+		method : 'POST',
+		url : '/add-to-cart',
+		data : {
+			username : userInfo.username,
+			itemId : id
+		}
+	})
+	.then((response) => {
+		if (response.data["status_code"] == 200) {
+			window.location.replace("http://localhost:3030/item-listings")
+		}
+	})
+};
 export default function ItemListTable(props) {
-	const [state, setTable] = useState([]);
-
-	useEffect(() => {
-		setTable(getAllItems(props));
-		console.log("Retrieved cart items");
-	}, []);
+	const [table, setTable] = useState(getAllItems());
 
 	return (
 		<div className="page-container item-listings">
@@ -51,7 +65,7 @@ export default function ItemListTable(props) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{state.currTable.map((row) => (
+						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
 									<img src={row.image} alt={row.name} />
@@ -60,7 +74,7 @@ export default function ItemListTable(props) {
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" component={Link} to="/add-to-cart">
+									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={addToCart(row.itemId, props.userInfo)}>
 										Add to Cart
 									</Button>
 								</TableCell>

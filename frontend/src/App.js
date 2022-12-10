@@ -9,7 +9,7 @@ import Register from "./components/register.js";
 import Login from "./components/login.js";
 import Dashboard from "./components/dashboard/dashboard.js";
 import ChangePassword from "./components/changePassword.js";
-import ItemListTable from "./components/itemListings/itemListings.js";
+import ItemListTable from "./components/allItems/allItems.js";
 
 import "./assets/css/eslay.scss";
 
@@ -31,12 +31,12 @@ function checkToken() {
 	axios({
 		method: "POST",
 		url: "/check-token",
-		data: { "token" : token }
+		data: { token: token },
 	}).then(
 		(response) => {
-			console.log(response)
+			console.log(response);
 			let decodedResponse = response;
-			console.log(decodedResponse.data)
+			console.log(decodedResponse.data);
 			currLoginInfo.username = decodedResponse.data["username"];
 			currLoginInfo.authenticated = decodedResponse.data["authenticated"];
 			currLoginInfo.points = decodedResponse.data["points"];
@@ -67,10 +67,10 @@ function App() {
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/register" element={<Register />} />
 							<Route exact path="/login" element={<Login />} />
-							<Route exact path="/dashboard" element={<Dashboard />} />
+							<Route exact path="/dashboard" element={<Dashboard userInfo={currLoginInfo} />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
-							<Route exact path="/item-listings" element={<ItemListTable />} />
+							<Route exact path="/item-listings" element={<ItemListTable userInfo={currLoginInfo} />} />
 							<Route exact path="/shopping-cart" element={<ShoppingCart userInfo={currLoginInfo} />} />
 						</Routes>
 					</Router>
