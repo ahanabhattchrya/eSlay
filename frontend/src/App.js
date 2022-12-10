@@ -80,7 +80,7 @@ function App() {
 							<Route exact path="/dashboard" element={<Dashboard userInfo={loginInfo} />} />
 							<Route exact path="/" element={<Home />} />
 							<Route exact path="/change-password" element={<ChangePassword />} />
-							<Route exact path="/item-listings" element={<ItemListTable />} />
+							<Route exact path="/item-listings" element={<ItemListTable userInfo={loginInfo} />} />
 							<Route exact path="/shopping-cart" element={<ShoppingCart userInfo={loginInfo} />} />
 						</Routes>
 					</Router>
