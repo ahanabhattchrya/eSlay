@@ -190,7 +190,7 @@ def delete_data(idGiven, collection):
             itemListings.delete_one({"itemId": idGiven})
         else:
             return "no custom error delete_data"
-    
+  
 
 def update_data():
     '''update data in userAccts and itemListings'''
@@ -296,6 +296,15 @@ def update_sellings(user, newItem):
     userAccts.update_one({"username" : username}, {'$set' : {'user' : userCustomEncode(user)}})
 
 
+def add_item_to_cart(username, userObject, itemObject):
+
+    userObject.cartList.append(itemCustomEncode(itemObject))
+
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userObject}})
+
+    return 0
+
+
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
 
 
@@ -322,6 +331,7 @@ def get_all_items():
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
+
 
 def get_purchased_history_items(username):
     user = userAccts.find_one({"username" : username}, {"_id" : 0})
