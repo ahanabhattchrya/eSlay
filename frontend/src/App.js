@@ -17,15 +17,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import ShoppingCart from "./components/shoppingCart.js";
 
-const prevInfo = {
-	username: "",
-	authenticated: false,
-	points: "",
-	rewardLevel: "",
-	totalProfit: "",
-	token: null,
-};
-
 // Expects response that looks like {username: string, authenticated: boolean}
 function checkToken() {
 	axios({
@@ -36,28 +27,26 @@ function checkToken() {
 		(response) => {
 			console.log(response);
 			let decodedResponse = response;
-
-			if (decodedResponse.status != 200) {
-				return {
-					username: "",
-					authenticated: false,
-					points: "",
-					rewardLevel: "",
-					totalProfit: "",
-					token: "",
-				};
+			let info = {
+				username: "",
+				authenticated: false,
+				points: "",
+				rewardLevel: "",
+				totalProfit: "",
+				token: "",
+			};
+			if (decodedResponse.status == 200) {
+				info.username = decodedResponse.data["username"];
+				info.authenticated = decodedResponse.data["authenticated"];
+				info.points = decodedResponse.data["points"];
+				info.rewardLevel = decodedResponse.data["rewardLevel"];
+				info.totalProfit = decodedResponse.data["totalProfit"];
+				info.token = token;
 			}
 			console.log(decodedResponse.data);
-			console.log(`PrevInfo: ${prevInfo}`);
+			console.log(`info: ${JSON.stringify(info)}`);
 
-			return {
-				username: decodedResponse.data["username"],
-				authenticated: decodedResponse.data["authenticated"],
-				points: decodedResponse.data["points"],
-				rewardLevel: decodedResponse.data["rewardLevel"],
-				totalProfit: decodedResponse.data["totalProfit"],
-				token: token,
-			};
+			return info;
 		},
 		(error) => {
 			console.log(error);
@@ -69,9 +58,7 @@ let token = Cookies.get("token");
 function App() {
 	let loginInfo = checkToken();
 	useEffect(() => {
-		setLoginInfo(() => {
-			loginInfo = checkToken(loginInfo);
-		});
+		loginInfo = checkToken(loginInfo);
 	}, []);
 
 	return (
