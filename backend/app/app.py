@@ -165,7 +165,31 @@ def all_items():
     # print(f'these are all the items {items_document}')
 
     return {"status_code": 200, "item": items_document}    
-    
 
+@app.route('/purchase-history', methods= ['POST'])
+def purchase_history():
+    dictUser = json.loads((request.data).decode())
+    username = dictUser["username"]
+    
+    itemsPurchasedDocument = []
+    
+    itemsPurchased = database.get_purchased_history_items(username)
+    
+    for n in itemsPurchased:
+        itemsPurchasedDocument.append(
+            {
+                "itemId": n.itemId,
+                "name": n.name,
+                "price": n.price, 
+                "description": n.description,
+                "status": n.status, 
+                "curBid": n.curBid,
+                "maxBid": n.maxBid,
+                "minBid": n.minBid
+            }
+        )
+    
+    return {"status_code": 200, "item": itemsPurchasedDocument}   
+    
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)

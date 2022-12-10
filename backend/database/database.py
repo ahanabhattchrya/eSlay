@@ -254,3 +254,18 @@ def get_all_items():
         item_list.append(itemCustomDecode(n["item"]))
 
     return item_list
+
+def get_purchased_history_items(username):
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    if user:
+        user = userCustomDecode(user["user"])
+        if user.itemsPurchased != []:
+            newList = []
+            for i in user.itemsPurchased:
+                item = itemCustomDecode(i)
+                newList.append(item)
+            return newList
+        else:
+            return []
+    else:
+        raise exceptions.UserNotFound(username)
