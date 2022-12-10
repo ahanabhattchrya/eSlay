@@ -12,18 +12,6 @@
 		border: 2px $secondary solid;
 	}
 }
-
-.MuiTableRow-root {
-	display: flex;
-	justify-content: space-around;
-	.MuiTableCell-root {
-		padding-left: 0;
-		padding-right: 0;
-		text-align: center;
-		width: 150px;
-	}
-}
-
 .empty-cell {
 	width: 100%;
 	text-align: center;

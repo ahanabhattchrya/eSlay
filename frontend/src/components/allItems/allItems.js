@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog } from "@mui/material";
 import axios from "axios";
+
+import UploadItem from "../dashboard/uploadItem";
 
 import "../../assets/css/allItems.scss";
 
@@ -46,11 +48,20 @@ function addToCart(id, userInfo) {
 }
 export default function ItemListTable(props) {
 	const [table, setTable] = useState(getAllItems());
+	const [open, setOpen] = React.useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	return (
 		<div className="page-container item-listings">
 			<h1 className="page-title">Items For Sale</h1>
-			<TableContainer className="item-table">
+			<Button className="list-new-button" color="secondary" variant="contained" onClick={handleOpen}>
+				List New Item
+			</Button>
+			<Dialog open={open} onClose={handleClose}>
+				<UploadItem userInfo={props.userInfo} />
+			</Dialog>
+			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>
 						<TableRow>

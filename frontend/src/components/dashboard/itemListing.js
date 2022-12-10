@@ -43,13 +43,10 @@ const Listings = (props) => {
 
 	return (
 		<div className="user-items">
-			<TableContainer>
+			<TableContainer className="item-table">
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>
-								<Checkbox />
-							</TableCell>
 							<TableCell>Image</TableCell>
 							<TableCell>Listing</TableCell>
 							<TableCell className="desc-col">Description</TableCell>
@@ -62,9 +59,6 @@ const Listings = (props) => {
 						{/* This controls the generation of rows for listings */}
 						{table.map((row) => (
 							<TableRow key={row.listing}>
-								<TableCell xs={1}>
-									<Checkbox />
-								</TableCell>
 								<TableCell>
 									<img src={row.imageDir} alt={row.listing} />
 								</TableCell>

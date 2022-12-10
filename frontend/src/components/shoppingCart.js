@@ -53,7 +53,7 @@ export default function ShoppingCart(props) {
 			<Button variant="contained" className="checkout" onClick={checkout(props.userInfo)}>
 				<b>Checkout All Items</b>
 			</Button>
-			<TableContainer className="item-table">
+			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>
 						<TableRow>
