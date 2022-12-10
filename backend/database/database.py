@@ -218,6 +218,7 @@ def set_token(username, token):
         pass
 
 
+#This returns a [item, item, ... ]
 def get_user_shopping_cart(username):
     ''' Grabs the user's shopping cart. '''
 

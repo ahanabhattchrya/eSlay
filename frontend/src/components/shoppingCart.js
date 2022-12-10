@@ -12,7 +12,7 @@ function getCartItems(userInfo) {
 	let currTable = [];
 
 	axios({
-		method: "POST",
+		method: "GET",
 		url: "/shopping-cart-items",
 		data: { username: userInfo.username },
 	}).then((response) => {
