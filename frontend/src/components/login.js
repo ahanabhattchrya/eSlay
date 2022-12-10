@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import Cookies from "js-cookie";
-import currLoginInfo from '../App'
+import currLoginInfo from "../App";
 
 let currLoginInfoForDB = {
-	username : "",
-	password : ""
+	username: "",
+	password: "",
 };
 
 function changeUsername(value) {
@@ -22,18 +22,20 @@ function changePassword(value) {
 }
 
 function sendLoginInfo() {
-	console.log(currLoginInfo)
+	console.log(currLoginInfo);
 	axios({
-		method:'POST',
-		url:'/login', 
-		data: currLoginInfoForDB
+		method: "POST",
+		url: "/login",
+		data: currLoginInfoForDB,
+	}).then((response) => {
+		window.location.replace("http://localhost:3030/");
 	});
-};
+}
 
-const Login = () => {
+const Login = (props) => {
 	const navigate = useNavigate();
 
-	if (currLoginInfo.authenticated) {
+	if (props.userInfo.authenticated) {
 		navigate("/dashboard");
 	} else {
 		return (

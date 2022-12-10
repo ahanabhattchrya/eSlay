@@ -22,6 +22,16 @@ itemListings = db["itemListings"] # collection #2: item listings
 
 theSalt = bcrypt.gensalt()
 
+# Get the next id in the items collection
+def get_next_id():
+    id_object = itemListings.find_one({})
+    if id_object:
+        next_id = int(id_object['last_id']) + 1
+        itemListings.update_one({}, {'$set': {'last_id' : next_id}})
+        return next_id
+    else:
+        itemListings.insert_one({"last_id" : 1})
+        return 1
 
 # Custom Functions For Encoding and Decoding
 
@@ -38,8 +48,7 @@ def userCustomEncode(user):
             "itemsForSale" : user.itemsForSale,
             "itemsPurchased" : user.itemsPurchased,
             "pointsObtained" : user.pointsObtained,
-            "salt": user.salt,
-            "token": user.token}
+            "salt": user.salt}
 
 def userCustomDecode(document):
     assert document["_type"] == "user"
@@ -53,8 +62,7 @@ def userCustomDecode(document):
                     document["itemsForSale"],
                     document["itemsPurchased"],
                     document["pointsObtained"],
-                    document["salt"],
-                    document["token"]
+                    document["salt"]
     )
 
 def itemCustomEncode(item):
@@ -136,7 +144,6 @@ def insert_data(data, collection):
             data["itemsPurchased"],
             data["pointsObtained"],
             theSalt,
-            data["token"]
         )
 
         new_user["user"] = userCustomEncode(new_user_object)
@@ -145,28 +152,28 @@ def insert_data(data, collection):
     else:
         all_items = itemListings.find({})
         
-        if data["itemId"] in all_items:
-            raise exceptions.AlreadyInDatabase(data["itemId"])
+        itemId = get_next_id()
         
-        new_item = { "itemId" : data["itemId"] }
+        new_item = { "itemId" : itemId }
         
         new_item_object = Item.Item(
-            data["itemId"],
+            itemId,
             data["name"], 
             data["price"],
             data["description"],
             data["image"],
-            data["status"],
-            data["curBid"],
-            data["maxBid"],
-            data["minBid"]
+            1,
+            None,
+            None,
+            None
         )
 
         new_item["item"] = itemCustomEncode(new_item_object)
         
         itemListings.insert_one(new_item)
+        return new_item["item"]
     
-def delete_data(username, collection):
+def delete_data(idGiven, collection):
     '''remove data from collections userAccts and itemListings'''
     
     if collection == 1:
@@ -182,11 +189,16 @@ def delete_data(username, collection):
             itemListings.delete_one({"itemId": idGiven})
         else:
             return "no custom error delete_data"
-    
+  
 
 def update_data():
     '''update data in userAccts and itemListings'''
     
+
+### ALL GET FUNCTIONS ARE UNDER THIS LINE
+
+
+##### All OF THESE WILL BE THE GET FUNCTIONS FOR USERS #####
 
 def get_user(username):
     ''' Sees if there's a current user and returns their User object '''
@@ -197,6 +209,104 @@ def get_user(username):
     else:
         exceptions.UserNotFound(username)
 
+
+def get_user_token(token):
+    user = userAccts.find_one({"token" : token}, {"_id": 0})
+    print(f"get_user_token: {user}")
+    if user:
+        return userCustomDecode(user["user"])
+    else:
+        pass
+    
+
+def set_token(username, token):
+    user = userAccts.find_one({"username": username}, {"_id": 0})
+    if user:
+        userAccts.update_one({"username" : username}, {'$set' : {"token" : token}})
+        return
+    else:
+        pass
+
+
+#This returns a [item, item, ... ]
+def get_user_shopping_cart(username):
+    ''' Grabs the user's shopping cart. '''
+
+    the_user = userAccts.find_one({"username": username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+        # call error that username does not exist
+
+    user_object = userCustomDecode(the_user["user"])
+
+    cartList = []
+
+    for n in user_object.cartList:
+        cartList.append(itemCustomDecode(n))
+
+    return cartList
+
+
+def get_items_for_sale(username):
+    ''' Gets the users items that they're selling '''
+
+    the_user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+    
+    user_object = userCustomDecode(the_user["user"])
+
+    itemsForSale = []
+
+    for n in user_object.itemsForSale:
+        itemsForSale.append(itemCustomDecode(n))
+
+    return itemsForSale
+
+
+def empty_shopping_cart(username):
+    ''' Empties the user's shopping cart and moves them into purchased '''
+
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if user:
+        user = userCustomDecode(user["user"])
+
+        for item in user.cartList: 
+            user.itemsPurchased.append(itemCustomDecode(item))
+        
+        user.cartList = []
+
+
+        userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(user)}})
+
+    else:
+        raise exceptions.UserNotFound(username)
+    
+
+def update_sellings(user, newItem):
+    ''' Updates the selling items for the specific user. '''
+    username = user.username
+
+    user.itemsForSale.append(newItem)
+
+    userAccts.update_one({"username" : username}, {'$set' : {'user' : userCustomEncode(user)}})
+
+
+def add_item_to_cart(username, userObject, itemObject):
+
+    userObject.cartList.append(itemCustomEncode(itemObject))
+
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userObject}})
+
+    return 0
+
+
+##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
+
+
 def get_item(itemId):
     ''' Sees if there's a current item and returns their Item  object '''
     item = itemListings.find_one({"itemId" : itemId}, {"_id" : 0})
@@ -205,3 +315,30 @@ def get_item(itemId):
         return itemCustomDecode(item["item"])
     else:
         exceptions.UserNotFound(itemId)
+
+
+def get_all_items(): 
+    cursor = itemListings.find({})
+
+    item_list = []
+
+    for n in cursor: 
+        item_list.append(itemCustomDecode(n["item"]))
+
+    return item_list
+
+
+def get_purchased_history_items(username):
+    user = userAccts.find_one({"username" : username}, {"_id" : 0})
+    if user:
+        user = userCustomDecode(user["user"])
+        if user.itemsPurchased != []:
+            newList = []
+            for i in user.itemsPurchased:
+                item = itemCustomDecode(i)
+                newList.append(item)
+            return newList
+        else:
+            return []
+    else:
+        raise exceptions.UserNotFound(username)

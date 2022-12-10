@@ -1,39 +1,59 @@
-import * as React from "react";
-import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from "axios";
 
 import "../assets/css/shoppingCart.scss";
 
-let currTable = [];
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
 
-// Fill out data once user info connection works
-axios({
-	method: "POST",
-	url: "/shopping-cart-items",
-	data: {},
-}).then((response) => {
-	let decodedResponse = JSON.parse(response);
-	if (decodedResponse["status_code"] == 200) {
-		currTable = decodedResponse["item"];
-	}
-});
+function getCartItems(userInfo) {
+	let currTable = [];
 
-for (let idx = 0; idx < currTable.length; idx++) {
-	let currItem = currTable[idx];
-	currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+	axios({
+		method: "POST",
+		url: "/shopping-cart-items",
+		data: { userInfo: userInfo },
+	}).then((response) => {
+		console.log(`Shopping cart response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
+		}
+	});
+
+	for (let idx = 0; idx < currTable.length; idx++) {
+		let currItem = currTable[idx];
+		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+	}
+
+	console.log("Retrieved currently sold items");
+	return currTable;
 }
 
-export default function ShoppingCart() {
+// This will checkout the users current cart
+function checkout(userInfo) {
+	axios({
+		method: "POST",
+		url: "/checkout",
+		data: userInfo,
+	}).then((response) => {
+		if (response.data["status_code"] === 200) {
+			window.location.replace("http://localhost:3030/shopping-cart");
+		}
+	});
+}
+
+export default function ShoppingCart(props) {
+	const [table, setTable] = useState(getCartItems(props.userInfo));
+
 	return (
 		<div className="page-container shopping-cart">
 			<h1 className="page-title">Shopping Cart</h1>
-			<Button variant="contained" className="checkout" component={Link} to="/register">
+			<Button variant="contained" className="checkout" onClick={checkout(props.userInfo)}>
 				<b>Checkout All Items</b>
 			</Button>
-			<TableContainer className="item-table">
+			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>
 						<TableRow>
@@ -44,7 +64,7 @@ export default function ShoppingCart() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{currTable.map((row) => (
+						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
 									<img src={row.image} alt={row.name} />
@@ -56,7 +76,7 @@ export default function ShoppingCart() {
 						))}
 					</TableBody>
 				</Table>
-				{!(currTable.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
+				{!(table.length > 0) && <h2 className="empty-cell">There are no items in your cart!</h2>}
 			</TableContainer>
 		</div>
 	);

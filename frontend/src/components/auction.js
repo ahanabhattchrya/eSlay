@@ -25,3 +25,5 @@ const Auction = (props) => {
 		</div>
 	);
 };
+
+export default Auction;

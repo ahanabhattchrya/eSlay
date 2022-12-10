@@ -25,28 +25,28 @@ const Navbar = (props) => {
 							<b>Auctions</b>
 						</p>
 					</Button>
-					{!props.loginInfo.authenticated && (
+					{!props.userInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/login">
 							<p>
 								<b>Login</b>
 							</p>
 						</Button>
 					)}
-					{!props.loginInfo.authenticated && (
+					{!props.userInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" component={Link} to="/register">
 							<p>
 								<b>Register</b>
 							</p>
 						</Button>
 					)}
-					{props.loginInfo.authenticated && (
+					{props.userInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/dashboard">
 							<p>
 								<b>Dashboard</b>
 							</p>
 						</Button>
 					)}
-					{props.loginInfo.authenticated && (
+					{props.userInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" component={Link} to="/logout">
 							<p>
 								<b>Logout</b>

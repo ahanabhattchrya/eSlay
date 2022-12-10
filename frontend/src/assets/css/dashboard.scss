@@ -1,0 +1,12 @@
+@import "settings";
+
+.dashboard-out-wrapper {
+	.MuiBox-root {
+		width: 100%;
+		margin: auto 50px auto;
+	}
+}
+
+.user-items .MuiTableContainer-root {
+	border-top: 5px;
+}
