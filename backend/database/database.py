@@ -232,6 +232,15 @@ def get_user_shopping_cart(username):
     return user_object.cartList
 
 
+def add_item_to_cart(username, userObject, itemObject):
+
+    userObject.cartList.append(itemCustomEncode(itemObject))
+
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userObject}})
+
+    return 0
+
+
 ##### ALL OF THESE WILL BE THE GET FUNCTIONS FOR ITEMS #####
 
 

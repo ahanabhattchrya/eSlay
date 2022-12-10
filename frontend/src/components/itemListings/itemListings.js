@@ -60,7 +60,7 @@ export default function ItemListTable(props) {
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" component={Link} to="/add-to-cart">
+									<Button variant="contained" value={row.itemId} className="purchase-button" color="secondary" size="large" component={Link} to="/add-to-cart">
 										Add to Cart
 									</Button>
 								</TableCell>

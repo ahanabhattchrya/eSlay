@@ -163,7 +163,18 @@ def all_items():
 
 @app.route('/add-to-cart', methods=['POST'])
 def addToCart():
-    
+    recvData = json.loads((request.data).decode())
+
+    user = database.get_user(recvData["username"])
+    item = database.get_item(recvData["item"])
+
+    success = database.add_item_to_cart(recvData["username"], user, item)
+
+    if success == 0:
+        return jsonify({"status_code" : 200, "message" : "Success"})
+    else:
+        return jsonify({"status_code" : 404, "message" : "Error"})
+
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)
