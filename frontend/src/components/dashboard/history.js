@@ -1,29 +1,36 @@
-import React from "react";
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
+import React, { useState } from "react";
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@material-ui/core";
 
-// I don't actually know if we'll need this function
-function createData(imageDir, listing, desc, status, price, curTopBid) {
-	return { imageDir, listing, desc, status, price, curTopBid };
+import axios from "axios";
+
+function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
+	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
-/*
-	Fetch items from backend and insert them into objects like:
-	{ image, listing, desc, status, price, curTopBid }
-	Example: { "Toy boat", "A tiny boat", "sold", "$20", "$99" }
-*/
-	const rows = [];
 
-/*
-	const rows = [
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-	createData("", "Toy boat", "A tiny boat", "sold", "$20", "$99"),
-]
-*/
+function getPurchaseHistory(userInfo) {
+	let currTable = [];
 
-const History = () => {
+	axios({
+		method: "POST",
+		url: "/purchase-history",
+		data: { username: userInfo.username },
+	}).then((response) => {
+		console.log(`purchase history response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
+		}
+	});
+
+	for (let idx = 0; idx < currTable.length; idx++) {
+		let currItem = currTable[idx];
+		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+	}
+	console.log("Retrieved purchase history");
+	return currTable;
+}
+
+const History = (props) => {
+	const [table, setTable] = useState(getPurchaseHistory(props.userInfo));
 	return (
 		<div className="user-items">
 			<TableContainer>
@@ -40,10 +47,10 @@ const History = () => {
 					</TableHead>
 					<TableBody>
 						{/* This controls the generation of rows for listings */}
-						{rows.map((row) => (
+						{table.map((row) => (
 							<TableRow key={row.listing}>
 								<TableCell>
-									<img src={row.imageDir} />
+									<img src={row.imageDir} alt={row.listing} />
 								</TableCell>
 								<TableCell>{row.listing}</TableCell>
 								<TableCell className="desc-col">{row.desc}</TableCell>
@@ -54,6 +61,7 @@ const History = () => {
 						))}
 					</TableBody>
 				</Table>
+				{!(table.length > 0) && <h2 className="empty-cell">You've never purchased an item!</h2>}
 			</TableContainer>
 		</div>
 	);
