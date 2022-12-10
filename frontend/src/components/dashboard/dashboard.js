@@ -54,7 +54,7 @@ const Dashboard = (props) => {
 		<div className="dashboard">
 			<Grid container spacing={1}>
 				<Grid item xs={4}>
-					<UserInfo />
+					<UserInfo userInfo={props.userInfo} />
 				</Grid>
 				<Grid item xs={8}>
 					<Box className="dashboard-out-wrapper">
