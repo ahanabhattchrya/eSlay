@@ -17,6 +17,14 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import ShoppingCart from "./components/shoppingCart.js";
 
+const emptyInfo = {
+	username: "",
+	authenticated: false,
+	points: "",
+	rewardLevel: "",
+	totalProfit: "",
+	token: "",
+};
 // Expects response that looks like {username: string, authenticated: boolean}
 function checkToken() {
 	axios({
@@ -25,7 +33,6 @@ function checkToken() {
 		data: { token: token },
 	}).then(
 		(response) => {
-			console.log(response);
 			let decodedResponse = response;
 			let info = {
 				username: "",
@@ -43,9 +50,7 @@ function checkToken() {
 				info.totalProfit = decodedResponse.data["totalProfit"];
 				info.token = token;
 			}
-			console.log(decodedResponse.data);
 			console.log(`info: ${JSON.stringify(info)}`);
-
 			return info;
 		},
 		(error) => {
@@ -56,7 +61,7 @@ function checkToken() {
 
 let token = Cookies.get("token");
 function App() {
-	let loginInfo = checkToken();
+	let loginInfo = emptyInfo;
 	useEffect(() => {
 		loginInfo = checkToken(loginInfo);
 	}, []);
@@ -85,3 +90,4 @@ function App() {
 }
 
 export default App;
+export { emptyInfo };

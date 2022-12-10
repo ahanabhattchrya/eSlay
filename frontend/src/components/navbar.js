@@ -2,8 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
 
+import { emptyInfo } from "../App";
+
 const Navbar = (props) => {
-	console.log(`Navbar props: ${props}`);
+	console.log(`Navbar props: ${JSON.stringify(props)}`);
+	if (props == undefined || props.length === 0) {
+		props = { userInfo: emptyInfo };
+	}
 	return (
 		<div class="navBar">
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">
