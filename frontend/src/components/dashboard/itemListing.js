@@ -15,9 +15,9 @@ function getCurrentlySelling(userInfo) {
 		url: "/currently-selling",
 		data: { username: userInfo.username },
 	}).then((response) => {
-		let decodedResponse = JSON.parse(response);
-		if (decodedResponse["status_code"] == 200) {
-			currTable = decodedResponse["item"];
+		console.log(`Item listing response: ${JSON.stringify(response)}`);
+		if (response["status_code"] === 200) {
+			currTable = response["item"];
 		}
 	});
 
@@ -66,7 +66,7 @@ const Listings = (props) => {
 									<Checkbox />
 								</TableCell>
 								<TableCell>
-									<img src={row.imageDir} />
+									<img src={row.imageDir} alt={row.listing} />
 								</TableCell>
 								<TableCell>{row.listing}</TableCell>
 								<TableCell className="desc-col">{row.desc}</TableCell>
@@ -77,6 +77,7 @@ const Listings = (props) => {
 						))}
 					</TableBody>
 				</Table>
+				{!(table.length > 0) && <h2 className="empty-cell">You've never sold an item!</h2>}
 			</TableContainer>
 		</div>
 	);

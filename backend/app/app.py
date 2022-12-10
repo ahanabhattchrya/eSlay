@@ -169,6 +169,7 @@ def all_items():
 
 @app.route('/shopping-cart-items', methods=["GET"]) 
 def shopping_cart_items():
+    print(request)
     dictUser = json.loads((request.data).decode())
 
     username = dictUser['username']

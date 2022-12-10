@@ -49,7 +49,6 @@ function App() {
 
 				setLoginInfo(info);
 				setLoading(false);
-				console.log(`Authenticated user? ${JSON.stringify(loginInfo)}`);
 			},
 			(error) => {
 				console.log(error);

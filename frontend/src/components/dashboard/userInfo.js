@@ -1,5 +1,5 @@
 import React from "react";
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Button, Grid, Box, Tabs } from "@material-ui/core";
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Box } from "@material-ui/core";
 import "../../assets/css/userInfo.scss";
 
 const UserInfo = (props) => {
