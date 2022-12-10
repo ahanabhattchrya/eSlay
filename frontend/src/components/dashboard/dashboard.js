@@ -71,7 +71,7 @@ const Dashboard = (props) => {
 										List New Item
 									</Button>
 									<Dialog open={open} onClose={handleClose}>
-										<UploadItem />
+										<UploadItem userInfo={props.userInfo} />
 									</Dialog>
 									<Grid container className="user-lists" direction="column">
 										<Grid item>
