@@ -125,9 +125,9 @@ def change_password():
 def check_token():
     dictUser = json.loads((request.data).decode())
 
-    if "token" not in dictUser.keyS():
+    if "token" not in dictUser.keys():
         return jsonify({"status_code" : 404, "message" : "Error not correct token"})
-        
+
     user = database.get_user_token(hashlib.sha256(dictUser["token"].encode()).digest())
     
     if user:
