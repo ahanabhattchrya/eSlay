@@ -18,7 +18,8 @@ const Home = () => {
 					</Box>
 				</Typography>
 			</Box>
-			<Box className="home-box home-box2" sx={{ ml: 108, mt: -19 }}>
+			<img src="/images/slay.gif" alt="gif" className="image-box" />
+			<Box className="home-box home-box2" sx={{ ml: 108, mt: -50 }}>
 				<Typography component="div">
 					<Box sx={{ lineHeight: 2, ml: 18, mt: 5, fontSize: "h3.fontSize", fontWeight: "bold" }}>First Time Here?</Box>
 					<Box sx={{ lineHeight: 2, ml: 5, mr: 5, fontSize: "h5.fontSize", textAlign: "center" }}>

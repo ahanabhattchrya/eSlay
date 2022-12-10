@@ -157,6 +157,7 @@ def all_items():
                 "name": n.name,
                 "price": n.price, 
                 "description": n.description,
+                "image" : n.image,
                 "status": n.status, 
                 "curBid": n.curBid,
                 "maxBid": n.maxBid,
@@ -184,6 +185,7 @@ def shopping_cart_items():
                 "name": items.name,
                 "price": items.price, 
                 "description": items.description,
+                "image" : items.image,
                 "status": items.status, 
                 "curBid": items.curBid,
                 "maxBid": items.maxBid,
@@ -234,6 +236,7 @@ def purchase_history():
                 "name": n.name,
                 "price": n.price, 
                 "description": n.description,
+                "image" : n.image,
                 "status": n.status, 
                 "curBid": n.curBid,
                 "maxBid": n.maxBid,
@@ -244,7 +247,7 @@ def purchase_history():
     return jsonify({"status_code": 200, "item": itemsPurchasedDocument}) 
 
 
-@app.route("/checkout")
+@app.route("/checkout", methods=['POST'])
 def checkout():
     dictUser = json.loads((request.data).decode())
     username = dictUser['username']
@@ -279,11 +282,34 @@ def add_item():
     newItem = database.insert_data(newItemData, 2)
     database.update_sellings(username, newItem)
 
-    return redirect('html')
+    return redirect('/item-listings')
+
+@app.route('/add-to-cart', methods=['POST'])
+def addToCart():
+    recvData = json.loads((request.data).decode())
+
+    user = database.get_user(recvData["username"])
+    item = database.get_item(recvData["itemId"])
+
+    success = database.add_item_to_cart(recvData["username"], user, item)
+
+    if success == 0:
+        return jsonify({"status_code" : 200, "message" : "Success"})
+    else:
+        return jsonify({"status_code" : 404, "message" : "Error"})
+    
 
 @app.route('/images/<image>')
 def image_get(image):
     return send_file(f"images/{image}")
+
+@app.route('/logout')
+def logout():
+    if 'token' in request.cookies:
+        resp = redirect(url_for('html'))
+        resp.set_cookie("token", '', expires=0)
+
+        return resp
     
 if __name__ == "__main__":
     app.run("0.0.0.0", 3000)

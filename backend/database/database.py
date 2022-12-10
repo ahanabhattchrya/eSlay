@@ -276,7 +276,7 @@ def empty_shopping_cart(username):
         user = userCustomDecode(user["user"])
 
         for item in user.cartList: 
-            user.itemsPurchased.append(itemCustomDecode(item))
+            user.itemsPurchased.append(item)
         
         user.cartList = []
 
@@ -300,7 +300,9 @@ def add_item_to_cart(username, userObject, itemObject):
 
     userObject.cartList.append(itemCustomEncode(itemObject))
 
-    userAccts.update_one({"username" : username}, {'$set' : {"user" : userObject}})
+    itemListings.delete_one({"itemId": itemObject.itemId})
+
+    userAccts.update_one({"username" : username}, {'$set' : {"user" : userCustomEncode(userObject)}})
 
     return 0
 

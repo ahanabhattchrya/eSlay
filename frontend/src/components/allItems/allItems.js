@@ -11,6 +11,10 @@ function makeItemRow(itemId, name, price, description, image, status, curBid, ma
 function addToCart(id, userInfo) {
 	console.log(id);
 	console.log(userInfo);
+	if (!userInfo.authenticated){
+		window.location.replace("http://localhost:3030/login");
+		return;
+	}
 	axios({
 		method: "POST",
 		url: "/add-to-cart",

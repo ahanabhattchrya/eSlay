@@ -50,6 +50,9 @@ const Dashboard = (props) => {
 		setValue(newValue);
 	};
 
+	if (!props.userInfo.authenticated){
+		window.location.replace("http://localhost:3030/login")
+	}
 	return (
 		<div className="dashboard">
 			<Grid container spacing={1}>

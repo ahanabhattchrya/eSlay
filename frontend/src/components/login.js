@@ -36,7 +36,7 @@ const Login = (props) => {
 	const navigate = useNavigate();
 
 	if (props.userInfo.authenticated) {
-		window.location.replace("https://localhost:3030/dashboard")
+		window.location.replace("http://localhost:3030/dashboard")
 	} else {
 		return (
 			<div className="login form-container">

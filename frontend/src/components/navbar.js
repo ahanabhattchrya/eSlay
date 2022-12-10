@@ -1,6 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
+import axios from "axios";
+
+function logout() {
+	axios({
+		method: 'GET',
+		url: '/logout'
+	})
+	.then((response) => {
+		window.location.reload("http://localhost:3030/")
+	})
+}
 
 const Navbar = (props) => {
 	return (
@@ -40,6 +51,13 @@ const Navbar = (props) => {
 						</Button>
 					)}
 					{props.userInfo.authenticated && (
+						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/shopping-cart">
+							<p>
+								<b>Shopping Cart</b>
+							</p>
+						</Button>
+					)}
+					{props.userInfo.authenticated && (
 						<Button variant="text" className="menu-item" color="secondary" size="large" component={Link} to="/dashboard">
 							<p>
 								<b>Dashboard</b>
@@ -47,7 +65,7 @@ const Navbar = (props) => {
 						</Button>
 					)}
 					{props.userInfo.authenticated && (
-						<Button variant="text" className="menu-item" color="secondary" component={Link} to="/logout">
+						<Button variant="text" className="menu-item" color="secondary" onClick={() => logout()}>
 							<p>
 								<b>Logout</b>
 							</p>

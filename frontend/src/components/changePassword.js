@@ -39,7 +39,9 @@ function sendChangePasswordInfo() {
 		},
 	}).then(
 		(response) => {
-			console.log(response);
+			if (response.data["status_code"] == 200){
+				window.location.replace("http://localhost:3030/login")
+			}
 		},
 		(error) => {
 			console.log(error);
