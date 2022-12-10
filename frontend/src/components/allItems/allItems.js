@@ -3,12 +3,15 @@ import { Button, Link, Table, TableBody, TableCell, TableContainer, TableHead, T
 import axios from "axios";
 
 import "../../assets/css/allItems.scss";
+import UserInfo from "../dashboard/userInfo";
 
 let currTable = [];
 
 function makeItemRow(itemId, name, price, description, status, curBid, maxBid, minBid) {
 	return { itemId, name, price, description, status, curBid, maxBid, minBid };
 }
+
+// This will send a request to retreive all of the current items
 function getAllItems() {
 	axios({
 		method: "GET",
@@ -27,9 +30,24 @@ function getAllItems() {
 
 	console.log("Retrieved all items");
 	return currTable;
-}
+};
 
-export default function ItemListTable() {
+function addToCart(id, userInfo){
+	axios({
+		method : 'POST',
+		url : '/add-to-cart',
+		data : {
+			username : userInfo.username,
+			itemId : id
+		}
+	})
+	.then((response) => {
+		if (response.data["status_code"] == 200) {
+			window.location.replace("http://localhost:3030/item-listings")
+		}
+	})
+};
+export default function ItemListTable(props) {
 	const [table, setTable] = useState(getAllItems());
 
 	return (
@@ -56,7 +74,7 @@ export default function ItemListTable() {
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.itemId} className="purchase-button" color="secondary" size="large" component={Link} to="/add-to-cart">
+									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={addToCart(row.itemId, props.userInfo)}>
 										Add to Cart
 									</Button>
 								</TableCell>

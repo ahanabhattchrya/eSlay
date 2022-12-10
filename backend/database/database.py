@@ -229,7 +229,30 @@ def get_user_shopping_cart(username):
 
     user_object = userCustomDecode(the_user["user"])
 
-    return user_object.cartList
+    cartList = []
+
+    for n in user_object.cartList:
+        cartList.append(itemCustomDecode(n))
+
+    return cartList
+
+
+def get_items_for_sale(username):
+    ''' Gets the users items that they're selling '''
+
+    the_user = userAccts.find_one({"username" : username}, {"_id" : 0})
+
+    if not the_user:
+        raise exceptions.UserNotFound(username)
+    
+    user_object = userCustomDecode(the_user["user"])
+
+    itemsForSale = []
+
+    for n in user_object.itemsForSale:
+        itemsForSale.append(itemCustomDecode(n))
+
+    return user_object.itemsForSale
 
 
 def add_item_to_cart(username, userObject, itemObject):
