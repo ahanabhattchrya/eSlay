@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Grid } from "@material-ui/core";
-
-import { checkToken, emptyInfo } from "../App";
 
 function Navbar(props) {
 	console.log(`Navbar props: ${JSON.stringify(props)}`);
 
 	return (
-		<div class="navBar">
+		<div class="navBar" key={props.userInfo}>
 			<Grid container direction="row" justifyContent="space-between" alignItems="center">
 				<Grid item className="title-container">
 					<h1 className="title">eSlay</h1>

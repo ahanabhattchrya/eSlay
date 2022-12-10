@@ -35,6 +35,8 @@ function checkToken() {
 		totalProfit: "",
 		token: "",
 	};
+	let token = Cookies.get("token");
+
 	axios({
 		method: "POST",
 		url: "/check-token",
@@ -61,22 +63,9 @@ function checkToken() {
 	return info;
 }
 
-let token = Cookies.get("token");
 function App() {
 	let loginInfoStart = checkToken();
 	const [loginInfo, updateLoginInfo] = useState(loginInfoStart);
-
-	// useEffect(() => {
-	// 	if loginInfo
-	// })
-
-	// useEffect(() => {
-	// 	let newInfo = checkToken();
-	// 	if (loginInfo.token !== newInfo.token) {
-	// 		updateLoginInfo(newInfo);
-	// 	}
-	// 	console.log(`Called useEffect. loginInfo: ${JSON.stringify(loginInfo)}`);
-	// });
 
 	return (
 		<ThemeProvider theme={globalTheme}>
