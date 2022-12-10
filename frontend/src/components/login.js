@@ -1,13 +1,10 @@
 /* This page is the login page for users to login to their respective accounts*/
 import React from "react";
 import { TextField, Button } from "@material-ui/core";
-import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import Cookies from "js-cookie";
-import currLoginInfo from "../App";
 
 let currLoginInfoForDB = {
 	username: "",
@@ -22,7 +19,6 @@ function changePassword(value) {
 }
 
 function sendLoginInfo() {
-	console.log(currLoginInfo);
 	axios({
 		method: "POST",
 		url: "/login",
@@ -32,10 +28,10 @@ function sendLoginInfo() {
 	});
 }
 
-const Login = () => {
+const Login = (props) => {
 	const navigate = useNavigate();
 
-	if (currLoginInfo.authenticated) {
+	if (props.userInfo.authenticated) {
 		navigate("/dashboard");
 	} else {
 		return (
