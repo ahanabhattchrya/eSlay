@@ -36,9 +36,7 @@ function checkout(userInfo) {
 	axios({
 		method: "POST",
 		url: "/checkout",
-		data: {
-			username: userInfo.username,
-		},
+		data: userInfo,
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
 			window.location.replace("http://localhost:3030/shopping-cart");
