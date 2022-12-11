@@ -4,8 +4,10 @@ import axios from "axios";
 
 import "../assets/css/shoppingCart.scss";
 
+const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
 function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
-	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
+	let statMsg = statuses[status];
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid };
 }
 
 // This will checkout the users current cart

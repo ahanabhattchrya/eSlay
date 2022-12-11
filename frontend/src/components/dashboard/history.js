@@ -3,8 +3,10 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from
 
 import axios from "axios";
 
+const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
 function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
-	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
+	let statMsg = statuses[status];
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid };
 }
 
 const History = (props) => {

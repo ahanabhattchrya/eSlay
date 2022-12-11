@@ -56,9 +56,9 @@ function App() {
 		);
 	}, []);
 
-	// if (isLoading) {
-	// 	return <div className="App loading">Loading . . .</div>;
-	// }
+	if (isLoading) {
+		return <div className="App loading">Loading . . .</div>;
+	}
 
 	return (
 		<ThemeProvider theme={globalTheme}>

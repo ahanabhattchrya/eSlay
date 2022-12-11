@@ -31,15 +31,15 @@ function sendRegisterInfo() {
 			username: registerInfo.username,
 			password: registerInfo.password,
 		},
-	}).then((response) => {
-		window.location.replace("http://localhost:3030/login")
-	},
-	(error) => {
-		console.log(error);
-	});
-};
-
-
+	}).then(
+		(response) => {
+			window.location.replace("http://localhost:3030/login");
+		},
+		(error) => {
+			console.log(error);
+		}
+	);
+}
 
 /*
  * All functions for the onChange events will happen here.
@@ -69,8 +69,8 @@ const Register = () => {
 			<Box className=" form-box register-box">
 				<TextField required id="outlined-required" label="Email" variant="outlined" onChange={(event) => changeEmail(event.target.value)} />
 				<TextField required id="outlined-required" label="Username" variant="outlined" onChange={(event) => changeUsername(event.target.value)} />
-				<TextField required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
-				<TextField required id="outlined-required" label="Confirm password" variant="outlined" onChange={(event) => changeConfirmedPassword(event.target.value)} />
+				<TextField type={"password"} required id="outlined-required" label="Password" variant="outlined" onChange={(event) => changePassword(event.target.value)} />
+				<TextField type={"password"} required id="outlined-required" label="Confirm password" variant="outlined" onChange={(event) => changeConfirmedPassword(event.target.value)} />
 				<Button variant="contained" color="primary" onClick={sendRegisterInfo} size="large">
 					Register
 				</Button>
