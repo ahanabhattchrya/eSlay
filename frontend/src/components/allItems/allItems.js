@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog } from "@mui/material";
 import axios from "axios";
+
+import UploadItem from "../dashboard/uploadItem";
 
 import "../../assets/css/allItems.scss";
 
@@ -14,7 +16,7 @@ function addToCart(id, userInfo, userSelling) {
 	console.log(id);
 	console.log(userInfo);
 	if (!userInfo.authenticated) {
-		window.location.replace("http://localhost:3030/login");
+		window.location.replace("/login");
 		return;
 	}
 	axios({
@@ -23,18 +25,20 @@ function addToCart(id, userInfo, userSelling) {
 		data: {
 			username: userInfo.username,
 			itemId: id,
-			sellingUser: userSelling
+			sellingUser: userSelling,
 		},
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
-			window.location.replace("http://localhost:3030/item-listings");
+			window.location.replace("/item-listings");
 		}
 	});
 }
 
 export default function ItemListTable(props) {
 	const [table, setTable] = useState([]);
-
+	const [open, setOpen] = React.useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 	useEffect(() => {
 		let currTable = [];
 		axios({
@@ -70,7 +74,13 @@ export default function ItemListTable(props) {
 	return (
 		<div className="page-container item-listings">
 			<h1 className="page-title">Items For Sale</h1>
-			<TableContainer className="item-table">
+			<Button className="list-new-button" color="secondary" variant="contained" onClick={handleOpen}>
+				List New Item
+			</Button>
+			<Dialog open={open} onClose={handleClose}>
+				<UploadItem userInfo={props.userInfo} />
+			</Dialog>
+			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>
 						<TableRow>

@@ -1,6 +1,7 @@
 # Imports
 from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape, send_file
 import json
+from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
@@ -320,4 +321,4 @@ def logout():
         return resp
     
 if __name__ == "__main__":
-    app.run("0.0.0.0", 3000)
+    app.run("0.0.0.0", 8080)

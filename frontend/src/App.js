@@ -10,12 +10,12 @@ import Login from "./components/login.js";
 import Dashboard from "./components/dashboard/dashboard.js";
 import ChangePassword from "./components/changePassword.js";
 import ItemListTable from "./components/allItems/allItems.js";
+import ShoppingCart from "./components/shoppingCart.js";
 
 import "./assets/css/eslay.scss";
 
 import Cookies from "js-cookie";
 import axios from "axios";
-import ShoppingCart from "./components/shoppingCart.js";
 
 const emptyLoginInfo = {
 	username: "",
@@ -57,7 +57,7 @@ function App() {
 	}, []);
 
 	if (isLoading) {
-		return <div className="App loading">Loading . . .</div>;
+		return <div className="App loading">✨Loading . . . ✨</div>;
 	}
 
 	return (

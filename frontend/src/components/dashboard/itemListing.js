@@ -92,7 +92,7 @@ const Listings = (props) => {
 
 	return (
 		<div className="user-items">
-			<TableContainer>
+			<TableContainer className="item-table">
 				<Table>
 					<TableHead>
 						<TableRow>

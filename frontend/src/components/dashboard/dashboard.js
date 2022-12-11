@@ -50,11 +50,11 @@ const Dashboard = (props) => {
 		setValue(newValue);
 	};
 
-	if (!props.userInfo.authenticated){
-		window.location.replace("http://localhost:3030/login")
+	if (!props.userInfo.authenticated) {
+		window.location.replace("/login");
 	}
 	return (
-		<div className="dashboard">
+		<div className="dashboard page-container">
 			<Grid container spacing={1}>
 				<Grid item xs={4}>
 					<UserInfo userInfo={props.userInfo} />
@@ -68,21 +68,13 @@ const Dashboard = (props) => {
 							</Tabs>
 						</Box>
 						<TabPanel value={value} index={0}>
-							<Grid container className="dashboard-wrapper">
-								<Grid item className="table-wrapper" xs={6}>
-									<Button className="list-item-button" color="secondary" variant="contained" onClick={handleOpen}>
-										List New Item
-									</Button>
-									<Dialog open={open} onClose={handleClose}>
-										<UploadItem userInfo={props.userInfo} />
-									</Dialog>
-									<Grid container className="user-lists" direction="column">
-										<Grid item>
-											<Listings userInfo={props.userInfo} />
-										</Grid>
-									</Grid>
-								</Grid>
-							</Grid>
+							<Button variant="contained" className="list-new-button" color="secondary" onClick={handleOpen}>
+								List New Item
+							</Button>
+							<Dialog open={open} onClose={handleClose}>
+								<UploadItem userInfo={props.userInfo} />
+							</Dialog>
+							<Listings userInfo={props.userInfo} />
 						</TabPanel>
 						<TabPanel value={value} index={1}>
 							<History userInfo={props.userInfo} />
