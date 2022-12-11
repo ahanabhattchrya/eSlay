@@ -5,12 +5,11 @@ import axios from "axios";
 
 function logout() {
 	axios({
-		method: 'GET',
-		url: '/logout'
-	})
-	.then((response) => {
-		window.location.reload("http://localhost:3030/")
-	})
+		method: "GET",
+		url: "/logout",
+	}).then((response) => {
+		window.location.reload("/");
+	});
 }
 
 const Navbar = (props) => {

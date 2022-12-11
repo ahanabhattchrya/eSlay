@@ -50,8 +50,8 @@ const Dashboard = (props) => {
 		setValue(newValue);
 	};
 
-	if (!props.userInfo.authenticated){
-		window.location.replace("http://localhost:3030/login")
+	if (!props.userInfo.authenticated) {
+		window.location.replace("/login");
 	}
 	return (
 		<div className="dashboard page-container">

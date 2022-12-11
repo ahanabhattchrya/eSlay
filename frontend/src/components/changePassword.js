@@ -39,8 +39,8 @@ function sendChangePasswordInfo() {
 		},
 	}).then(
 		(response) => {
-			if (response.data["status_code"] == 200){
-				window.location.replace("http://localhost:3030/login")
+			if (response.data["status_code"] == 200) {
+				window.location.replace("/login");
 			}
 		},
 		(error) => {

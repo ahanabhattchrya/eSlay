@@ -18,7 +18,7 @@ function checkout(userInfo) {
 		data: { username: userInfo.username },
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
-			window.location.replace("http://localhost:3030/shopping-cart");
+			window.location.replace("/shopping-cart");
 		}
 	});
 }
@@ -61,7 +61,7 @@ export default function ShoppingCart(props) {
 	}, []);
 
 	if (!props.userInfo.authenticated) {
-		window.location.replace("http://localhost:3030/login");
+		window.location.replace("/login");
 	} else {
 		return (
 			<div className="page-container shopping-cart">
@@ -69,7 +69,7 @@ export default function ShoppingCart(props) {
 				<Button variant="contained" className="checkout" onClick={() => checkout(props.userInfo)}>
 					<b>Checkout All Items</b>
 				</Button>
-				<TableContainer className="item-table">
+				<TableContainer className="item-table page-table">
 					<Table>
 						<TableHead>
 							<TableRow>

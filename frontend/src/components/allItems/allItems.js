@@ -16,7 +16,7 @@ function addToCart(id, userInfo, userSelling) {
 	console.log(id);
 	console.log(userInfo);
 	if (!userInfo.authenticated) {
-		window.location.replace("http://localhost:3030/login");
+		window.location.replace("/login");
 		return;
 	}
 	axios({
@@ -29,7 +29,7 @@ function addToCart(id, userInfo, userSelling) {
 		},
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
-			window.location.replace("http://localhost:3030/item-listings");
+			window.location.replace("/item-listings");
 		}
 	});
 }

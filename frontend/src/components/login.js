@@ -28,7 +28,7 @@ function sendLoginInfo() {
 		url: "/login",
 		data: currLoginInfoForDB,
 	}).then((response) => {
-		window.location.replace("http://localhost:3030/");
+		window.location.replace("/");
 	});
 }
 
@@ -36,7 +36,7 @@ const Login = (props) => {
 	const navigate = useNavigate();
 
 	if (props.userInfo.authenticated) {
-		window.location.replace("http://localhost:3030/dashboard")
+		window.location.replace("/dashboard");
 	} else {
 		return (
 			<div className="login form-container">

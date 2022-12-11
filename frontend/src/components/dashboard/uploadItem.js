@@ -48,7 +48,7 @@ function sendItem(userInfo) {
 		},
 	}).then((response) => {
 		if (response.data["status_code"] == 200) {
-			window.location.replace("http://localhost:3030/item-listings");
+			window.location.replace("/item-listings");
 		}
 	});
 }

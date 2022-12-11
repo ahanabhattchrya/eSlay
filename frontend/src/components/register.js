@@ -33,7 +33,7 @@ function sendRegisterInfo() {
 		},
 	}).then(
 		(response) => {
-			window.location.replace("http://localhost:3030/login");
+			window.location.replace("/login");
 		},
 		(error) => {
 			console.log(error);
