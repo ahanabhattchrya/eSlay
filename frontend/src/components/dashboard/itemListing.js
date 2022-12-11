@@ -17,19 +17,29 @@ function getCurrentlySelling(userInfo, setTable) {
 	}).then((response) => {
 		console.log(`Item listing response: ${JSON.stringify(response)}`);
 		if (response.data["status_code"] === 200) {
-			console.log(response.data["item"])
+			console.log(response.data["item"]);
 			currTable = response.data["item"];
-			console.log(currTable)
+			console.log(currTable);
 		}
 	});
 
 	for (let idx = 0; idx < currTable.length; idx++) {
 		let currItem = currTable[idx];
-		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+		currTable[idx] = makeItemRow(
+			currItem["itemId"],
+			currItem["name"],
+			currItem["price"],
+			currItem["description"],
+			currItem["image"],
+			currItem["status"],
+			currItem["curBid"],
+			currItem["maxBid"],
+			currItem["minBid"]
+		);
 	}
 
 	console.log("Retrieved currently sold items");
-	setTable(currTable)
+	setTable(currTable);
 }
 /*
 	Test Data
@@ -52,16 +62,26 @@ const Listings = (props) => {
 		}).then((response) => {
 			console.log(`Item listing response: ${JSON.stringify(response)}`);
 			if (response.data["status_code"] === 200) {
-				console.log(response.data["item"])
+				console.log(response.data["item"]);
 				currTable = response.data["item"];
-				console.log(currTable)
+				console.log(currTable);
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"]
+					);
 				}
 
-				setTable(currTable)
+				setTable(currTable);
 			}
 		});
 	}, []);
@@ -86,12 +106,12 @@ const Listings = (props) => {
 						{table.map((row) => (
 							<TableRow key={row.listing}>
 								<TableCell>
-									<img src={row.image} alt={row.name} width="120px"/>
+									<img src={row.image} alt={row.name} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.status}</TableCell>
-								<TableCell>{row.price}</TableCell>
+								<TableCell>${row.price}</TableCell>
 								<TableCell>{row.curTopBid}</TableCell>
 							</TableRow>
 						))}

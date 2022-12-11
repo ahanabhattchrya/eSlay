@@ -13,7 +13,7 @@ function checkout(userInfo) {
 	axios({
 		method: "POST",
 		url: "/checkout",
-		data: {username : userInfo.username},
+		data: { username: userInfo.username },
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
 			window.location.replace("http://localhost:3030/shopping-cart");
@@ -22,7 +22,7 @@ function checkout(userInfo) {
 }
 
 export default function ShoppingCart(props) {
-	const [table, setTable] = useState([])
+	const [table, setTable] = useState([]);
 
 	useEffect(() => {
 		let currTable = [];
@@ -30,7 +30,7 @@ export default function ShoppingCart(props) {
 		axios({
 			method: "POST",
 			url: "/shopping-cart-items",
-			data: { userInfo : props.userInfo },
+			data: { userInfo: props.userInfo },
 		}).then((response) => {
 			console.log(`Shopping cart response: ${JSON.stringify(response)}`);
 			if (response.data["status_code"] === 200) {
@@ -38,19 +38,28 @@ export default function ShoppingCart(props) {
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"]
+					);
 				}
-			
+
 				console.log("Retrieved currently sold items");
-				setTable(currTable)
+				setTable(currTable);
 			}
 		});
-	}, [])
+	}, []);
 
-	if (!props.userInfo.authenticated){
-		window.location.replace("http://localhost:3030/login")
-	}
-	else{
+	if (!props.userInfo.authenticated) {
+		window.location.replace("http://localhost:3030/login");
+	} else {
 		return (
 			<div className="page-container shopping-cart">
 				<h1 className="page-title">Shopping Cart</h1>
@@ -71,11 +80,11 @@ export default function ShoppingCart(props) {
 							{table.map((row) => (
 								<TableRow key={row.itemId}>
 									<TableCell>
-										<img src={row.image} alt={row.name} width='120px'/>
+										<img src={row.image} alt={row.name} width="120px" />
 									</TableCell>
 									<TableCell>{row.name}</TableCell>
 									<TableCell className="desc-col">{row.description}</TableCell>
-									<TableCell>{row.price}</TableCell>
+									<TableCell>${row.price}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>
@@ -84,5 +93,5 @@ export default function ShoppingCart(props) {
 				</TableContainer>
 			</div>
 		);
-	};
+	}
 }

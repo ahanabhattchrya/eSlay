@@ -7,7 +7,6 @@ function makeItemRow(itemId, name, price, description, image, status, curBid, ma
 	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
 }
 
-
 const History = (props) => {
 	const [table, setTable] = useState([]);
 
@@ -25,14 +24,24 @@ const History = (props) => {
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"]
+					);
 				}
 
 				console.log("Retrieved purchase history");
 				setTable(currTable);
 			}
 		});
-	}, [])
+	}, []);
 
 	return (
 		<div className="user-items">
@@ -53,12 +62,12 @@ const History = (props) => {
 						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
-									<img src={row.image} alt={row.listing} width='120px'/>
+									<img src={row.image} alt={row.listing} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.status}</TableCell>
-								<TableCell>{row.price}</TableCell>
+								<TableCell>${row.price}</TableCell>
 								<TableCell>{row.maxBid}</TableCell>
 							</TableRow>
 						))}

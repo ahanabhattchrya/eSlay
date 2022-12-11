@@ -273,9 +273,9 @@ def add_item():
     file.save("./images/" + filename)
 
     newItemData = {
-        "name" : info["item-name"],
-        "price" : info["item-price"],
-        "description" : info["item-description"],
+        "name" : escape(info["item-name"]),
+        "price" : escape(info["item-price"]),
+        "description" : escape(info["item-description"]),
         "image" : newFilename
     }
 

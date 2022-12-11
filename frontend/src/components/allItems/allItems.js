@@ -11,7 +11,7 @@ function makeItemRow(itemId, name, price, description, image, status, curBid, ma
 function addToCart(id, userInfo) {
 	console.log(id);
 	console.log(userInfo);
-	if (!userInfo.authenticated){
+	if (!userInfo.authenticated) {
 		window.location.replace("http://localhost:3030/login");
 		return;
 	}
@@ -21,9 +21,8 @@ function addToCart(id, userInfo) {
 		data: {
 			username: userInfo.username,
 			itemId: id,
-		}
-	})
-	.then((response) => {
+		},
+	}).then((response) => {
 		if (response.data["status_code"] === 200) {
 			window.location.replace("http://localhost:3030/item-listings");
 		}
@@ -31,7 +30,7 @@ function addToCart(id, userInfo) {
 }
 
 export default function ItemListTable(props) {
-	const [table, setTable] = useState([])
+	const [table, setTable] = useState([]);
 
 	useEffect(() => {
 		let currTable = [];
@@ -45,14 +44,24 @@ export default function ItemListTable(props) {
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"]
+					);
 				}
-		
+
 				console.log("Retrieved all items");
 				setTable(currTable);
 			}
 		});
-	}, [])
+	}, []);
 
 	return (
 		<div className="page-container item-listings">
@@ -72,13 +81,22 @@ export default function ItemListTable(props) {
 						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
-									<img src={row.image} alt={row.name} width='120px'/>
+									<img src={row.image} alt={row.name} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
-								<TableCell>{row.price}</TableCell>
+								<TableCell>${row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={(event) => {addToCart(row.itemId, props.userInfo);}} >
+									<Button
+										variant="contained"
+										value={row.name}
+										className="purchase-button"
+										color="secondary"
+										size="large"
+										onClick={(event) => {
+											addToCart(row.itemId, props.userInfo);
+										}}
+									>
 										Add to Cart
 									</Button>
 								</TableCell>
