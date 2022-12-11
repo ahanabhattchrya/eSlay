@@ -4,9 +4,9 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from
 import axios from "axios";
 
 const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
-function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
+function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid, userSelling) {
 	let statMsg = statuses[status];
-	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid };
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid, userSelling };
 }
 
 const History = (props) => {
@@ -35,7 +35,8 @@ const History = (props) => {
 						currItem["status"],
 						currItem["curBid"],
 						currItem["maxBid"],
-						currItem["minBid"]
+						currItem["minBid"],
+						currItem["userSelling"]
 					);
 				}
 
@@ -56,6 +57,7 @@ const History = (props) => {
 							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Status</TableCell>
 							<TableCell>Price</TableCell>
+							<TableCell>User Selling</TableCell>
 							<TableCell>Current Top Bid</TableCell>
 						</TableRow>
 					</TableHead>
@@ -68,8 +70,9 @@ const History = (props) => {
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
-								<TableCell>{row.status}</TableCell>
+								<TableCell>{row.statMsg}</TableCell>
 								<TableCell>${row.price}</TableCell>
+								<TableCell>{row.userSelling}</TableCell>
 								<TableCell>{row.maxBid}</TableCell>
 							</TableRow>
 						))}

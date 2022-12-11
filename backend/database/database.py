@@ -76,7 +76,8 @@ def itemCustomEncode(item):
             "status" : item.status,
             "curBid" : item.curBid,
             "maxBid" : item.maxBid,
-            "minBid" : item.minBid
+            "minBid" : item.minBid,
+            "userSelling" : item.userSelling
             }
 
 def itemCustomDecode(document):
@@ -86,9 +87,11 @@ def itemCustomDecode(document):
                     document["price"],
                     document["description"],
                     document["image"],
+                    document["status"],
                     document["curBid"],
                     document["maxBid"],
-                    document["minBid"]
+                    document["minBid"],
+                    document["userSelling"]
     )
 
 def update_password(username, newPassword):
@@ -166,7 +169,8 @@ def insert_data(data, collection):
             1,
             None,
             None,
-            None
+            None,
+            data["usernameSelling"]
         )
 
         new_item["item"] = itemCustomEncode(new_item_object)
@@ -296,9 +300,18 @@ def update_sellings(user, newItem):
     userAccts.update_one({"username" : username}, {'$set' : {'user' : userCustomEncode(user)}})
 
 
-def add_item_to_cart(username, userObject, itemObject):
+def add_item_to_cart(username, userObject, itemObject, userSelling):
 
-    userObject.cartList.append(itemCustomEncode(itemObject))
+    currItemObject = itemObject
+    currItemObject.status = 0
+    # Handle changing up the user whos selling this items list
+    sellerUser = userSelling
+    for item in sellerUser.itemsForSale:
+        if item["itemId"] == currItemObject.itemId:
+            item["status"] = 0
+    userAccts.update_one({"username" : userSelling.username}, {'$set': {"user" : userCustomEncode(sellerUser)}})
+
+    userObject.cartList.append(itemCustomEncode(currItemObject))
 
     itemListings.delete_one({"itemId": itemObject.itemId})
 

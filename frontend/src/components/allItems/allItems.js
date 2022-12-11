@@ -5,12 +5,12 @@ import axios from "axios";
 import "../../assets/css/allItems.scss";
 
 const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
-function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
+function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid, userSelling) {
 	let statMsg = statuses[status];
-	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid };
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid, userSelling };
 }
 
-function addToCart(id, userInfo) {
+function addToCart(id, userInfo, userSelling) {
 	console.log(id);
 	console.log(userInfo);
 	if (!userInfo.authenticated) {
@@ -23,6 +23,7 @@ function addToCart(id, userInfo) {
 		data: {
 			username: userInfo.username,
 			itemId: id,
+			sellingUser: userSelling
 		},
 	}).then((response) => {
 		if (response.data["status_code"] === 200) {
@@ -55,7 +56,8 @@ export default function ItemListTable(props) {
 						currItem["status"],
 						currItem["curBid"],
 						currItem["maxBid"],
-						currItem["minBid"]
+						currItem["minBid"],
+						currItem["userSelling"]
 					);
 				}
 
@@ -76,6 +78,7 @@ export default function ItemListTable(props) {
 							<TableCell>Name</TableCell>
 							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Price</TableCell>
+							<TableCell>User Selling</TableCell>
 							<TableCell>Purchase</TableCell>
 						</TableRow>
 					</TableHead>
@@ -88,6 +91,7 @@ export default function ItemListTable(props) {
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>${row.price}</TableCell>
+								<TableCell>{row.userSelling}</TableCell>
 								<TableCell>
 									<Button
 										variant="contained"
@@ -96,7 +100,7 @@ export default function ItemListTable(props) {
 										color="secondary"
 										size="large"
 										onClick={(event) => {
-											addToCart(row.itemId, props.userInfo);
+											addToCart(row.itemId, props.userInfo, row.userSelling);
 										}}
 									>
 										Add to Cart

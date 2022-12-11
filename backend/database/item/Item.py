@@ -11,7 +11,8 @@ class Item:
                         # 3 = unsold (not at auction)
                 curBid = None,
                 maxBid = None,
-                minBid = None
+                minBid = None,
+                userSelling=""
                 ):
 
         self.itemId = itemId
@@ -23,3 +24,4 @@ class Item:
         self.curBid = curBid
         self.maxBid = maxBid
         self.minBid = minBid
+        self.userSelling = userSelling
