@@ -1,7 +1,6 @@
 # Imports
 from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape, send_file
 import json
-from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
