@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  mongo:
+    image: mongo:4.2.5
+  backend:
+    build: .
+    environment:
+      WAIT_HOSTS: mongo:27017
+    ports:
+      - '3030:3000'
