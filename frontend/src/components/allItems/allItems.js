@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Dialog } from "@mui/material";
 import axios from "axios";
+
+import UploadItem from "../dashboard/uploadItem";
 
 import "../../assets/css/allItems.scss";
 
@@ -11,7 +13,7 @@ function makeItemRow(itemId, name, price, description, image, status, curBid, ma
 function addToCart(id, userInfo) {
 	console.log(id);
 	console.log(userInfo);
-	if (!userInfo.authenticated){
+	if (!userInfo.authenticated) {
 		window.location.replace("http://localhost:3030/login");
 		return;
 	}
@@ -21,9 +23,8 @@ function addToCart(id, userInfo) {
 		data: {
 			username: userInfo.username,
 			itemId: id,
-		}
-	})
-	.then((response) => {
+		},
+	}).then((response) => {
 		if (response.data["status_code"] === 200) {
 			window.location.replace("http://localhost:3030/item-listings");
 		}
@@ -31,7 +32,10 @@ function addToCart(id, userInfo) {
 }
 
 export default function ItemListTable(props) {
-	const [table, setTable] = useState([])
+	const [table, setTable] = useState([]);
+	const [open, setOpen] = React.useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	useEffect(() => {
 		let currTable = [];
@@ -45,19 +49,35 @@ export default function ItemListTable(props) {
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"]
+					);
 				}
-		
+
 				console.log("Retrieved all items");
 				setTable(currTable);
 			}
 		});
-	}, [])
+	}, []);
 
 	return (
 		<div className="page-container item-listings">
 			<h1 className="page-title">Items For Sale</h1>
-			<TableContainer className="item-table">
+			<Button className="list-new-button" color="secondary" variant="contained" onClick={handleOpen}>
+				List New Item
+			</Button>
+			<Dialog open={open} onClose={handleClose}>
+				<UploadItem userInfo={props.userInfo} />
+			</Dialog>
+			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>
 						<TableRow>
@@ -72,13 +92,22 @@ export default function ItemListTable(props) {
 						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
-									<img src={row.image} alt={row.name} width='120px'/>
+									<img src={row.image} alt={row.name} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
 								<TableCell>{row.price}</TableCell>
 								<TableCell>
-									<Button variant="contained" value={row.name} className="purchase-button" color="secondary" size="large" onClick={(event) => {addToCart(row.itemId, props.userInfo);}} >
+									<Button
+										variant="contained"
+										value={row.name}
+										className="purchase-button"
+										color="secondary"
+										size="large"
+										onClick={(event) => {
+											addToCart(row.itemId, props.userInfo);
+										}}
+									>
 										Add to Cart
 									</Button>
 								</TableCell>

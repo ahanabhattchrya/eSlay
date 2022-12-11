@@ -55,6 +55,8 @@ body {
 }
 
 .page-container {
+	width: 90%;
+	margin: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -123,4 +125,36 @@ body {
 			color: white;
 		}
 	}
+}
+
+.item-table {
+	margin: auto;
+	text-align: center;
+	.MuiTable-root {
+		.MuiTableHead-root .MuiTableRow-root {
+			background-color: $primary;
+		}
+		.MuiTableHead-root,
+		.MuiTableBody-root {
+			.MuiTableRow-root {
+				.MuiTableCell-root {
+					padding-left: 0;
+					padding-right: 0;
+					text-align: center;
+					max-width: 150px;
+				}
+			}
+		}
+	}
+}
+
+.page-table {
+	border: solid 3px $secondary;
+	border-radius: 10px;
+}
+.list-new-button {
+	box-shadow: none !important;
+	margin: 10px auto 10px auto !important;
+	border-radius: 10px !important;
+	margin-bottom: 25px !important;
 }
