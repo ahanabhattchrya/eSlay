@@ -9,27 +9,36 @@ import "../assets/css/home.scss";
 const Home = () => {
 	return (
 		<div className="home">
-			<Box className="home-box home-box1" sx={{ mb: 5, mt: 7, ml: 20, lineHeight: 4 }}>
-				<Typography component="div">
-					<Box sx={{ lineHeight: 2, ml: 22, fontSize: "h3.fontSize", fontWeight: "bold", mt: 5 }}>Why E-Slay?</Box>
-					<Box sx={{ lineHeight: 2, ml: 5, mr: 5, fontSize: "h5.fontSize", textAlign: "center" }}>
-						Because it's slay and better than ebay! We provide live auctions and various items from other users all within the reach of your fingertips! Keep scrolling to know more about
-						us and what we do!
-					</Box>
-				</Typography>
-			</Box>
-			<img src="/images/slay.gif" alt="gif" className="image-box" />
-			<Box className="home-box home-box2" sx={{ ml: 108, mt: -50 }}>
-				<Typography component="div">
-					<Box sx={{ lineHeight: 2, ml: 18, mt: 5, fontSize: "h3.fontSize", fontWeight: "bold" }}>First Time Here?</Box>
-					<Box sx={{ lineHeight: 2, ml: 5, mr: 5, fontSize: "h5.fontSize", textAlign: "center" }}>
-						There's a whole world of people ready to buy your used or new items. <br /> <b>Register here now!</b>
-					</Box>
-				</Typography>
-				<Button variant="contained" color="primary" component={Link} to="/register">
-					Register
-				</Button>
-			</Box>
+			<div className="home-col">
+				<Box className="home-box home-box1" sx={{ lineHeight: 4 }}>
+					<Typography component="div">
+						<Box sx={{ lineHeight: 2, fontSize: "h3.fontSize", fontWeight: "bold" }}>Why E-Slay?</Box>
+						<Box sx={{ lineHeight: 2, fontSize: "h5.fontSize", textAlign: "center" }}>
+							Because it's slay and better than ebay! We provide live auctions and various items from other users all within the reach of your fingertips! Keep scrolling to know more
+							about us and what we do!
+						</Box>
+					</Typography>
+				</Box>
+				<Box className="home-box">
+					<img src="/images/slay.gif" alt="slay gif" />
+				</Box>
+			</div>
+			<div className="home-col">
+				<Box className="home-box">
+					<img src="/images/slay.gif" alt="slay gif" />
+				</Box>
+				<Box className="home-box home-box1" sx={{}}>
+					<Typography component="div">
+						<Box sx={{ lineHeight: 2, fontSize: "h3.fontSize", fontWeight: "bold" }}>First Time Here?</Box>
+						<Box sx={{ lineHeight: 2, fontSize: "h5.fontSize", textAlign: "center" }}>
+							There's a whole world of people ready to buy your used or new items. <br /> <b>Register here now!</b>
+						</Box>
+					</Typography>
+					<Button variant="contained" color="primary" component={Link} to="/register">
+						Register
+					</Button>
+				</Box>
+			</div>
 		</div>
 	);
 };

@@ -162,7 +162,8 @@ def all_items():
                 "status": n.status, 
                 "curBid": n.curBid,
                 "maxBid": n.maxBid,
-                "minBid": n.minBid
+                "minBid": n.minBid,
+                "userSelling": n.userSelling
             }
         )
 
@@ -190,7 +191,8 @@ def shopping_cart_items():
                 "status": items.status, 
                 "curBid": items.curBid,
                 "maxBid": items.maxBid,
-                "minBid": items.minBid
+                "minBid": items.minBid,
+                "userSelling": items.userSelling
             }
         )
 
@@ -214,7 +216,8 @@ def currently_selling():
             "status" : items_for_sale.status,
             "curBid" : items_for_sale.curBid,
             "maxBid" : items_for_sale.maxBid,
-            "minBid" : items_for_sale.minBid
+            "minBid" : items_for_sale.minBid,
+            "userSelling": items_for_sale.userSelling
             }
         )
     return jsonify({"status_code": 200, "item": currently_selling_list})
@@ -241,7 +244,8 @@ def purchase_history():
                 "status": n.status, 
                 "curBid": n.curBid,
                 "maxBid": n.maxBid,
-                "minBid": n.minBid
+                "minBid": n.minBid,
+                "userSelling": n.userSelling
             }
         )
     
@@ -274,10 +278,11 @@ def add_item():
     file.save("./images/" + filename)
 
     newItemData = {
-        "name" : info["item-name"],
-        "price" : info["item-price"],
-        "description" : info["item-description"],
-        "image" : newFilename
+        "name" : escape(info["item-name"]),
+        "price" : escape(info["item-price"]),
+        "description" : escape(info["item-description"]),
+        "image" : newFilename,
+        "usernameSelling" : username.username
     }
 
     newItem = database.insert_data(newItemData, 2)
@@ -291,8 +296,11 @@ def addToCart():
 
     user = database.get_user(recvData["username"])
     item = database.get_item(recvData["itemId"])
+    userSelling = database.get_user(recvData["sellingUser"])
 
-    success = database.add_item_to_cart(recvData["username"], user, item)
+
+
+    success = database.add_item_to_cart(recvData["username"], user, item, userSelling)
 
     if success == 0:
         return jsonify({"status_code" : 200, "message" : "Success"})

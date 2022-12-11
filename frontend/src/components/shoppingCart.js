@@ -4,8 +4,10 @@ import axios from "axios";
 
 import "../assets/css/shoppingCart.scss";
 
-function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
-	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
+const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
+function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid, userSelling) {
+	let statMsg = statuses[status];
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid, userSelling };
 }
 
 // This will checkout the users current cart
@@ -47,7 +49,8 @@ export default function ShoppingCart(props) {
 						currItem["status"],
 						currItem["curBid"],
 						currItem["maxBid"],
-						currItem["minBid"]
+						currItem["minBid"],
+						currItem["userSelling"]
 					);
 				}
 
@@ -74,6 +77,7 @@ export default function ShoppingCart(props) {
 								<TableCell>Name</TableCell>
 								<TableCell className="desc-col">Description</TableCell>
 								<TableCell>Price</TableCell>
+								<TableCell>User Selling</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -84,7 +88,8 @@ export default function ShoppingCart(props) {
 									</TableCell>
 									<TableCell>{row.name}</TableCell>
 									<TableCell className="desc-col">{row.description}</TableCell>
-									<TableCell>{row.price}</TableCell>
+									<TableCell>${row.price}</TableCell>
+									<TableCell>{row.userSelling}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Checkbox } from "@material-ui/core";
 
 import axios from "axios";
-
-function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
-	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
+const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
+function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid, userSelling) {
+	let statMsg = statuses[status];
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid, userSelling };
 }
 
 function getCurrentlySelling(userInfo, setTable) {
@@ -17,19 +18,30 @@ function getCurrentlySelling(userInfo, setTable) {
 	}).then((response) => {
 		console.log(`Item listing response: ${JSON.stringify(response)}`);
 		if (response.data["status_code"] === 200) {
-			console.log(response.data["item"])
+			console.log(response.data["item"]);
 			currTable = response.data["item"];
-			console.log(currTable)
+			console.log(currTable);
 		}
 	});
 
 	for (let idx = 0; idx < currTable.length; idx++) {
 		let currItem = currTable[idx];
-		currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+		currTable[idx] = makeItemRow(
+			currItem["itemId"],
+			currItem["name"],
+			currItem["price"],
+			currItem["description"],
+			currItem["image"],
+			currItem["status"],
+			currItem["curBid"],
+			currItem["maxBid"],
+			currItem["minBid"],
+			currItem["userSelling"]
+		);
 	}
 
 	console.log("Retrieved currently sold items");
-	setTable(currTable)
+	setTable(currTable);
 }
 /*
 	Test Data
@@ -52,16 +64,27 @@ const Listings = (props) => {
 		}).then((response) => {
 			console.log(`Item listing response: ${JSON.stringify(response)}`);
 			if (response.data["status_code"] === 200) {
-				console.log(response.data["item"])
+				console.log(response.data["item"]);
 				currTable = response.data["item"];
-				console.log(currTable)
+				console.log(currTable);
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"],
+						currItem["userSelling"]
+					);
 				}
 
-				setTable(currTable)
+				setTable(currTable);
 			}
 		});
 	}, []);
@@ -78,6 +101,7 @@ const Listings = (props) => {
 							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Status</TableCell>
 							<TableCell>Price</TableCell>
+							<TableCell>User Selling</TableCell>
 							<TableCell>Current Top Bid</TableCell>
 						</TableRow>
 					</TableHead>
@@ -86,12 +110,13 @@ const Listings = (props) => {
 						{table.map((row) => (
 							<TableRow key={row.listing}>
 								<TableCell>
-									<img src={row.image} alt={row.name} width="120px"/>
+									<img src={row.image} alt={row.name} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
-								<TableCell>{row.status}</TableCell>
-								<TableCell>{row.price}</TableCell>
+								<TableCell>{row.statMsg}</TableCell>
+								<TableCell>${row.price}</TableCell>
+								<TableCell>{row.userSelling}</TableCell>
 								<TableCell>{row.curTopBid}</TableCell>
 							</TableRow>
 						))}

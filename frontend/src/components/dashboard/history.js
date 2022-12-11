@@ -3,10 +3,11 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from
 
 import axios from "axios";
 
-function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid) {
-	return { itemId, name, price, description, image, status, curBid, maxBid, minBid };
+const statuses = ["Sold", "On Market", "Sold at Auction", "In Auction"];
+function makeItemRow(itemId, name, price, description, image, status, curBid, maxBid, minBid, userSelling) {
+	let statMsg = statuses[status];
+	return { itemId, name, price, description, image, statMsg, curBid, maxBid, minBid, userSelling };
 }
-
 
 const History = (props) => {
 	const [table, setTable] = useState([]);
@@ -25,14 +26,25 @@ const History = (props) => {
 
 				for (let idx = 0; idx < currTable.length; idx++) {
 					let currItem = currTable[idx];
-					currTable[idx] = makeItemRow(currItem["itemId"], currItem["name"], currItem["price"], currItem["description"], currItem["image"], currItem["status"], currItem["curBid"], currItem["maxBid"], currItem["minBid"]);
+					currTable[idx] = makeItemRow(
+						currItem["itemId"],
+						currItem["name"],
+						currItem["price"],
+						currItem["description"],
+						currItem["image"],
+						currItem["status"],
+						currItem["curBid"],
+						currItem["maxBid"],
+						currItem["minBid"],
+						currItem["userSelling"]
+					);
 				}
 
 				console.log("Retrieved purchase history");
 				setTable(currTable);
 			}
 		});
-	}, [])
+	}, []);
 
 	return (
 		<div className="user-items">
@@ -45,6 +57,7 @@ const History = (props) => {
 							<TableCell className="desc-col">Description</TableCell>
 							<TableCell>Status</TableCell>
 							<TableCell>Price</TableCell>
+							<TableCell>User Selling</TableCell>
 							<TableCell>Current Top Bid</TableCell>
 						</TableRow>
 					</TableHead>
@@ -53,12 +66,13 @@ const History = (props) => {
 						{table.map((row) => (
 							<TableRow key={row.itemId}>
 								<TableCell>
-									<img src={row.image} alt={row.listing} width='120px'/>
+									<img src={row.image} alt={row.listing} width="120px" />
 								</TableCell>
 								<TableCell>{row.name}</TableCell>
 								<TableCell className="desc-col">{row.description}</TableCell>
-								<TableCell>{row.status}</TableCell>
-								<TableCell>{row.price}</TableCell>
+								<TableCell>{row.statMsg}</TableCell>
+								<TableCell>${row.price}</TableCell>
+								<TableCell>{row.userSelling}</TableCell>
 								<TableCell>{row.maxBid}</TableCell>
 							</TableRow>
 						))}
