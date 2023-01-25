@@ -74,12 +74,16 @@ export default function ItemListTable(props) {
 	return (
 		<div className="page-container item-listings">
 			<h1 className="page-title">Items For Sale</h1>
-			<Button className="list-new-button" color="secondary" variant="contained" onClick={handleOpen}>
-				List New Item
-			</Button>
-			<Dialog open={open} onClose={handleClose}>
-				<UploadItem userInfo={props.userInfo} />
-			</Dialog>
+			{props.userInfo.authenticated && (
+				<div className="upload-button-container">
+					<Button className="list-new-button" color="secondary" variant="contained" onClick={handleOpen}>
+						List New Item
+					</Button>
+					<Dialog open={open} onClose={handleClose}>
+						<UploadItem userInfo={props.userInfo} />
+					</Dialog>
+				</div>
+			)}
 			<TableContainer className="item-table page-table">
 				<Table>
 					<TableHead>

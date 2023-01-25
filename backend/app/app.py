@@ -2,6 +2,7 @@
 from flask import Flask, send_from_directory, jsonify, render_template, request, make_response, redirect, url_for, escape, send_file
 import json
 from flask_cors import CORS
+from flask_sock import Sock
 from werkzeug.utils import secure_filename
 import os
 import sys
@@ -266,8 +267,8 @@ def add_item():
 
     info = request.form.to_dict()
     username = request.cookies.get('token')
-    print(username)
     username = database.get_user_token(hashlib.sha256(username.encode()).digest())
+    print(f'Form from {username}: {info}')
 
     file = request.files["upload"]
 

@@ -8,7 +8,7 @@ class Item:
                 status, # 0 = sold (not at auction), 
                         # 1 = unsold (not at auction), 
                         # 2 = sold (at auction), 
-                        # 3 = unsold (not at auction)
+                        # 3 = unsold (at auction)
                 curBid = None,
                 maxBid = None,
                 minBid = None,
